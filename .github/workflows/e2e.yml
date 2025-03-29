@@ -1,0 +1,39 @@
+name: e2e
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    env:
+      TZ: Asia/Tokyo
+
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v2
+
+      - name: Setup node env 🏗
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: 'pnpm'
+
+      - name: Install dependencies 👨🏻‍💻
+        run: pnpm install --frozen-lockfile
+
+      - name: Build SDK
+        run: pnpm build
+
+      - name: Run Tests
+        run: pnpm test:e2e --browser.headless
+        env:
+          VITE_BKT_API_ENDPOINT: ${{ secrets.BKT_API_ENDPOINT }}
+          VITE_BKT_API_KEY: ${{ secrets.BKT_API_KEY }}
