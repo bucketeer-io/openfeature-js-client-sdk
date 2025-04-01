@@ -1,3 +1,3 @@
-import BucketeerProvider from "./provider";
+import BucketeerProvider from "./internal/BucketeerProvider";
 
 export { BucketeerProvider };
