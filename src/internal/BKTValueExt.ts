@@ -1,12 +1,12 @@
-import { BKTValue } from "@bucketeer/js-client-sdk";
-import { FlagValue } from "@openfeature/web-sdk";
+import { BKTValue } from '@bucketeer/js-client-sdk'
+import { FlagValue } from '@openfeature/web-sdk'
 
 function toBKTValue(value: FlagValue): BKTValue {
-  return value;
+  return value
 }
 
 function toValue(value: BKTValue): FlagValue {
-  return value;
+  return value
 }
 
-export { toBKTValue, toValue };
+export { toBKTValue, toValue }
