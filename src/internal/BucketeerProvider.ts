@@ -1,13 +1,11 @@
 import { BKTConfig } from '@bucketeer/js-client-sdk';
 import {
-  AnyProviderEvent,
   EvaluationContext,
   Hook,
   JsonValue,
   Logger,
   OpenFeatureEventEmitter,
   Provider,
-  ProviderEventEmitter,
   ResolutionDetails
 } from '@openfeature/web-sdk';
 
@@ -24,6 +22,7 @@ class BucketeerProvider implements Provider {
   constructor(config: BKTConfig) {
     // constructor code
   }
+  
 
   resolveBooleanEvaluation(flagKey: string, defaultValue: boolean, context: EvaluationContext, logger: Logger): ResolutionDetails<boolean> {
     // code to evaluate a boolean
