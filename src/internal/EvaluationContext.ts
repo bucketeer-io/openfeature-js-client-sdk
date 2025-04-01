@@ -1,18 +1,20 @@
-import { BKTUser, defineBKTUser } from "@bucketeer/js-client-sdk";
-import { EvaluationContext } from "@openfeature/web-sdk";
+import { BKTUser, defineBKTUser } from '@bucketeer/js-client-sdk'
+import { EvaluationContext } from '@openfeature/web-sdk'
 
 function evaluationContextToBKTUser(
   evaluationContext: EvaluationContext,
   userId: string,
 ): BKTUser {
-  const targetingKey = evaluationContext.targetingKey;
+  const targetingKey = evaluationContext.targetingKey
   if (!targetingKey) {
-    throw new Error("targetingKey is required");
+    throw new Error('targetingKey is required')
   }
   return defineBKTUser({
     id: userId,
     customAttributes: {
      
     },
-  });
+  })
 }
+
+export { evaluationContextToBKTUser }
