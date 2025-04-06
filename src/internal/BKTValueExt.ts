@@ -5,8 +5,4 @@ function toBKTValue(value: FlagValue): BKTValue {
   return value
 }
 
-function toValue(value: BKTValue): FlagValue {
-  return value
-}
-
-export { toBKTValue, toValue }
+export { toBKTValue }
