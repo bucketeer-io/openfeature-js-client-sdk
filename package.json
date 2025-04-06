@@ -42,9 +42,11 @@
   },
   "keywords": [],
   "packageManager": "pnpm@10.5.2",
-  "dependencies": {
+  "peerDependencys": {
     "@bucketeer/js-client-sdk": "^2.2.4",
-    "@openfeature/web-sdk": "^1.4.1",
+    "@openfeature/web-sdk": "^1.4.1"
+  },
+  "dependencies": {
     "install": "^0.13.0",
     "npm": "^11.2.0",
     "typescript": "^5.8.2"

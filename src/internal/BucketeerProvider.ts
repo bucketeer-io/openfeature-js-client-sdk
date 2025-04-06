@@ -1,14 +1,24 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { BKTConfig } from '@bucketeer/js-client-sdk'
 import {
+  BKTClient,
+  BKTConfig,
+  destroyBKTClient,
+  getBKTClient,
+  initializeBKTClient,
+} from '@bucketeer/js-client-sdk'
+import {
+  ClientProviderEvents,
+  ErrorCode,
   EvaluationContext,
   Hook,
   JsonValue,
   Logger,
   OpenFeatureEventEmitter,
   Provider,
-  ResolutionDetails
+  ResolutionDetails,
+  StandardResolutionReasons,
 } from '@openfeature/web-sdk'
+import { evaluationContextToBKTUser } from './EvaluationContext'
+import { toResolutionDetails, toResolutionDetailsFlagValue } from './BKTEvaluationDetailExt'
 
 // implement the provider interface
 class BucketeerProvider implements Provider {
@@ -20,42 +30,134 @@ class BucketeerProvider implements Provider {
   // Optional provider managed hooks
   hooks?: Hook[]
 
+  private config: BKTConfig
+
   constructor(config: BKTConfig) {
-    // constructor code
+    this.config = config
   }
-  
 
-  resolveBooleanEvaluation(flagKey: string, defaultValue: boolean, context: EvaluationContext, logger: Logger): ResolutionDetails<boolean> {
+  resolveBooleanEvaluation(
+    _flagKey: string,
+    _defaultValue: boolean,
+    _context: EvaluationContext,
+    _logger: Logger
+  ): ResolutionDetails<boolean> {
     // code to evaluate a boolean
-    throw new Error('Not implemented')
+    const client = this.requiredBKTClient()
+    const evaluationDetails = client.booleanVariationDetails(
+      _flagKey,
+      _defaultValue,
+    )
+    return toResolutionDetails(evaluationDetails)
   }
-  resolveStringEvaluation(flagKey: string, defaultValue: string, context: EvaluationContext, logger: Logger): ResolutionDetails<string> {
+  resolveStringEvaluation(
+    _flagKey: string,
+    _defaultValue: string,
+    _context: EvaluationContext,
+    _logger: Logger
+  ): ResolutionDetails<string> {
     // code to evaluate a string
-    throw new Error('Not implemented')
+    const client = this.requiredBKTClient()
+    const evaluationDetails = client.stringVariationDetails(
+      _flagKey,
+      _defaultValue,
+    )
+    return toResolutionDetails(evaluationDetails)
   }
-  resolveNumberEvaluation(flagKey: string, defaultValue: number, context: EvaluationContext, logger: Logger): ResolutionDetails<number> {
+  resolveNumberEvaluation(
+    _flagKey: string,
+    _defaultValue: number,
+    _context: EvaluationContext,
+    _logger: Logger
+  ): ResolutionDetails<number> {
     // code to evaluate a number
-    throw new Error('Not implemented')
+    const client = this.requiredBKTClient()
+    const evaluationDetails = client.numberVariationDetails(
+      _flagKey,
+      _defaultValue,
+    )
+    return toResolutionDetails(evaluationDetails)
   }
-  resolveObjectEvaluation<T extends JsonValue>(flagKey: string, defaultValue: T, context: EvaluationContext, logger: Logger): ResolutionDetails<T> {
+  resolveObjectEvaluation<T extends JsonValue>(
+    _flagKey: string,
+    _defaultValue: T,
+    _context: EvaluationContext,
+    _logger: Logger
+  ): ResolutionDetails<T> {
     // code to evaluate an object
-    throw new Error('Not implemented')
+    const client = this.requiredBKTClient()
+    const evaluationDetails = client.objectVariationDetails(
+      _flagKey,
+      _defaultValue,
+    )
+    if (typeof evaluationDetails.variationValue === 'object') {
+      return toResolutionDetailsFlagValue(evaluationDetails)
+    }
+    return wrongTypeResult(
+      _defaultValue,
+      `Expected object but got ${typeof evaluationDetails.variationValue}`,
+    )
   }
 
-  onContextChange?(oldContext: EvaluationContext, newContext: EvaluationContext): Promise<void> {
-    // reconcile the provider's cached flags, if applicable
-    throw new Error('Not implemented')
+  async onContextChange?(
+    _oldContext: EvaluationContext,
+    newContext: EvaluationContext
+  ): Promise<void> {
+    // code to handle context change
+    const user = evaluationContextToBKTUser(newContext)
+    const client = this.requiredBKTClient()
+    const currentUser = client?.currentUser()
+    if (currentUser.id !== user.id) {
+      client.updateUserAttributes(user.attributes)
+      this.events.emit(ClientProviderEvents.Ready)
+    } else {
+      this.events.emit(ClientProviderEvents.Error)
+      throw new Error('User ID is the same as the current user')
+    }
+  }
+ 
+  requiredBKTClient(): BKTClient {
+    const client = getBKTClient()
+    if (!client) {
+      this.events.emit(ClientProviderEvents.Error)
+      throw new Error('Bucketeer client is not initialized')
+    }
+    return client
   }
 
   readonly events = new OpenFeatureEventEmitter()
 
-  initialize?(context?: EvaluationContext | undefined): Promise<void> {
+  async initialize?(context?: EvaluationContext | undefined): Promise<void> {
     // code to initialize your provider
-    throw new Error('Not implemented')
+    if (!context) {
+      throw new Error('context is required')
+    }
+    const config = this.config
+    const user = evaluationContextToBKTUser(context)
+
+    try {
+      await initializeBKTClient(config, user)
+      this.events.emit(ClientProviderEvents.Ready)
+    } catch (error) {
+      if (error instanceof Error && error.name === 'TimeoutException') {
+        this.events.emit(ClientProviderEvents.Ready)
+      } else {
+        this.events.emit(ClientProviderEvents.Error)
+        throw new Error(`Failed to initialize Bucketeer client: ${error}`)
+      }
+    }
   }
-  onClose?(): Promise<void> {
-    // code to shut down your provider
-    throw new Error('Not implemented')
+  async onClose?(): Promise<void> {
+    destroyBKTClient()
+  }
+}
+
+export function wrongTypeResult<T>(value: T, errorMessage: string): ResolutionDetails<T> {
+  return {
+    value,
+    reason: StandardResolutionReasons.ERROR,
+    errorCode: ErrorCode.TYPE_MISMATCH,
+    errorMessage,
   }
 }
 
