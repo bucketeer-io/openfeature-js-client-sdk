@@ -8,12 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@bucketeer/js-client-sdk':
-        specifier: ^2.2.4
-        version: 2.2.4
-      '@openfeature/web-sdk':
-        specifier: ^1.4.1
-        version: 1.4.1(@openfeature/core@1.7.2)
       install:
         specifier: ^0.13.0
         version: 0.13.0
@@ -92,9 +86,6 @@ packages:
   '@babel/runtime@7.27.0':
     resolution: {integrity: sha512-VtPOkrdPHZsKc/clNqyi9WUA8TINkZ4cGk63UUE3u4pmB2k+ZMQRDuIOagv8UVd6j7k0T3+RRIb7beKTebNbcw==}
     engines: {node: '>=6.9.0'}
-
-  '@bucketeer/js-client-sdk@2.2.4':
-    resolution: {integrity: sha512-ZvxB5S+HojHoF+DaV3229DISUpqv24vZe+xpBZkowyqUPFZvYWfJixMITqSSvLYgZ0/ig5VWxDFS1T89JyEnXg==}
 
   '@bundled-es-modules/cookie@2.0.1':
     resolution: {integrity: sha512-8o+5fRPLNbjbdGRRmJj3h6Hh1AQJf2dk3qQ/5ZFb+PXkRNiSoMGGUKlsgLfrxneb72axVJyIYji64E2+nNfYyw==}
@@ -659,14 +650,6 @@ packages:
 
   '@open-draft/until@2.1.0':
     resolution: {integrity: sha512-U69T3ItWHvLwGg5eJ0n3I62nWuE6ilHlmz7zM0npLBRvPRd7e6NYmg54vvRtP5mZG7kZqZCFVdsTWo7BPtBujg==}
-
-  '@openfeature/core@1.7.2':
-    resolution: {integrity: sha512-pbpREdO/8D6ocFYWIzAJ24iJ1td04Anl+TehUzx9r1xR8vKJab+O4TlC/XP7s9JuD5hRPBfmo5gDha/KWVSG4A==}
-
-  '@openfeature/web-sdk@1.4.1':
-    resolution: {integrity: sha512-MgM55G/Ps8dNDsT75Yh6TYbp8XUVk0TdqSGSuo+6D9s4GyDzYHZHkcepp+j76Vvl4WwZPobdhADocUmUGskL1w==}
-    peerDependencies:
-      '@openfeature/core': ^1.7.0
 
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -3374,8 +3357,6 @@ snapshots:
     dependencies:
       regenerator-runtime: 0.14.1
 
-  '@bucketeer/js-client-sdk@2.2.4': {}
-
   '@bundled-es-modules/cookie@2.0.1':
     dependencies:
       cookie: 0.7.2
@@ -3729,12 +3710,6 @@ snapshots:
       outvariant: 1.4.3
 
   '@open-draft/until@2.1.0': {}
-
-  '@openfeature/core@1.7.2': {}
-
-  '@openfeature/web-sdk@1.4.1(@openfeature/core@1.7.2)':
-    dependencies:
-      '@openfeature/core': 1.7.2
 
   '@pkgjs/parseargs@0.11.0':
     optional: true
