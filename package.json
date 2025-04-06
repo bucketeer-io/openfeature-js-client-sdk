@@ -49,7 +49,9 @@
   "dependencies": {
     "install": "^0.13.0",
     "npm": "^11.2.0",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "@bucketeer/js-client-sdk": "^2.2.4",
+    "@openfeature/web-sdk": "^1.4.1"
   },
   "devDependencies": {
     "@types/jsdom": "21.1.7",
