@@ -12,7 +12,7 @@ function toResolutionDetails<T extends BKTValue>(
   } satisfies ResolutionDetails<T>
 }
 
-function toResolutionDetailsFlagValue<T extends JsonValue>(
+function toResolutionDetailsJsonValue<T extends JsonValue>(
   evaluationDetails: BKTEvaluationDetails<BKTValue>
 ): ResolutionDetails<T> {
   const { variationValue, variationName, reason } = evaluationDetails
@@ -24,5 +24,5 @@ function toResolutionDetailsFlagValue<T extends JsonValue>(
   } satisfies ResolutionDetails<T>
 }
 
-export { toResolutionDetails, toResolutionDetailsFlagValue }
+export { toResolutionDetails, toResolutionDetailsJsonValue }
 
