@@ -18,7 +18,7 @@ import {
   StandardResolutionReasons,
 } from '@openfeature/web-sdk'
 import { evaluationContextToBKTUser } from './EvaluationContext'
-import { toResolutionDetails, toResolutionDetailsFlagValue } from './BKTEvaluationDetailExt'
+import { toResolutionDetails, toResolutionDetailsJsonValue } from './BKTEvaluationDetailExt'
 
 // implement the provider interface
 class BucketeerProvider implements Provider {
@@ -91,7 +91,7 @@ class BucketeerProvider implements Provider {
       _defaultValue,
     )
     if (typeof evaluationDetails.variationValue === 'object') {
-      return toResolutionDetailsFlagValue(evaluationDetails)
+      return toResolutionDetailsJsonValue(evaluationDetails)
     }
     return wrongTypeResult(
       _defaultValue,
@@ -140,6 +140,7 @@ class BucketeerProvider implements Provider {
       this.events.emit(ClientProviderEvents.Ready)
     } catch (error) {
       if (error instanceof Error && error.name === 'TimeoutException') {
+        // TimeoutException but The BKTClient SDK has been initialized
         this.events.emit(ClientProviderEvents.Ready)
       } else {
         this.events.emit(ClientProviderEvents.Error)

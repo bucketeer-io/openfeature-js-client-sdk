@@ -1,5 +1,5 @@
 import { BKTUser, defineBKTUser } from '@bucketeer/js-client-sdk'
-import { EvaluationContext } from '@openfeature/web-sdk'
+import { EvaluationContext, EvaluationContextValue } from '@openfeature/web-sdk'
 
 function evaluationContextToBKTUser(
   evaluationContext: EvaluationContext,
@@ -8,12 +8,49 @@ function evaluationContextToBKTUser(
   if (!targetingKey) {
     throw new Error('targetingKey is required')
   }
+  
+  // Create a customAttributes object by converting EvaluationContext to Record<string, string>
+  const customAttributes: Record<string, string> = {}
+  
+  // Process all properties from evaluationContext
+  Object.entries(evaluationContext).forEach(([key, value]) => {
+    // Skip targetingKey as it's used as the user ID
+    if (key === 'targetingKey') {
+      return
+    }
+    
+    // Convert the value to string based on its type
+    customAttributes[key] = convertContextValueToString(value)
+  })
+  
   return defineBKTUser({
     id: targetingKey,
-    customAttributes: {
-     
-    },
+    customAttributes,
   })
 }
 
-export { evaluationContextToBKTUser }
+/**
+ * Converts an EvaluationContextValue to a string
+ */
+function convertContextValueToString(value: EvaluationContextValue): string {
+  if (value === null || value === undefined) {
+    return ''
+  }
+  
+  if (value instanceof Date) {
+    return value.toISOString()
+  }
+  
+  if (Array.isArray(value)) {
+    return JSON.stringify(value)
+  }
+  
+  if (typeof value === 'object') {
+    return JSON.stringify(value)
+  }
+  
+  // Handle primitive values
+  return String(value)
+}
+
+export { evaluationContextToBKTUser, convertContextValueToString }
