@@ -3,18 +3,26 @@ import BucketeerProvider, { wrongTypeResult } from '../../src/internal/Bucketeer
 import { BKTClient, BKTConfig, getBKTClient, initializeBKTClient, destroyBKTClient } from '@bucketeer/js-client-sdk'
 import { ClientProviderEvents, EvaluationContext, ErrorCode, StandardResolutionReasons } from '@openfeature/web-sdk'
 
-// Mock the Bucketeer SDK
-vi.mock('@bucketeer/js-client-sdk')
+// Only mock specific functions instead of the entire module
+vi.mock('@bucketeer/js-client-sdk', async () => {
+  const actual = await vi.importActual('@bucketeer/js-client-sdk')
+  return {
+    ...actual,
+    getBKTClient: vi.fn(),
+    initializeBKTClient: vi.fn(),
+    destroyBKTClient: vi.fn()
+  }
+})
 
 describe('BucketeerProvider', () => {
   let provider: BucketeerProvider
-  let mockClient: BKTClient // Use 'any' type to avoid TypeScript errors with mocks
+  let mockClient: BKTClient
   let mockConfig: BKTConfig
   let mockContext: EvaluationContext
 
   beforeEach(() => {
     // Reset mocks
-    vi.resetAllMocks()
+    vi.clearAllMocks()
 
     // Create mock objects with all required properties
     mockConfig = {
@@ -36,7 +44,7 @@ describe('BucketeerProvider', () => {
       role: 'tester'
     }
 
-    // Create mock client with proper mock functions
+    // Create mock client with necessary methods
     mockClient = {
       booleanVariationDetails: vi.fn(),
       stringVariationDetails: vi.fn(),
@@ -44,7 +52,7 @@ describe('BucketeerProvider', () => {
       objectVariationDetails: vi.fn(),
       currentUser: vi.fn(),
       updateUserAttributes: vi.fn()
-    } as unknown as BKTClient // Cast to BKTClient type because we didn't implement all methods
+    } as unknown as BKTClient
 
     // Setup mock return value for getBKTClient
     vi.mocked(getBKTClient).mockReturnValue(mockClient)
@@ -222,8 +230,8 @@ describe('BucketeerProvider', () => {
       const emitSpy = vi.spyOn(provider.events, 'emit')
 
       const newContext = {
-        userId: 'new-user',
-        attributes: { role: 'admin' }
+        targetingKey: 'new-user',
+        role: 'admin'
       }
 
       await provider.onContextChange?.(mockContext, newContext)
@@ -239,7 +247,7 @@ describe('BucketeerProvider', () => {
       })
       const emitSpy = vi.spyOn(provider.events, 'emit')
 
-      const sameIdContext = { userId: 'same-user' }
+      const sameIdContext = { targetingKey: 'same-user' }
 
       await expect(provider.onContextChange?.(mockContext, sameIdContext)).rejects.toThrow('User ID is the same')
       expect(emitSpy).toHaveBeenCalledWith(ClientProviderEvents.Error)
