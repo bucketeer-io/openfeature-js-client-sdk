@@ -6,7 +6,7 @@ function toResolutionDetails<T extends BKTValue>(
 ): ResolutionDetails<T> {
   const { variationValue, variationName, reason } = evaluationDetails
   return {
-    value: variationValue,
+    value: variationValue as T,
     variant: variationName,
     reason: reason,
   } satisfies ResolutionDetails<T>
