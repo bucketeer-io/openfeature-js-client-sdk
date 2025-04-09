@@ -23,10 +23,11 @@ function evaluationContextToBKTUser(
     customAttributes[key] = convertContextValueToString(value)
   })
   
-  return defineBKTUser({
+  const user = defineBKTUser({
     id: targetingKey,
     customAttributes,
   })
+  return user
 }
 
 /**
