@@ -1,5 +1,5 @@
 import { EvaluationContext } from '@openfeature/web-sdk'
-import { convertContextValueToString, evaluationContextToBKTUser } from '../src/internal/EvaluationContext'
+import { convertContextValueToString, evaluationContextToBKTUser } from '../../src/internal/EvaluationContext'
 import { describe, expect, it } from 'vitest'
 
 describe('convertContextValueToString', () => {
