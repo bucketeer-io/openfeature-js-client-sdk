@@ -1,0 +1,15 @@
+{
+  "name": "example",
+  "scripts": {
+    "serve": "vite serve"
+  },
+  "dependencies": {
+    "@bucketeer/openfeature-js-client-sdk": "workspace:*",
+    "@bucketeer/js-client-sdk": "^2.2.4",
+    "@openfeature/web-sdk": "^1.4.1"
+  },
+  "devDependencies": {
+    "vite": "6.0.7",
+    "typescript": "5.7.2"
+  }
+}
