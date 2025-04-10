@@ -1,12 +1,12 @@
 import { BKTUser, defineBKTUser } from '@bucketeer/js-client-sdk'
-import { EvaluationContext, EvaluationContextValue } from '@openfeature/web-sdk'
+import { EvaluationContext, EvaluationContextValue, TargetingKeyMissingError } from '@openfeature/web-sdk'
 
 function evaluationContextToBKTUser(
   evaluationContext: EvaluationContext,
 ): BKTUser {
   const targetingKey = evaluationContext.targetingKey
   if (!targetingKey) {
-    throw new Error('targetingKey is required')
+    throw new TargetingKeyMissingError('targetingKey is required')
   }
   
   // Create a customAttributes object by converting EvaluationContext to Record<string, string>
