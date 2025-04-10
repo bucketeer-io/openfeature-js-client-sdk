@@ -10,10 +10,13 @@ import {
   ErrorCode,
   EvaluationContext,
   Hook,
+  InvalidContextError,
   JsonValue,
   Logger,
   OpenFeatureEventEmitter,
   Provider,
+  ProviderFatalError,
+  ProviderNotReadyError,
   ResolutionDetails,
   StandardResolutionReasons,
 } from '@openfeature/web-sdk'
@@ -104,23 +107,25 @@ class BucketeerProvider implements Provider {
     newContext: EvaluationContext
   ): Promise<void> {
     // code to handle context change
+    // Not support changing the targeting_id after initialization
+    // Need to reinitialize the provider
     const user = evaluationContextToBKTUser(newContext)
     const client = this.requiredBKTClient()
     const currentUser = client?.currentUser()
-    if (currentUser.id !== user.id) {
+    if (currentUser.id == user.id) {
       client.updateUserAttributes(user.attributes)
       this.events.emit(ClientProviderEvents.Ready)
     } else {
       this.events.emit(ClientProviderEvents.Error)
-      throw new Error('User ID is the same as the current user')
+      throw new InvalidContextError('Changing the targeting_id after initialization is not supported, please reinitialize the provider')
     }
   }
- 
+
   requiredBKTClient(): BKTClient {
     const client = getBKTClient()
     if (!client) {
       this.events.emit(ClientProviderEvents.Error)
-      throw new Error('Bucketeer client is not initialized')
+      throw new ProviderNotReadyError('Bucketeer client is not initialized')
     }
     return client
   }
@@ -130,7 +135,7 @@ class BucketeerProvider implements Provider {
   async initialize?(context?: EvaluationContext | undefined): Promise<void> {
     // code to initialize your provider
     if (!context) {
-      throw new Error('context is required')
+      throw new InvalidContextError('context is required')
     }
     const config = this.config
     const user = evaluationContextToBKTUser(context)
@@ -144,7 +149,7 @@ class BucketeerProvider implements Provider {
         this.events.emit(ClientProviderEvents.Ready)
       } else {
         this.events.emit(ClientProviderEvents.Error)
-        throw new Error(`Failed to initialize Bucketeer client: ${error}`)
+        throw new ProviderFatalError(`Failed to initialize Bucketeer client: ${error}`)
       }
     }
   }

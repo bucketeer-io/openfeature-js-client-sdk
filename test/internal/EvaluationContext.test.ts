@@ -1,4 +1,4 @@
-import { EvaluationContext } from '@openfeature/web-sdk'
+import { EvaluationContext, TargetingKeyMissingError } from '@openfeature/web-sdk'
 import { convertContextValueToString, evaluationContextToBKTUser } from '../../src/internal/EvaluationContext'
 import { describe, expect, it } from 'vitest'
 
@@ -43,6 +43,7 @@ describe('convertContextValueToString', () => {
 describe('evaluationContextToBKTUser', () => {
   it('throws an error when targetingKey is missing', () => {
     const evaluationContext: EvaluationContext = {}
+    expect(() => evaluationContextToBKTUser(evaluationContext)).toThrow(TargetingKeyMissingError)
     expect(() => evaluationContextToBKTUser(evaluationContext)).toThrow('targetingKey is required')
   })
 

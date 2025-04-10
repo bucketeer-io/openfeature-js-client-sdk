@@ -1,7 +1,15 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import BucketeerProvider, { wrongTypeResult } from '../../src/internal/BucketeerProvider'
 import { BKTClient, BKTConfig, getBKTClient, initializeBKTClient, destroyBKTClient } from '@bucketeer/js-client-sdk'
-import { ClientProviderEvents, EvaluationContext, ErrorCode, StandardResolutionReasons } from '@openfeature/web-sdk'
+import { 
+  ClientProviderEvents, 
+  EvaluationContext, 
+  ErrorCode, 
+  InvalidContextError, 
+  ProviderFatalError,
+  ProviderNotReadyError,
+  StandardResolutionReasons 
+} from '@openfeature/web-sdk'
 
 // Only mock specific functions instead of the entire module
 vi.mock('@bucketeer/js-client-sdk', async () => {
@@ -99,17 +107,31 @@ describe('BucketeerProvider', () => {
       expect(emitSpy).toHaveBeenCalledWith(ClientProviderEvents.Ready)
     })
 
-    it('should emit error and throw on initialization failure', async () => {
+    it('should emit error and throw ProviderFatalError on initialization failure', async () => {
       vi.mocked(initializeBKTClient).mockRejectedValueOnce(new Error('Init failed'))
-
+      
       const emitSpy = vi.spyOn(provider.events, 'emit')
-
-      await expect(provider.initialize?.(mockContext)).rejects.toThrow('Failed to initialize Bucketeer client')
-      expect(emitSpy).toHaveBeenCalledWith(ClientProviderEvents.Error)
+      
+      try {
+        await provider.initialize?.(mockContext)
+        // Should not reach here
+        expect.fail('Expected provider.initialize to throw')
+      } catch (error) {
+        expect(error).toBeInstanceOf(ProviderFatalError)
+        expect((error as ProviderFatalError).message).toContain('Failed to initialize Bucketeer client')
+        expect(emitSpy).toHaveBeenCalledWith(ClientProviderEvents.Error)
+      }
     })
 
-    it('should throw if context is not provided', async () => {
-      await expect(provider.initialize?.()).rejects.toThrow('context is required')
+    it('should throw InvalidContextError if context is not provided', async () => {
+      try {
+        await provider.initialize?.()
+        // Should not reach here
+        expect.fail('Expected provider.initialize to throw')
+      } catch (error) {
+        expect(error).toBeInstanceOf(InvalidContextError)
+        expect((error as InvalidContextError).message).toBe('context is required')
+      }
     })
   })
 
@@ -222,45 +244,58 @@ describe('BucketeerProvider', () => {
   })
 
   describe('context handling', () => {
-    it('should update user attributes on context change', async () => {
+    it('should update user attributes on context change when user ID is the same', async () => {
       vi.mocked(mockClient.currentUser).mockReturnValue({
-        id: 'different-user',
+        id: 'test-user',
         attributes: {}
       })
       const emitSpy = vi.spyOn(provider.events, 'emit')
-
-      const newContext = {
-        targetingKey: 'new-user',
+      
+      const newContext = { 
+        targetingKey: 'test-user',
         role: 'admin'
       }
-
+      
       await provider.onContextChange?.(mockContext, newContext)
-
+      
       expect(mockClient.updateUserAttributes).toHaveBeenCalledWith({ role: 'admin' })
       expect(emitSpy).toHaveBeenCalledWith(ClientProviderEvents.Ready)
     })
-
-    it('should throw error if user ID is the same', async () => {
+    
+    it('should throw InvalidContextError if user ID is different', async () => {
       vi.mocked(mockClient.currentUser).mockReturnValue({
-        id: 'same-user',
+        id: 'test-user',
         attributes: {}
       })
       const emitSpy = vi.spyOn(provider.events, 'emit')
-
-      const sameIdContext = { targetingKey: 'same-user' }
-
-      await expect(provider.onContextChange?.(mockContext, sameIdContext)).rejects.toThrow('User ID is the same')
-      expect(emitSpy).toHaveBeenCalledWith(ClientProviderEvents.Error)
+      
+      const differentIdContext = { targetingKey: 'different-user' }
+      
+      try {
+        await provider.onContextChange?.(mockContext, differentIdContext)
+        // Should not reach here
+        expect.fail('Expected onContextChange to throw')
+      } catch (error) {
+        expect(error).toBeInstanceOf(InvalidContextError)
+        expect((error as InvalidContextError).message).toBe('Changing the targeting_id after initialization is not supported, please reinitialize the provider')
+        expect(emitSpy).toHaveBeenCalledWith(ClientProviderEvents.Error)
+      }
     })
   })
 
   describe('utility methods', () => {
-    it('should throw error if BKTClient is not initialized', () => {
+    it('should throw ProviderNotReadyError if BKTClient is not initialized', () => {
       vi.mocked(getBKTClient).mockReturnValue(null)
       const emitSpy = vi.spyOn(provider.events, 'emit')
-
-      expect(() => provider.requiredBKTClient()).toThrow('Bucketeer client is not initialized')
-      expect(emitSpy).toHaveBeenCalledWith(ClientProviderEvents.Error)
+      
+      try {
+        provider.requiredBKTClient()
+        expect.fail('Expected requiredBKTClient to throw')
+      } catch (error) {
+        expect(error).toBeInstanceOf(ProviderNotReadyError)
+        expect((error as ProviderNotReadyError).message).toBe('Bucketeer client is not initialized')
+        expect(emitSpy).toHaveBeenCalledWith(ClientProviderEvents.Error)
+      }
     })
 
     it('should destroy client on close', async () => {
