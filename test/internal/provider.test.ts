@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach, afterEach, suite } from 'vitest'
 import BucketeerProvider, { wrongTypeResult } from '../../src/internal/BucketeerProvider'
 import { BKTClient, BKTConfig, getBKTClient, initializeBKTClient, destroyBKTClient } from '@bucketeer/js-client-sdk'
 import { 
@@ -22,7 +22,7 @@ vi.mock('@bucketeer/js-client-sdk', async () => {
   }
 })
 
-describe('BucketeerProvider', () => {
+suite('BucketeerProvider', () => {
   let provider: BucketeerProvider
   let mockClient: BKTClient
   let mockConfig: BKTConfig
