@@ -15,7 +15,7 @@ import {
   USER_ID,
 } from './constants'
 
-suite('BucketeerProvider', () => {
+suite('BucketeerProvider - evaluation', () => {
   let config: BKTConfig
   afterAll(() => {
     OpenFeature.close()
