@@ -34,15 +34,14 @@ export default async function start(root: HTMLElement) {
   log('initialize OpenFeature')
   OpenFeature.setContext(context)
   const provider = new BucketeerProvider(config)
-  await OpenFeature.setProviderAndWait(provider).then(() => {
+  try {
+    await OpenFeature.setProviderAndWait(provider)
     log('BucketeerProvider is ready')
     const client = OpenFeature.getClient()
     log('BucketeerProvider client is ready')
     const value = client.getStringValue(STRING_FEATURE_ID, 'default')
     log(`BucketeerProvider getStringValue: ${value}`)
-  })
-  .catch((error) => {
+  } catch (error) {
     log(`initialization failed: ${error}`)
-  })
-}
+  }
 
