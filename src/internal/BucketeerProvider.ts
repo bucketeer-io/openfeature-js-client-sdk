@@ -53,6 +53,7 @@ class BucketeerProvider implements Provider {
     )
     return toResolutionDetails(evaluationDetails)
   }
+
   resolveStringEvaluation(
     _flagKey: string,
     _defaultValue: string,
@@ -67,6 +68,7 @@ class BucketeerProvider implements Provider {
     )
     return toResolutionDetails(evaluationDetails)
   }
+
   resolveNumberEvaluation(
     _flagKey: string,
     _defaultValue: number,
@@ -81,6 +83,7 @@ class BucketeerProvider implements Provider {
     )
     return toResolutionDetails(evaluationDetails)
   }
+
   resolveObjectEvaluation<T extends JsonValue>(
     _flagKey: string,
     _defaultValue: T,
@@ -153,6 +156,7 @@ class BucketeerProvider implements Provider {
       }
     }
   }
+  
   async onClose?(): Promise<void> {
     destroyBKTClient()
   }
