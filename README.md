@@ -85,7 +85,7 @@ const newEvaluationContext = {
 
 config = defineBKTConfig({
   apiEndpoint: 'BUCKETEER_API_ENDPOINT',
-  apiKey: 'UCKETEER_API_KEY',
+  apiKey: 'BUCKETEER_API_KEY',
   featureTag: 'FEATURE_TAG',
   appVersion: '1.2.3',
   fetch: window.fetch,

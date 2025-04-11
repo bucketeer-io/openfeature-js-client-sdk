@@ -4,7 +4,7 @@ import {
   BKTConfig,
   getBKTClient,
 } from '@bucketeer/js-client-sdk'
-import { EvaluationDetails, OpenFeature, ProviderStatus } from '@openfeature/web-sdk'
+import { EvaluationDetails, OpenFeature, ProviderEvents, ProviderStatus } from '@openfeature/web-sdk'
 import { BucketeerProvider } from '../src/main.browser'
 import {
   FEATURE_ID_STRING,
@@ -34,8 +34,8 @@ suite('BucketeerProvider - context changed', () => {
       fetch: window.fetch,
     })
   })
-
-  test('boolean evaluation', async () => {
+  
+  test('context change success', async () => {
     const initEvaluationContext = {
       targetingKey: USER_ID,
       app_version: '1.2.3',
@@ -82,5 +82,40 @@ suite('BucketeerProvider - context changed', () => {
       value: 'value-1',
       variant: 'variation 1',
     } satisfies EvaluationDetails<string>)
+  })
+
+  test('context change fail', async () => {
+    const initEvaluationContext = {
+      targetingKey: USER_ID,
+      app_version: '1.2.3',
+    }
+    await OpenFeature.setContext(initEvaluationContext)
+    await OpenFeature.setProviderAndWait(new BucketeerProvider(config))
+
+    expect(OpenFeature.getClient().metadata.providerMetadata.name).equal('Bucketeer Provider')
+    expect(OpenFeature.getClient().providerStatus).equal(ProviderStatus.READY)
+
+    const user = getBKTClient()?.currentUser()
+    expect(user?.id).to.equal(USER_ID)
+    expect(user?.attributes).toStrictEqual({app_version: '1.2.3'})
+
+    const newEvaluationContext = {
+      targetingKey: 'new_user_id',
+      app_version: '1.2.3',
+    }
+
+    let capturedErrorMessage: string | undefined = ''
+    OpenFeature.getClient().addHandler(ProviderEvents.Error, (eventDetails) => {
+      capturedErrorMessage = eventDetails?.message
+    })
+    await OpenFeature.setContext(newEvaluationContext)
+
+    // Await few milliseconds to let the event propagate
+    await new Promise((resolve) => setTimeout(resolve, 100))
+
+    expect(OpenFeature.getClient().providerStatus).equal(ProviderStatus.ERROR)
+    expect(capturedErrorMessage).toBe(
+      'Error running Bucketeer Provider\'s context change handler: Changing the targeting_id after initialization is not supported, please reinitialize the provider'
+    )
   })
 })
