@@ -21,9 +21,9 @@ suite('BucketeerProvider', () => {
     OpenFeature.close()
   })
 
-  afterEach(() => {
-    OpenFeature.clearContext()
-    OpenFeature.clearProviders()
+  afterEach(async () => {
+    await OpenFeature.clearProviders()
+    await OpenFeature.clearContext()
     localStorage.clear()
   })
 
@@ -41,7 +41,7 @@ suite('BucketeerProvider', () => {
       app_version: '1.2.3',
     }
 
-    OpenFeature.setContext(context)
+    await OpenFeature.setContext(context)
     const provider = new BucketeerProvider(config)
     await OpenFeature.setProviderAndWait(provider)
 
