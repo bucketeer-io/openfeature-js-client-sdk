@@ -34,7 +34,7 @@ jobs:
       - name: Run Tests for Browser environment
         run: pnpm test:browser
 
-      - name: Run Tests form Node.js environment
+      - name: Run Tests for Node.js environment
         run: pnpm test:node
 
       - name: Run build
