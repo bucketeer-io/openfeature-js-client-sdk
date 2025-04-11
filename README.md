@@ -116,9 +116,6 @@ const flagValue = client.getObjectValue('my-feature-flag', {});
 
 ```
 
-> [!WARNING]
-> Value.date is not supported in the current implementation of the BucketeerProvider.
-
 ## Contributing
 
 We would ❤️ for you to contribute to Bucketeer and help improve it! Anyone can use and enjoy it!
