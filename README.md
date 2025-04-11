@@ -30,7 +30,7 @@ import { OpenFeature } from '@openfeature/web-sdk';
 import { defineBKTConfig } from '@bucketeer/js-client-sdk'
 import { BucketeerProvider } from '@bucketeer/openfeature-js-client-sdk';
 
-config = defineBKTConfig({
+const config = defineBKTConfig({
   apiEndpoint: 'BUCKETEER_API_ENDPOINT',
   apiKey: 'BUCKETEER_API_KEY',
   featureTag: 'FEATURE_TAG',
@@ -83,7 +83,7 @@ const newEvaluationContext = {
   country: 'US',
 }
 
-config = defineBKTConfig({
+const config = defineBKTConfig({
   apiEndpoint: 'BUCKETEER_API_ENDPOINT',
   apiKey: 'BUCKETEER_API_KEY',
   featureTag: 'FEATURE_TAG',
