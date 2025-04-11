@@ -44,4 +44,4 @@ export default async function start(root: HTMLElement) {
   } catch (error) {
     log(`initialization failed: ${error}`)
   }
-
+}
