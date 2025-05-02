@@ -40,67 +40,63 @@ class BucketeerProvider implements Provider {
   }
 
   resolveBooleanEvaluation(
-    _flagKey: string,
-    _defaultValue: boolean,
+    flagKey: string,
+    defaultValue: boolean,
     _context: EvaluationContext,
     _logger: Logger
   ): ResolutionDetails<boolean> {
-    // code to evaluate a boolean
     const client = this.requiredBKTClient()
     const evaluationDetails = client.booleanVariationDetails(
-      _flagKey,
-      _defaultValue,
+      flagKey,
+      defaultValue,
     )
     return toResolutionDetails(evaluationDetails)
   }
 
   resolveStringEvaluation(
-    _flagKey: string,
-    _defaultValue: string,
+    flagKey: string,
+    defaultValue: string,
     _context: EvaluationContext,
     _logger: Logger
   ): ResolutionDetails<string> {
-    // code to evaluate a string
     const client = this.requiredBKTClient()
     const evaluationDetails = client.stringVariationDetails(
-      _flagKey,
-      _defaultValue,
+      flagKey,
+      defaultValue,
     )
     return toResolutionDetails(evaluationDetails)
   }
 
   resolveNumberEvaluation(
-    _flagKey: string,
-    _defaultValue: number,
+    flagKey: string,
+    defaultValue: number,
     _context: EvaluationContext,
     _logger: Logger
   ): ResolutionDetails<number> {
-    // code to evaluate a number
     const client = this.requiredBKTClient()
     const evaluationDetails = client.numberVariationDetails(
-      _flagKey,
-      _defaultValue,
+      flagKey,
+      defaultValue,
     )
     return toResolutionDetails(evaluationDetails)
   }
 
   resolveObjectEvaluation<T extends JsonValue>(
-    _flagKey: string,
-    _defaultValue: T,
+    flagKey: string,
+    defaultValue: T,
     _context: EvaluationContext,
     _logger: Logger
   ): ResolutionDetails<T> {
-    // code to evaluate an object
     const client = this.requiredBKTClient()
     const evaluationDetails = client.objectVariationDetails(
-      _flagKey,
-      _defaultValue,
+      flagKey,
+      defaultValue,
     )
     if (typeof evaluationDetails.variationValue === 'object') {
       return toResolutionDetailsJsonValue(evaluationDetails)
     }
     return wrongTypeResult(
-      _defaultValue,
+      defaultValue,
       `Expected object but got ${typeof evaluationDetails.variationValue}`,
     )
   }
@@ -136,7 +132,6 @@ class BucketeerProvider implements Provider {
   readonly events = new OpenFeatureEventEmitter()
 
   async initialize?(context?: EvaluationContext | undefined): Promise<void> {
-    // code to initialize your provider
     if (!context) {
       throw new InvalidContextError('context is required')
     }
