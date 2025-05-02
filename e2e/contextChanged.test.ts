@@ -115,7 +115,7 @@ suite('BucketeerProvider - context changed', () => {
 
     expect(OpenFeature.getClient().providerStatus).equal(ProviderStatus.ERROR)
     expect(capturedErrorMessage).toBe(
-      'Error running Bucketeer Provider\'s context change handler: Changing the targeting_id after initialization is not supported, please reinitialize the provider'
+      'Error running Bucketeer Provider\'s context change handler: Changing the targetingKey after initialization is not supported, please reinitialize the provider'
     )
   })
 })
