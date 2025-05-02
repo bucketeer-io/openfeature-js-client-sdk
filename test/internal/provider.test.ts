@@ -277,7 +277,7 @@ suite('BucketeerProvider', () => {
         expect.fail('Expected onContextChange to throw')
       } catch (error) {
         expect(error).toBeInstanceOf(InvalidContextError)
-        expect((error as InvalidContextError).message).toBe('Changing the targeting_id after initialization is not supported, please reinitialize the provider')
+        expect((error as InvalidContextError).message).toBe('Changing the targetingKey after initialization is not supported, please reinitialize the provider')
         expect(emitSpy).toHaveBeenCalledWith(ClientProviderEvents.Error)
       }
     })

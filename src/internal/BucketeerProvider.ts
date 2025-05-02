@@ -106,7 +106,7 @@ class BucketeerProvider implements Provider {
     newContext: EvaluationContext
   ): Promise<void> {
     // code to handle context change
-    // Not support changing the targeting_id after initialization
+    // Not support changing the targetingKey after initialization
     // Need to reinitialize the provider
     const user = evaluationContextToBKTUser(newContext)
     const client = this.requiredBKTClient()
@@ -116,7 +116,7 @@ class BucketeerProvider implements Provider {
       this.events.emit(ClientProviderEvents.Ready)
     } else {
       this.events.emit(ClientProviderEvents.Error)
-      throw new InvalidContextError('Changing the targeting_id after initialization is not supported, please reinitialize the provider')
+      throw new InvalidContextError('Changing the targetingKey after initialization is not supported, please reinitialize the provider')
     }
   }
 
