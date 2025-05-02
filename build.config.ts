@@ -7,7 +7,6 @@ export default defineBuildConfig({
   },
   rollup: {
     replace: {
-      // preventAssignment: true,
       delimiters: ['\\${', '}'],
     },
   },
