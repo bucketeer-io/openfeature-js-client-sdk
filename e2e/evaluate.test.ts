@@ -2,7 +2,7 @@ import { suite, test, expect, beforeEach, afterEach, afterAll } from 'vitest'
 import {
   defineBKTConfig,
   BKTConfig,
-} from '@bucketeer/js-client-sdk'
+} from 'bkt-js-client-sdk'
 import { EvaluationDetails, JsonValue, OpenFeature, ProviderStatus } from '@openfeature/web-sdk'
 import { BucketeerProvider } from '../src/main.browser'
 import { 
