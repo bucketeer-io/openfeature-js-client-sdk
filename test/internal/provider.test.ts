@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach, suite } from 'vitest'
 import BucketeerProvider, { wrongTypeResult } from '../../src/internal/BucketeerProvider'
-import { BKTClient, BKTConfig, getBKTClient, initializeBKTClient, destroyBKTClient } from 'bkt-js-client-sdk'
+import { BKTClient, BKTConfig, getBKTClient, initializeBKTClient, destroyBKTClient, defineBKTConfig } from 'bkt-js-client-sdk'
 import { 
   ClientProviderEvents, 
   EvaluationContext, 
@@ -10,6 +10,8 @@ import {
   ProviderNotReadyError,
   StandardResolutionReasons 
 } from '@openfeature/web-sdk'
+
+const SOURCE_ID_OPEN_FEATURE_JAVASCRIPT = 102
 
 // Only mock specific functions instead of the entire module
 vi.mock('bkt-js-client-sdk', async () => {
@@ -26,6 +28,7 @@ suite('BucketeerProvider', () => {
   let provider: BucketeerProvider
   let mockClient: BKTClient
   let mockConfig: BKTConfig
+  let expectedConfig: BKTConfig
   let mockContext: EvaluationContext
 
   beforeEach(() => {
@@ -33,7 +36,7 @@ suite('BucketeerProvider', () => {
     vi.clearAllMocks()
 
     // Create mock objects with all required properties
-    mockConfig = {
+    mockConfig = defineBKTConfig({
       apiKey: 'test-api-key',
       apiEndpoint: 'http://test-endpoint',
       featureTag: 'test-tag',
@@ -44,6 +47,12 @@ suite('BucketeerProvider', () => {
       userAgent: 'test-agent',
       fetch: vi.fn(),
       storageFactory: vi.fn()
+    })
+
+    expectedConfig = {
+      ...mockConfig,
+      wrapperSdkVersion: __BKT_SDK_VERSION__,
+      wrapperSdkSourceId: SOURCE_ID_OPEN_FEATURE_JAVASCRIPT
     }
 
     mockContext = {
@@ -86,7 +95,7 @@ suite('BucketeerProvider', () => {
 
       await provider.initialize?.(mockContext)
 
-      expect(initializeBKTClient).toHaveBeenCalledWith(mockConfig, {
+      expect(initializeBKTClient).toHaveBeenCalledWith(expectedConfig, {
         id: 'test-user', attributes: {
           email: 'test@example.com',
           role: 'tester'
