@@ -1,10 +1,11 @@
 import {
   BKTClient,
   BKTConfig,
+  defineBKTConfig,
   destroyBKTClient,
   getBKTClient,
   initializeBKTClient,
-} from '@bucketeer/js-client-sdk'
+} from 'bkt-js-client-sdk'
 import {
   ClientProviderEvents,
   ErrorCode,
@@ -23,6 +24,9 @@ import {
 import { evaluationContextToBKTUser } from './EvaluationContext'
 import { toResolutionDetails, toResolutionDetailsJsonValue } from './BKTEvaluationDetailExt'
 
+const SDK_VERSION = __BKT_SDK_VERSION__
+const SOURCE_ID_OPEN_FEATURE_JAVASCRIPT = 102
+
 // implement the provider interface
 class BucketeerProvider implements Provider {
   // Adds runtime validation that the provider is used with the expected SDK
@@ -36,7 +40,12 @@ class BucketeerProvider implements Provider {
   private config: BKTConfig
 
   constructor(config: BKTConfig) {
-    this.config = config
+    const overrideConfig = defineBKTConfig({
+      ...config,
+      wrapperSdkVersion: SDK_VERSION,
+      wrapperSdkSourceId: SOURCE_ID_OPEN_FEATURE_JAVASCRIPT,
+    })
+    this.config = overrideConfig
   }
 
   resolveBooleanEvaluation(

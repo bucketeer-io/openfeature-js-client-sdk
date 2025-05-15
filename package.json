@@ -43,7 +43,7 @@
   "keywords": [],
   "packageManager": "pnpm@10.5.2",
   "peerDependencies": {
-    "@bucketeer/js-client-sdk": ">=2.0.0 <3.0.0",
+    "bkt-js-client-sdk": ">=2.0.0 <3.0.0",
     "@openfeature/web-sdk": ">=1.4.0 <2.0.0"
   },
   "dependencies": {

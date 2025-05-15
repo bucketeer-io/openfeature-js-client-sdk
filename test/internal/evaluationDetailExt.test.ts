@@ -1,5 +1,5 @@
 import { toResolutionDetails, toResolutionDetailsJsonValue } from '../../src/internal/BKTEvaluationDetailExt'
-import { BKTEvaluationDetails, BKTValue } from '@bucketeer/js-client-sdk'
+import { BKTEvaluationDetails, BKTValue } from 'bkt-js-client-sdk'
 import { JsonValue, ResolutionDetails } from '@openfeature/web-sdk'
 import { describe, it, expect } from 'vitest'
 
