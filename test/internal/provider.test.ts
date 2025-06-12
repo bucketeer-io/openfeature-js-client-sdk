@@ -46,13 +46,13 @@ suite('BucketeerProvider', () => {
       appVersion: '1.0.0',
       userAgent: 'test-agent',
       fetch: vi.fn(),
-      storageFactory: vi.fn()
+      storageFactory: vi.fn(),
+      wrapperSdkVersion: __BKT_SDK_VERSION__,
+      wrapperSdkSourceId: SOURCE_ID_OPEN_FEATURE_JAVASCRIPT
     })
 
     expectedConfig = {
       ...mockConfig,
-      wrapperSdkVersion: __BKT_SDK_VERSION__,
-      wrapperSdkSourceId: SOURCE_ID_OPEN_FEATURE_JAVASCRIPT
     }
 
     mockContext = {
