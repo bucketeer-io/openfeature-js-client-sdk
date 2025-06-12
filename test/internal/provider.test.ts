@@ -1,14 +1,14 @@
 import { describe, it, expect, vi, beforeEach, afterEach, suite } from 'vitest'
 import BucketeerProvider, { wrongTypeResult } from '../../src/internal/BucketeerProvider'
 import { BKTClient, BKTConfig, getBKTClient, initializeBKTClient, destroyBKTClient, defineBKTConfig } from 'bkt-js-client-sdk'
-import { 
-  ClientProviderEvents, 
-  EvaluationContext, 
-  ErrorCode, 
-  InvalidContextError, 
+import {
+  ClientProviderEvents,
+  EvaluationContext,
+  ErrorCode,
+  InvalidContextError,
   ProviderFatalError,
   ProviderNotReadyError,
-  StandardResolutionReasons 
+  StandardResolutionReasons
 } from '@openfeature/web-sdk'
 
 const SOURCE_ID_OPEN_FEATURE_JAVASCRIPT = 102
@@ -47,13 +47,13 @@ suite('BucketeerProvider', () => {
       userAgent: 'test-agent',
       fetch: vi.fn(),
       storageFactory: vi.fn(),
+    })
+
+    expectedConfig = defineBKTConfig({
+      ...mockConfig,
       wrapperSdkVersion: __BKT_SDK_VERSION__,
       wrapperSdkSourceId: SOURCE_ID_OPEN_FEATURE_JAVASCRIPT
     })
-
-    expectedConfig = {
-      ...mockConfig,
-    }
 
     mockContext = {
       targetingKey: 'test-user',
@@ -102,6 +102,12 @@ suite('BucketeerProvider', () => {
         }
       })
       expect(emitSpy).toHaveBeenCalledWith(ClientProviderEvents.Ready)
+
+      const { sdkVersion, sourceId } = expectedConfig as unknown as { sdkVersion: string, sourceId: number }
+      expect(sourceId).toBeDefined()
+      expect(sourceId).toBe(SOURCE_ID_OPEN_FEATURE_JAVASCRIPT)
+      expect(sdkVersion).toBeDefined()
+      expect(sdkVersion).toBe(__BKT_SDK_VERSION__)
     })
 
     it('should emit ready event even on timeout exception', async () => {
@@ -118,9 +124,9 @@ suite('BucketeerProvider', () => {
 
     it('should emit error and throw ProviderFatalError on initialization failure', async () => {
       vi.mocked(initializeBKTClient).mockRejectedValueOnce(new Error('Init failed'))
-      
+
       const emitSpy = vi.spyOn(provider.events, 'emit')
-      
+
       try {
         await provider.initialize?.(mockContext)
         // Should not reach here
@@ -259,27 +265,27 @@ suite('BucketeerProvider', () => {
         attributes: {}
       })
       const emitSpy = vi.spyOn(provider.events, 'emit')
-      
-      const newContext = { 
+
+      const newContext = {
         targetingKey: 'test-user',
         role: 'admin'
       }
-      
+
       await provider.onContextChange?.(mockContext, newContext)
-      
+
       expect(mockClient.updateUserAttributes).toHaveBeenCalledWith({ role: 'admin' })
       expect(emitSpy).toHaveBeenCalledWith(ClientProviderEvents.Ready)
     })
-    
+
     it('should throw InvalidContextError if user ID is different', async () => {
       vi.mocked(mockClient.currentUser).mockReturnValue({
         id: 'test-user',
         attributes: {}
       })
       const emitSpy = vi.spyOn(provider.events, 'emit')
-      
+
       const differentIdContext = { targetingKey: 'different-user' }
-      
+
       try {
         await provider.onContextChange?.(mockContext, differentIdContext)
         // Should not reach here
@@ -296,7 +302,7 @@ suite('BucketeerProvider', () => {
     it('should throw ProviderNotReadyError if BKTClient is not initialized', () => {
       vi.mocked(getBKTClient).mockReturnValue(null)
       const emitSpy = vi.spyOn(provider.events, 'emit')
-      
+
       try {
         provider.requiredBKTClient()
         expect.fail('Expected requiredBKTClient to throw')
