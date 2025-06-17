@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - feat/init-provider-details
   workflow_dispatch:
   workflow_call:
 
