@@ -1,4 +1,4 @@
-import { BKTUser, defineBKTUser } from 'bkt-js-client-sdk'
+import { BKTUser, defineBKTUser } from '@bucketeer/js-client-sdk'
 import { EvaluationContext, EvaluationContextValue, TargetingKeyMissingError } from '@openfeature/web-sdk'
 
 function evaluationContextToBKTUser(

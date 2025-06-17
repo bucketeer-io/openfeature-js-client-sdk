@@ -2,9 +2,9 @@ import { suite, test, expect, beforeEach, afterEach, afterAll } from 'vitest'
 import {
   defineBKTConfig,
   BKTConfig,
-} from 'bkt-js-client-sdk'
+} from '@bucketeer/js-client-sdk'
 import { EvaluationDetails, JsonValue, OpenFeature, ProviderStatus } from '@openfeature/web-sdk'
-import { BucketeerProvider } from '../src/main.browser'
+import { BucketeerProvider, SDK_VERSION } from '../src/main.browser'
 import { 
   FEATURE_ID_BOOLEAN,
   FEATURE_ID_DOUBLE, 
@@ -47,6 +47,7 @@ suite('BucketeerProvider - evaluation', () => {
 
     const client = OpenFeature.getClient()
     expect(client.metadata.providerMetadata.name).equal('Bucketeer Provider')
+    expect(client.metadata.providerMetadata.version).equal(SDK_VERSION)
     expect(client.providerStatus).equal(ProviderStatus.READY)
   })
 

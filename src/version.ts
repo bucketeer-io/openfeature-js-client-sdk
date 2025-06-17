@@ -1,0 +1,1 @@
+export const SDK_VERSION = __BKT_SDK_VERSION__
