@@ -5,7 +5,7 @@
   },
   "dependencies": {
     "@bucketeer/openfeature-js-client-sdk": "workspace:*",
-    "bkt-js-client-sdk": "^2.2.4",
+    "@bucketeer/js-client-sdk": "^2.2.5",
     "@openfeature/web-sdk": "^1.4.1"
   },
   "devDependencies": {

@@ -8,12 +8,12 @@ importers:
 
   .:
     dependencies:
+      '@bucketeer/js-client-sdk':
+        specifier: 2.2.5
+        version: 2.2.5
       '@openfeature/web-sdk':
         specifier: '>=1.4.0 <2.0.0'
         version: 1.5.0(@openfeature/core@1.7.2)
-      bkt-js-client-sdk:
-        specifier: 2.2.8
-        version: 2.2.8
       typescript:
         specifier: ^5.8.3
         version: 5.8.3
@@ -81,15 +81,15 @@ importers:
 
   example:
     dependencies:
+      '@bucketeer/js-client-sdk':
+        specifier: ^2.2.5
+        version: 2.2.5
       '@bucketeer/openfeature-js-client-sdk':
         specifier: workspace:*
         version: link:..
       '@openfeature/web-sdk':
         specifier: ^1.4.1
         version: 1.4.1(@openfeature/core@1.7.2)
-      bkt-js-client-sdk:
-        specifier: ^2.2.4
-        version: 2.2.7
     devDependencies:
       typescript:
         specifier: 5.7.2
@@ -111,6 +111,9 @@ packages:
   '@babel/runtime@7.27.6':
     resolution: {integrity: sha512-vbavdySgbTTrmFE+EsiqUTzlOr5bzlnJtUv9PynGCAKvfQqjIXbvFdumPM/GxMDfyuGMJaJAU6TO4zc1Jf1i8Q==}
     engines: {node: '>=6.9.0'}
+
+  '@bucketeer/js-client-sdk@2.2.5':
+    resolution: {integrity: sha512-8l4oazc+VV4AY6JHkVbM3A6zAq+vhU0uTZlAIVUDlHCCb6wLuxC/dlLSIj1G012Acs69uyvitStY8USbqhwHMA==}
 
   '@bundled-es-modules/cookie@2.0.1':
     resolution: {integrity: sha512-8o+5fRPLNbjbdGRRmJj3h6Hh1AQJf2dk3qQ/5ZFb+PXkRNiSoMGGUKlsgLfrxneb72axVJyIYji64E2+nNfYyw==}
@@ -1310,12 +1313,6 @@ packages:
   basic-ftp@5.0.5:
     resolution: {integrity: sha512-4Bcg1P8xhUuqcii/S0Z9wiHIrQVPMermM1any+MX5GeGD7faD3/msQUDGLol9wOcz4/jbg/WJnGqoJF6LiBdtg==}
     engines: {node: '>=10.0.0'}
-
-  bkt-js-client-sdk@2.2.7:
-    resolution: {integrity: sha512-aqm/krJWaY3G7uVojhiRQFaCm5aEZ64/Ca3n8y8ZDLT28pDJb3ek5+G/3hfT/jABsNRkXVCewvQEI90PlacYTg==}
-
-  bkt-js-client-sdk@2.2.8:
-    resolution: {integrity: sha512-EsuIGnjzMI3YNPHdZvAtpy6divqWo1XSi8V7vjd2q32Op9x+vkr/UCPMs4OnEKITovpFSIrxl8d8h55KAvHnAg==}
 
   boolbase@1.0.0:
     resolution: {integrity: sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==}
@@ -3573,6 +3570,8 @@ snapshots:
 
   '@babel/runtime@7.27.6': {}
 
+  '@bucketeer/js-client-sdk@2.2.5': {}
+
   '@bundled-es-modules/cookie@2.0.1':
     dependencies:
       cookie: 0.7.2
@@ -4560,10 +4559,6 @@ snapshots:
   base64-js@1.5.1: {}
 
   basic-ftp@5.0.5: {}
-
-  bkt-js-client-sdk@2.2.7: {}
-
-  bkt-js-client-sdk@2.2.8: {}
 
   boolbase@1.0.0: {}
 

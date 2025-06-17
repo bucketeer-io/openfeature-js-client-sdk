@@ -5,7 +5,7 @@ import {
   destroyBKTClient,
   getBKTClient,
   initializeBKTClient,
-} from 'bkt-js-client-sdk'
+} from '@bucketeer/js-client-sdk'
 import {
   ClientProviderEvents,
   ErrorCode,
@@ -23,8 +23,8 @@ import {
 } from '@openfeature/web-sdk'
 import { evaluationContextToBKTUser } from './EvaluationContext'
 import { toResolutionDetails, toResolutionDetailsJsonValue } from './BKTEvaluationDetailExt'
+import { SDK_VERSION } from '../version'
 
-const SDK_VERSION = __BKT_SDK_VERSION__
 const SOURCE_ID_OPEN_FEATURE_JAVASCRIPT = 102
 
 // implement the provider interface
@@ -33,6 +33,7 @@ class BucketeerProvider implements Provider {
   public readonly runsOn = 'client'
   readonly metadata = {
     name: 'Bucketeer Provider',
+    version: SDK_VERSION,
   } as const
   // Optional provider managed hooks
   hooks?: Hook[]

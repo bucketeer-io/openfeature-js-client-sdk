@@ -44,7 +44,7 @@
   "packageManager": "pnpm@10.5.2",
   "peerDependencies": {
     "@openfeature/web-sdk": ">=1.4.0 <2.0.0",
-    "bkt-js-client-sdk": "2.2.8"
+    "@bucketeer/js-client-sdk": "2.2.5"
   },
   "dependencies": {
     "typescript": "^5.8.3"
