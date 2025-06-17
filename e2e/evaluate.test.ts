@@ -4,7 +4,7 @@ import {
   BKTConfig,
 } from '@bucketeer/js-client-sdk'
 import { EvaluationDetails, JsonValue, OpenFeature, ProviderStatus } from '@openfeature/web-sdk'
-import { BucketeerProvider, SDK_VERSION } from '../src/main.browser'
+import { BucketeerProvider, SDK_VERSION } from '../dist/main'
 import { 
   FEATURE_ID_BOOLEAN,
   FEATURE_ID_DOUBLE, 
