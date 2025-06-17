@@ -1,0 +1,74 @@
+{
+  "name": "@bucketeer/openfeature-js-client-sdk",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "0.0.1",
+  "type": "module",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "main": "./dist/main.cjs",
+  "module": "./dist/main.mjs",
+  "browser": "./dist/main.browser.mjs",
+  "types": "./dist/main.d.ts",
+  "exports": {
+    ".": {
+      "node": {
+        "import": "./dist/main.mjs",
+        "require": "./dist/main.cjs",
+        "types": "./dist/main.d.ts"
+      },
+      "default": {
+        "import": "./dist/main.browser.mjs",
+        "require": "./dist/main.browser.cjs",
+        "types": "./dist/main.d.ts"
+      }
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "unbuild --sourcemap",
+    "preview": "vite preview",
+    "test": "pnpm test:browser --run ; pnpm test:node --run",
+    "test:browser": "vitest --config ./vitest-browser.config.ts --dir test",
+    "test:node": "vitest --config ./vitest-node.config.ts --dir test",
+    "test:e2e": "vitest --config ./vitest-e2e.config.ts --dir e2e",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "example:serve": "pnpm exec unbuild && pnpm --filter example serve"
+  },
+  "keywords": [],
+  "packageManager": "pnpm@10.5.2",
+  "peerDependencies": {
+    "@openfeature/web-sdk": ">=1.4.0 <2.0.0",
+    "@bucketeer/js-client-sdk": "2.2.5"
+  },
+  "dependencies": {
+    "typescript": "^5.8.3"
+  },
+  "devDependencies": {
+    "@types/jsdom": "21.1.7",
+    "@types/node": "22.13.9",
+    "@typescript-eslint/eslint-plugin": "8.26.0",
+    "@typescript-eslint/parser": "8.26.0",
+    "@vitest/browser": "2.1.8",
+    "@vitest/utils": "2.1.8",
+    "eslint": "9.21.0",
+    "eslint-config-prettier": "10.0.2",
+    "eslint-plugin-import": "2.31.0",
+    "eslint-plugin-prettier": "5.2.3",
+    "happy-dom": "17.1.9",
+    "install": "^0.13.0",
+    "jiti": "2.4.2",
+    "msw": "2.7.3",
+    "npm": "^11.4.1",
+    "prettier": "3.5.3",
+    "typescript-eslint": "8.26.0",
+    "unbuild": "3.5.0",
+    "vitest": "2.1.8",
+    "webdriverio": "9.5.1"
+  }
+}
