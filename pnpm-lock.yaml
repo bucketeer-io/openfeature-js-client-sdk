@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@bucketeer/js-client-sdk':
-        specifier: 2.2.5
-        version: 2.2.5
+        specifier: '>=2.4.0 <3.0.0'
+        version: 2.4.0
       '@openfeature/web-sdk':
         specifier: '>=1.4.0 <2.0.0'
         version: 1.5.0(@openfeature/core@1.7.2)
@@ -114,6 +114,9 @@ packages:
 
   '@bucketeer/js-client-sdk@2.2.5':
     resolution: {integrity: sha512-8l4oazc+VV4AY6JHkVbM3A6zAq+vhU0uTZlAIVUDlHCCb6wLuxC/dlLSIj1G012Acs69uyvitStY8USbqhwHMA==}
+
+  '@bucketeer/js-client-sdk@2.4.0':
+    resolution: {integrity: sha512-RUkFQqP4rCxlgXuuYEYJo65E99yrmHCOjN0bKAUxG9fROEva5X0FORPR0N3S87XX22MZ0hj6LTqPex7JPH7AWw==}
 
   '@bundled-es-modules/cookie@2.0.1':
     resolution: {integrity: sha512-8o+5fRPLNbjbdGRRmJj3h6Hh1AQJf2dk3qQ/5ZFb+PXkRNiSoMGGUKlsgLfrxneb72axVJyIYji64E2+nNfYyw==}
@@ -1256,6 +1259,9 @@ packages:
   async-function@1.0.0:
     resolution: {integrity: sha512-hsU18Ae8CDTR6Kgu9DYf0EbCr/a5iGL0rytQDobUcdpYOKokk8LEjVphnXkDkgpi0wYVsqrXuP0bZxJaTqdgoA==}
     engines: {node: '>= 0.4'}
+
+  async-mutex@0.5.0:
+    resolution: {integrity: sha512-1A94B18jkJ3DYq284ohPxoXbfTA5HsQ7/Mf4DEhcyLx3Bz27Rh59iScbB6EPiP+B+joue6YCxcMXSbFC1tZKwA==}
 
   async@3.2.6:
     resolution: {integrity: sha512-htCUDlxyyCLMgaM3xXg0C0LW2xqfuQ6p05pCEIsXuyQ+a1koYKTuBMzRNwmybfLgvJDMd0r1LTn4+E0Ti6C2AA==}
@@ -3572,6 +3578,10 @@ snapshots:
 
   '@bucketeer/js-client-sdk@2.2.5': {}
 
+  '@bucketeer/js-client-sdk@2.4.0':
+    dependencies:
+      async-mutex: 0.5.0
+
   '@bundled-es-modules/cookie@2.0.1':
     dependencies:
       cookie: 0.7.2
@@ -4510,6 +4520,10 @@ snapshots:
       tslib: 2.8.1
 
   async-function@1.0.0: {}
+
+  async-mutex@0.5.0:
+    dependencies:
+      tslib: 2.8.1
 
   async@3.2.6: {}
 
