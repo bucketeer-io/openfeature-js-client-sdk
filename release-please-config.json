@@ -14,7 +14,6 @@
     { "type": "build", "section": "Build System", "hidden": false }
   ],
   "release-type": "node",
-  "release-as": "0.0.1",
   "pull-request-title-pattern": "chore: release v${version}",
   "packages": {
     ".": {
