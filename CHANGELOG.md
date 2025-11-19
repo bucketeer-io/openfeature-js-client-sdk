@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.3](https://github.com/bucketeer-io/openfeature-js-client-sdk/compare/v0.0.2...v0.0.3) (2025-11-19)
+
+
+### Build System
+
+* **deps:** update @bucketeer/js-client-sdk peer dependency range ([#12](https://github.com/bucketeer-io/openfeature-js-client-sdk/issues/12)) ([8b6975f](https://github.com/bucketeer-io/openfeature-js-client-sdk/commit/8b6975f4c75202db969e59a4b797d4cc5827dd72))
+
 ## [0.0.2](https://github.com/bucketeer-io/openfeature-js-client-sdk/compare/v0.0.1...v0.0.2) (2025-11-18)
 
 
