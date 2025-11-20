@@ -47,8 +47,11 @@ suite('BucketeerProvider - evaluation', () => {
 
     const client = OpenFeature.getClient()
     expect(client.metadata.providerMetadata.name).equal('Bucketeer Provider')
-    expect(client.metadata.providerMetadata.version).equal(SDK_VERSION)
     expect(client.providerStatus).equal(ProviderStatus.READY)
+    // Check that SDK_VERSION is defined
+    expect(SDK_VERSION).not.toBeUndefined()
+    expect(SDK_VERSION).toMatch(/^\d+\.\d+\.\d+(-.+)?$/)
+    expect(client.metadata.providerMetadata.version).equal(SDK_VERSION)
   })
 
   suite('boolean evaluation', () => {
