@@ -27,7 +27,7 @@ class BucketeerReactNativeProvider extends BucketeerProvider {
       idGenerator: new ReactNativeIdGenerator(),
       wrapperSdkSourceId: SOURCE_ID_OPEN_FEATURE_REACT_NATIVE,
       wrapperSdkVersion: SDK_VERSION,
-      userAgent: `Bucketeer React Native Open Feature Provider(${SDK_VERSION})`,
+      userAgent: `Bucketeer React Native Open Feature Provider`,
     }
     if (storageFactory) {
       inputConfig = {

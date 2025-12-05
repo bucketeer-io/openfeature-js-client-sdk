@@ -27,7 +27,7 @@ import { toResolutionDetails, toResolutionDetailsJsonValue } from './BKTEvaluati
 import { SDK_VERSION } from '../version'
 
 export const SOURCE_ID_OPEN_FEATURE_REACT = 105
-const SOURCE_ID_OPEN_FEATURE_REACT_NATIVE = 106
+export const SOURCE_ID_OPEN_FEATURE_REACT_NATIVE = 106
 const SOURCE_ID_OPEN_FEATURE_JAVASCRIPT = 102
 
 const supportedSourceIds = [
