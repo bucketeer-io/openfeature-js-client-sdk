@@ -1,6 +1,6 @@
 import {
   defineBKTConfig,
-} from '@bucketeer/js-client-sdk'
+} from 'bkt-js-client-sdk'
 import { OpenFeature } from '@openfeature/web-sdk'
 import { BucketeerProvider } from '../dist/main'
 

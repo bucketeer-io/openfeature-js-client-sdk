@@ -1,4 +1,4 @@
-import { BKTConfig, defineBKTConfig } from '@bucketeer/js-client-sdk'
+import { BKTConfig, defineBKTConfig } from 'bkt-js-client-sdk'
 import { SDK_VERSION } from '../../version'
 import BucketeerProvider, {
   SOURCE_ID_OPEN_FEATURE_REACT,

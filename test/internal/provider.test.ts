@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach, suite } from 'vitest'
 import BucketeerProvider, { wrongTypeResult } from '../../src/internal/BucketeerProvider'
-import { BKTClient, BKTConfig, getBKTClient, initializeBKTClient, destroyBKTClient, defineBKTConfig } from '@bucketeer/js-client-sdk'
+import { BKTClient, BKTConfig, getBKTClient, initializeBKTClient, destroyBKTClient, defineBKTConfig } from 'bkt-js-client-sdk'
 import {
   ClientProviderEvents,
   EvaluationContext,
@@ -14,8 +14,8 @@ import {
 const SOURCE_ID_OPEN_FEATURE_JAVASCRIPT = 102
 
 // Only mock specific functions instead of the entire module
-vi.mock('@bucketeer/js-client-sdk', async () => {
-  const actual = await vi.importActual('@bucketeer/js-client-sdk')
+vi.mock('bkt-js-client-sdk', async () => {
+  const actual = await vi.importActual('bkt-js-client-sdk')
   return {
     ...actual,
     getBKTClient: vi.fn(),

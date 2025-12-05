@@ -8,15 +8,15 @@ importers:
 
   .:
     dependencies:
-      '@bucketeer/js-client-sdk':
-        specifier: '>=2.4.0 <3.0.0'
-        version: 2.4.0
       '@openfeature/web-sdk':
         specifier: '>=1.4.0 <2.0.0'
         version: 1.5.0(@openfeature/core@1.7.2)
       '@react-native-async-storage/async-storage':
         specifier: ^1.23.1
         version: 1.24.0(react-native@0.82.1(@babel/core@7.28.5)(react@19.2.1))
+      bkt-js-client-sdk:
+        specifier: '>=2.2.0 <3.0.0'
+        version: 2.2.28
       react-native-uuid:
         specifier: ^2.0.3
         version: 2.0.3
@@ -75,15 +75,15 @@ importers:
 
   example:
     dependencies:
-      '@bucketeer/js-client-sdk':
-        specifier: ^2.2.5
-        version: 2.2.5
       '@bucketeer/openfeature-js-client-sdk':
         specifier: workspace:*
         version: link:..
       '@openfeature/web-sdk':
         specifier: ^1.4.1
         version: 1.4.1(@openfeature/core@1.7.2)
+      bkt-js-client-sdk:
+        specifier: ^2.2.5
+        version: 2.2.28
     devDependencies:
       typescript:
         specifier: 5.7.2
@@ -251,12 +251,6 @@ packages:
   '@babel/types@7.28.5':
     resolution: {integrity: sha512-qQ5m48eI/MFLQ5PxQj4PFaprjyCTLI37ElWMmNs0K8Lk3dVeOdNpB3ks8jc7yM5CDmVC73eMVk/trk3fgmrUpA==}
     engines: {node: '>=6.9.0'}
-
-  '@bucketeer/js-client-sdk@2.2.5':
-    resolution: {integrity: sha512-8l4oazc+VV4AY6JHkVbM3A6zAq+vhU0uTZlAIVUDlHCCb6wLuxC/dlLSIj1G012Acs69uyvitStY8USbqhwHMA==}
-
-  '@bucketeer/js-client-sdk@2.4.0':
-    resolution: {integrity: sha512-RUkFQqP4rCxlgXuuYEYJo65E99yrmHCOjN0bKAUxG9fROEva5X0FORPR0N3S87XX22MZ0hj6LTqPex7JPH7AWw==}
 
   '@bundled-es-modules/cookie@2.0.1':
     resolution: {integrity: sha512-8o+5fRPLNbjbdGRRmJj3h6Hh1AQJf2dk3qQ/5ZFb+PXkRNiSoMGGUKlsgLfrxneb72axVJyIYji64E2+nNfYyw==}
@@ -1662,6 +1656,9 @@ packages:
   basic-ftp@5.0.5:
     resolution: {integrity: sha512-4Bcg1P8xhUuqcii/S0Z9wiHIrQVPMermM1any+MX5GeGD7faD3/msQUDGLol9wOcz4/jbg/WJnGqoJF6LiBdtg==}
     engines: {node: '>=10.0.0'}
+
+  bkt-js-client-sdk@2.2.28:
+    resolution: {integrity: sha512-tjZvDrA6ENff5GFAfpt+3M9oGj1THTGLQ4DYVxmginJaDxdHC2xuzdn2wK9y/8H+q6zhQzWTWijehkHrmiR7Dg==}
 
   boolbase@1.0.0:
     resolution: {integrity: sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==}
@@ -4600,12 +4597,6 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.28.5
 
-  '@bucketeer/js-client-sdk@2.2.5': {}
-
-  '@bucketeer/js-client-sdk@2.4.0':
-    dependencies:
-      async-mutex: 0.5.0
-
   '@bundled-es-modules/cookie@2.0.1':
     dependencies:
       cookie: 0.7.2
@@ -5886,6 +5877,10 @@ snapshots:
   base64-js@1.5.1: {}
 
   basic-ftp@5.0.5: {}
+
+  bkt-js-client-sdk@2.2.28:
+    dependencies:
+      async-mutex: 0.5.0
 
   boolbase@1.0.0: {}
 

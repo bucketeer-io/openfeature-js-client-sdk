@@ -2,7 +2,7 @@ import {
   BKTConfig,
   defineBKTConfig,
   RawBKTConfig,
-} from '@bucketeer/js-client-sdk'
+} from 'bkt-js-client-sdk'
 import { SDK_VERSION } from '../../version'
 import BucketeerProvider from '../BucketeerProvider'
 import { createReactNativeStorageFactory } from './AsyncStorageFactory'
@@ -27,7 +27,7 @@ class BucketeerReactNativeProvider extends BucketeerProvider {
       idGenerator: new ReactNativeIdGenerator(),
       wrapperSdkSourceId: SOURCE_ID_OPEN_FEATURE_REACT_NATIVE,
       wrapperSdkVersion: SDK_VERSION,
-      userAgent: `Bucketeer React Native Open Feature Provider(${SDK_VERSION})`,
+      userAgent: `Bucketeer React Native Open Feature Provider`,
     }
     if (storageFactory) {
       inputConfig = {
