@@ -17,6 +17,7 @@ import {
   OpenFeatureEventEmitter,
   Provider,
   ProviderFatalError,
+  ProviderMetadata,
   ProviderNotReadyError,
   ResolutionDetails,
   StandardResolutionReasons,
@@ -25,26 +26,49 @@ import { evaluationContextToBKTUser } from './EvaluationContext'
 import { toResolutionDetails, toResolutionDetailsJsonValue } from './BKTEvaluationDetailExt'
 import { SDK_VERSION } from '../version'
 
+export const SOURCE_ID_OPEN_FEATURE_REACT = 105
+const SOURCE_ID_OPEN_FEATURE_REACT_NATIVE = 106
 const SOURCE_ID_OPEN_FEATURE_JAVASCRIPT = 102
+
+const supportedSourceIds = [
+  SOURCE_ID_OPEN_FEATURE_JAVASCRIPT,
+  SOURCE_ID_OPEN_FEATURE_REACT,
+  SOURCE_ID_OPEN_FEATURE_REACT_NATIVE,
+]
 
 // implement the provider interface
 class BucketeerProvider implements Provider {
   // Adds runtime validation that the provider is used with the expected SDK
   public readonly runsOn = 'client'
-  readonly metadata = {
-    name: 'Bucketeer Provider',
-    version: SDK_VERSION,
-  } as const
+  get metadata() {
+    return {
+      name: 'Bucketeer Provider' as const,
+      version: SDK_VERSION,
+    } as ProviderMetadata
+  }
   // Optional provider managed hooks
   hooks?: Hook[]
 
   private config: BKTConfig
 
   constructor(config: BKTConfig) {
+    let inputWrapperSdkVersion = config.wrapperSdkVersion
+    let inputWrapperSdkSourceId = config.wrapperSdkSourceId
+    if (inputWrapperSdkSourceId === undefined) {
+      inputWrapperSdkSourceId = SOURCE_ID_OPEN_FEATURE_JAVASCRIPT
+    }
+    if (!supportedSourceIds.includes(inputWrapperSdkSourceId)) {
+      throw new Error(`Unsupported wrapperSdkSourceId: ${inputWrapperSdkSourceId}`)
+    }
+    if (inputWrapperSdkSourceId === SOURCE_ID_OPEN_FEATURE_JAVASCRIPT) {
+      inputWrapperSdkVersion = SDK_VERSION
+    } else if (inputWrapperSdkVersion === undefined) {
+      throw new Error('wrapperSdkVersion is required when wrapperSdkSourceId is set')
+    }
     const overrideConfig = defineBKTConfig({
       ...config,
-      wrapperSdkVersion: SDK_VERSION,
-      wrapperSdkSourceId: SOURCE_ID_OPEN_FEATURE_JAVASCRIPT,
+      wrapperSdkVersion: inputWrapperSdkVersion,
+      wrapperSdkSourceId: inputWrapperSdkSourceId,
     })
     this.config = overrideConfig
   }
