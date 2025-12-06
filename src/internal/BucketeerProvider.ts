@@ -26,9 +26,9 @@ import { evaluationContextToBKTUser } from './EvaluationContext'
 import { toResolutionDetails, toResolutionDetailsJsonValue } from './BKTEvaluationDetailExt'
 import { SDK_VERSION } from '../version'
 
+const SOURCE_ID_OPEN_FEATURE_JAVASCRIPT = 102
 export const SOURCE_ID_OPEN_FEATURE_REACT = 105
 export const SOURCE_ID_OPEN_FEATURE_REACT_NATIVE = 106
-const SOURCE_ID_OPEN_FEATURE_JAVASCRIPT = 102
 
 const supportedSourceIds = [
   SOURCE_ID_OPEN_FEATURE_JAVASCRIPT,
