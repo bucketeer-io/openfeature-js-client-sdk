@@ -119,7 +119,7 @@ suite('BucketeerReactNativeProvider', () => {
       expect(expectedConfig.eventsMaxQueueSize).toBe(100)
       expect(expectedConfig.pollingInterval).toBe(600000)
       expect(expectedConfig.appVersion).toBe('1.0.0')
-      expect(expectedConfig.userAgent).toBe('Bucketeer React Native Open Feature Provider')
+      expect(expectedConfig.userAgent).toBe('Bucketeer React Native Provider')
       expect(expectedConfig.fetch).toBeDefined()
       expect(typeof expectedConfig.fetch).toBe('function')
     })
