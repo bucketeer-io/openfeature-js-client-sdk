@@ -49,7 +49,7 @@ class BucketeerProvider implements Provider {
   // Optional provider managed hooks
   hooks?: Hook[]
 
-  private config: BKTConfig
+  protected config: BKTConfig
 
   constructor(config: BKTConfig) {
     let inputWrapperSdkVersion = config.wrapperSdkVersion

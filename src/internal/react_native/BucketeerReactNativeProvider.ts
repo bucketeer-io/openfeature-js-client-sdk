@@ -7,7 +7,7 @@ import { SDK_VERSION } from '../../version'
 import BucketeerProvider from '../BucketeerProvider'
 import { createReactNativeStorageFactory } from './AsyncStorageFactory'
 import { ReactNativeIdGenerator } from './IdGenerator'
-import { ProviderMetadata } from '@openfeature/web-sdk'
+import { EvaluationContext, ProviderMetadata } from '@openfeature/web-sdk'
 
 const SOURCE_ID_OPEN_FEATURE_REACT_NATIVE = 106
 
@@ -20,15 +20,24 @@ class BucketeerReactNativeProvider extends BucketeerProvider {
     } as ProviderMetadata
   }
 
+
   constructor(config: BKTConfig) {
-    const storageFactory = createReactNativeStorageFactory()
-    let inputConfig: RawBKTConfig = {
+    // const storageFactory = createReactNativeStorageFactory()
+    const inputConfig: RawBKTConfig = {
       ...config,
       idGenerator: new ReactNativeIdGenerator(),
       wrapperSdkSourceId: SOURCE_ID_OPEN_FEATURE_REACT_NATIVE,
       wrapperSdkVersion: SDK_VERSION,
       userAgent: `Bucketeer React Native Provider`,
     }
+
+    const result = defineBKTConfig(inputConfig)
+    super(result)
+  }
+
+  async initialize(context?: EvaluationContext | undefined): Promise<void> {
+    const storageFactory = await createReactNativeStorageFactory()
+    let inputConfig = this.config
     if (storageFactory) {
       inputConfig = {
         ...inputConfig,
@@ -41,8 +50,9 @@ class BucketeerReactNativeProvider extends BucketeerProvider {
         'AsyncStorage is not available. Bucketeer React Native SDK will use in-memory storage without persistence.'
       )
     }
-    const result = defineBKTConfig(inputConfig)
-    super(result)
+    // Re-define config with or without storageFactory
+    this.config = defineBKTConfig(inputConfig)
+    return super.initialize?.(context)
   }
 }
 

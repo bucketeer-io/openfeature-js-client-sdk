@@ -1,16 +1,14 @@
 import type { BKTStorage } from 'bkt-js-client-sdk'
 import { BKTAsyncKeyValueStore } from './AsyncStorage'
 
-function createReactNativeStorageFactory():
+async function createReactNativeStorageFactory(): Promise<
   | (<T>(key: string) => BKTStorage<T>)
-  | undefined {
+  | undefined
+> {
   try {
     // Check if AsyncStorage is available
-    // require is used here to avoid import errors when the module is not installed
-    // we don't use `await import` because it converts the module to ESM which may cause issues in some React Native environments
-    // also turn this func into async causes issues in some React Native environments
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const AsyncStorageModule = require('@react-native-async-storage/async-storage')
+    // Use dynamic import to avoid import errors when the module is not installed
+    const AsyncStorageModule = await import('@react-native-async-storage/async-storage')
     const AsyncStorage = AsyncStorageModule.default
     if (!AsyncStorage) {
       return undefined
