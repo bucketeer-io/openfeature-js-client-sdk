@@ -15,7 +15,7 @@ class BucketeerReactNativeProvider extends BucketeerProvider {
 
   get metadata() {
     return {
-      name: 'Bucketeer React Provider' as const,
+      name: 'Bucketeer React Native Provider' as const,
       version: SDK_VERSION,
     } as ProviderMetadata
   }
