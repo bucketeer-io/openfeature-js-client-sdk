@@ -9,7 +9,6 @@ import { BucketeerReactNativeProvider } from '../../src/main'
 import { SOURCE_ID_OPEN_FEATURE_REACT_NATIVE } from '../../src/internal/BucketeerProvider'
 import { BKTAsyncKeyValueStore } from '../../src/internal/react_native/AsyncStorage'
 
-
 // Only mock specific functions instead of the entire module
 vi.mock('bkt-js-client-sdk', async () => {
   const actual = await vi.importActual('bkt-js-client-sdk')
@@ -74,7 +73,7 @@ suite('BucketeerReactNativeProvider', () => {
 
   describe('metadata', () => {
     it('should have correct metadata', () => {
-      expect(provider.metadata.name).toBe('Bucketeer React Provider')
+      expect(provider.metadata.name).toBe('Bucketeer React Native Provider')
       expect(provider.runsOn).toBe('client')
     })
   })
