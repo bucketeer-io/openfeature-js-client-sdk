@@ -94,11 +94,12 @@ describe('BKTAsyncKeyValueStore', () => {
       
       try {
         await store.set('test-value')
-      } catch (e: any) {
+      } catch (e) {
         expect(e).toBeInstanceOf(BKTAsyncStorageError)
-        expect(e.key).toBe('test-key')
-        expect(e.operation).toBe('set')
-        expect(e.message).toContain('Storage full')
+        const eAsBKT = e as BKTAsyncStorageError
+        expect(eAsBKT.key).toBe('test-key')
+        expect(eAsBKT.operation).toBe('set')
+        expect(eAsBKT.message).toContain('Storage full')
       }
     })
 
@@ -110,11 +111,12 @@ describe('BKTAsyncKeyValueStore', () => {
       
       try {
         await store.set(null)
-      } catch (e: any) {
+      } catch (e) {
         expect(e).toBeInstanceOf(BKTAsyncStorageError)
-        expect(e.key).toBe('test-key')
-        expect(e.operation).toBe('set')
-        expect(e.message).toContain('Remove failed')
+        const eAsBKT = e as BKTAsyncStorageError
+        expect(eAsBKT.key).toBe('test-key')
+        expect(eAsBKT.operation).toBe('set')
+        expect(eAsBKT.message).toContain('Remove failed')
       }
     })
 
@@ -125,9 +127,10 @@ describe('BKTAsyncKeyValueStore', () => {
       
       try {
         await store.set('test-value')
-      } catch (e: any) {
+      } catch (e) {
         expect(e).toBeInstanceOf(BKTAsyncStorageError)
-        expect(e.message).toContain('String error')
+        const eAsBKT = e as BKTAsyncStorageError
+        expect(eAsBKT.message).toContain('String error')
       }
     })
   })
@@ -184,11 +187,12 @@ describe('BKTAsyncKeyValueStore', () => {
       
       try {
         await store.get()
-      } catch (e: any) {
+      } catch (e) {
         expect(e).toBeInstanceOf(BKTAsyncStorageError)
-        expect(e.key).toBe('test-key')
-        expect(e.operation).toBe('get')
-        expect(e.message).toContain('Storage unavailable')
+        const eAsBKT = e as BKTAsyncStorageError
+        expect(eAsBKT.key).toBe('test-key')
+        expect(eAsBKT.operation).toBe('get')
+        expect(eAsBKT.message).toContain('Storage unavailable')
       }
     })
 
@@ -199,10 +203,11 @@ describe('BKTAsyncKeyValueStore', () => {
       
       try {
         await store.get()
-      } catch (e: any) {
+      } catch (e) {
         expect(e).toBeInstanceOf(BKTAsyncStorageError)
-        expect(e.key).toBe('test-key')
-        expect(e.operation).toBe('get')
+        const error = e as BKTAsyncStorageError
+        expect(error.key).toBe('test-key')
+        expect(error.operation).toBe('get')
       }
     })
 
@@ -213,8 +218,9 @@ describe('BKTAsyncKeyValueStore', () => {
       
       try {
         await store.get()
-      } catch (e: any) {
-        expect(e.message).toContain('Failed to get value for key "test-key"')
+      } catch (e) {
+        const error = e as BKTAsyncStorageError
+        expect(error.message).toContain('Failed to get value for key "test-key"')
         // The exact error message depends on the JS engine, but it should be a SyntaxError
         // Node 20: "Expected property name or '}' in JSON at position 1" or similar
         // We just check that it contains the prefix we added
@@ -239,11 +245,12 @@ describe('BKTAsyncKeyValueStore', () => {
       
       try {
         await store.clear()
-      } catch (e: any) {
+      } catch (e) {
         expect(e).toBeInstanceOf(BKTAsyncStorageError)
-        expect(e.key).toBe('test-key')
-        expect(e.operation).toBe('clear')
-        expect(e.message).toContain('Clear failed')
+        const error = e as BKTAsyncStorageError
+        expect(error.key).toBe('test-key')
+        expect(error.operation).toBe('clear')
+        expect(error.message).toContain('Clear failed')
       }
     })
 
@@ -254,9 +261,10 @@ describe('BKTAsyncKeyValueStore', () => {
       
       try {
         await store.clear()
-      } catch (e: any) {
+      } catch (e) {
         expect(e).toBeInstanceOf(BKTAsyncStorageError)
-        expect(e.message).toContain('String error')
+        const error = e as BKTAsyncStorageError
+        expect(error.message).toContain('String error')
       }
     })
   })
