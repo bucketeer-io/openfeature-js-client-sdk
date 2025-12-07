@@ -25,6 +25,8 @@ This will automatically install the required peer dependencies: `@openfeature/we
 
 Bucketeer provider needs to be created and then set in the global OpenFeatureAPI.
 
+#### Web
+
 ```typescript
 import { OpenFeature } from '@openfeature/web-sdk';
 import { defineBKTConfig } from '@bucketeer/js-client-sdk'
@@ -43,7 +45,83 @@ const initEvaluationContext = {
   app_version: '1.2.3',
 }
 await OpenFeature.setContext(initEvaluationContext)
-await OpenFeature.setProviderAndWait(new BucketeerProvider(config))
+const provider = new BucketeerProvider(config)
+await OpenFeature.setProviderAndWait(provider)
+```
+
+#### React
+
+We recommend using the [OpenFeature React SDK](https://openfeature.dev/docs/reference/sdks/client/web/react/) to use feature flags in your React application.
+
+```typescript
+import { OpenFeatureProvider, OpenFeature } from '@openfeature/react-sdk';
+import { defineBKTConfig } from '@bucketeer/js-client-sdk'
+import { BucketeerReactProvider } from '@bucketeer/openfeature-js-client-sdk';
+
+const config = defineBKTConfig({
+  apiEndpoint: 'BUCKETEER_API_ENDPOINT',
+  apiKey: 'BUCKETEER_API_KEY',
+  featureTag: 'FEATURE_TAG',
+  appVersion: '1.2.3',
+  fetch: window.fetch,
+})
+
+const initEvaluationContext = {
+  targetingKey: 'USER_ID',
+  app_version: '1.2.3',
+}
+await OpenFeature.setContext(initEvaluationContext)
+const provider = new BucketeerReactProvider(config)
+OpenFeature.setProvider(provider)
+
+function App() {
+  return (
+    <OpenFeatureProvider>
+      <YourApp />
+    </OpenFeatureProvider>
+  )
+}
+```
+
+#### React Native
+
+We recommend using the [OpenFeature React SDK](https://openfeature.dev/docs/reference/sdks/client/web/react/) to use feature flags in your React Native application.
+
+> [!IMPORTANT]
+> For React Native, you must install `@react-native-async-storage/async-storage` to enable local caching, and `react-native-uuid` to generate IDs for Bucketeer SDK events.
+> ```bash
+> npm install @react-native-async-storage/async-storage react-native-uuid
+> ```
+> If `@react-native-async-storage/async-storage` is not installed, the SDK will fall back to in-memory storage.
+
+```typescript
+import { OpenFeatureProvider, OpenFeature } from '@openfeature/react-sdk';
+import { defineBKTConfig } from '@bucketeer/js-client-sdk'
+import { BucketeerReactNativeProvider } from '@bucketeer/openfeature-js-client-sdk';
+
+const config = defineBKTConfig({
+  apiEndpoint: 'BUCKETEER_API_ENDPOINT',
+  apiKey: 'BUCKETEER_API_KEY',
+  featureTag: 'FEATURE_TAG',
+  appVersion: '1.2.3',
+  fetch: fetch, // Use global fetch
+})
+
+const initEvaluationContext = {
+  targetingKey: 'USER_ID',
+  app_version: '1.2.3',
+}
+await OpenFeature.setContext(initEvaluationContext)
+const provider = new BucketeerReactNativeProvider(config)
+OpenFeature.setProvider(provider)
+
+function App() {
+  return (
+    <OpenFeatureProvider>
+      <YourApp />
+    </OpenFeatureProvider>
+  )
+}
 ```
 
 See our [documentation](https://docs.bucketeer.io/sdk/client-side/android) for more SDK configuration.
@@ -92,7 +170,8 @@ const config = defineBKTConfig({
 })
 
 await OpenFeature.setContext(newEvaluationContext)
-await OpenFeature.setProviderAndWait(new BucketeerProvider(config))
+const provider = new BucketeerProvider(config)
+await OpenFeature.setProviderAndWait(provider)
 ```
 
 ### Evaluate a feature flag
