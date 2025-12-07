@@ -51,7 +51,7 @@ await OpenFeature.setProviderAndWait(provider)
 
 #### React
 
-We recommend using the [OpenFeature React SDK](https://openfeature.dev/docs/reference/sdks/client/web/react/) to use feature flags in your React application.
+Please use the [OpenFeature React SDK](https://openfeature.dev/docs/reference/sdks/client/web/react/) to use feature flags in your React application.
 
 ```typescript
 import { OpenFeatureProvider, OpenFeature } from '@openfeature/react-sdk';
@@ -85,7 +85,7 @@ function App() {
 
 #### React Native
 
-We recommend using the [OpenFeature React SDK](https://openfeature.dev/docs/reference/sdks/client/web/react/) to use feature flags in your React Native application.
+Please use the [OpenFeature React SDK](https://openfeature.dev/docs/reference/sdks/client/web/react/) to use feature flags in your React Native application.
 
 > [!IMPORTANT]
 > For React Native, you must install `@react-native-async-storage/async-storage` to enable local caching, and `react-native-uuid` to generate IDs for Bucketeer SDK events.
@@ -176,6 +176,8 @@ await OpenFeature.setProviderAndWait(provider)
 
 ### Evaluate a feature flag
 
+#### Web
+
 After the provider is set and the provider's status is `ClientProviderEvents.Ready`, you can evaluate a feature flag using OpenFeatureAPI.
 
 ```typescript
@@ -192,8 +194,31 @@ const flagValue = client.getNumberValue('my-feature-flag', 0);
 
 // object flag
 const flagValue = client.getObjectValue('my-feature-flag', {});
-
 ```
+
+More details can be found in the [OpenFeature Web SDK documentation](https://openfeature.dev/docs/reference/sdks/client/web/#usage).
+
+#### React
+
+The OpenFeature React SDK provides hooks for evaluating feature flags.
+
+```typescript
+import { useBooleanFlagValue, useStringFlagValue, useNumberFlagValue, useObjectFlagValue } from '@openfeature/react-sdk';
+
+// boolean flag
+const flagValue = useBooleanFlagValue('my-feature-flag', false);
+
+// string flag
+const flagValue = useStringFlagValue('my-feature-flag', 'default-value');
+
+// number flag
+const flagValue = useNumberFlagValue('my-number-flag', 0);
+
+// object flag
+const flagValue = useObjectFlagValue('my-object-flag', {});
+```
+
+More details can be found in the [OpenFeature React SDK documentation](https://openfeature.dev/docs/reference/sdks/client/web/react#usage).
 
 ## Contributing
 
