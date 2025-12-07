@@ -48,6 +48,14 @@
     "@react-native-async-storage/async-storage": "^1.23.1",
     "react-native-uuid": "^2.0.3"
   },
+  "peerDependenciesMeta": {
+    "@react-native-async-storage/async-storage": {
+      "optional": true
+    },
+    "react-native-uuid": {
+      "optional": true
+    }
+  },
   "dependencies": {},
   "devDependencies": {
     "@types/jsdom": "21.1.7",
