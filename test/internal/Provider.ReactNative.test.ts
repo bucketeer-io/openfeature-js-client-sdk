@@ -5,7 +5,7 @@ import {
   ClientProviderEvents,
   EvaluationContext,
 } from '@openfeature/web-sdk'
-import { BucketeerReactNativeProvider } from '../../src/main'
+import { BucketeerReactNativeProvider, SDK_VERSION } from '../../src/main'
 import { SOURCE_ID_OPEN_FEATURE_REACT_NATIVE } from '../../src/internal/BucketeerProvider'
 import { BKTAsyncKeyValueStore } from '../../src/internal/react_native/AsyncStorage'
 
@@ -75,6 +75,7 @@ suite('BucketeerReactNativeProvider', () => {
     it('should have correct metadata', () => {
       expect(provider.metadata.name).toBe('Bucketeer React Native Provider')
       expect(provider.runsOn).toBe('client')
+      expect(provider.metadata.version).equal(SDK_VERSION)
     })
   })
 
@@ -84,26 +85,25 @@ suite('BucketeerReactNativeProvider', () => {
 
       await provider.initialize?.(mockContext)
       const callArgs = vi.mocked(initializeBKTClient).mock.calls[0]
-      const expectedConfig = callArgs[0]
-      const expectedUser = callArgs[1]
+      const actualConfig = callArgs[0]
+      const actualUser = callArgs[1]
 
-      expect(expectedConfig).toEqual(expectedConfig)
-      expect(expectedUser).toEqual({
+      expect(emitSpy).toHaveBeenCalledWith(ClientProviderEvents.Ready)
+
+            expect(actualUser).toEqual({
         id: 'test-user', attributes: {
           email: 'test@example.com',
           role: 'tester'
         }
       })
 
-      expect(emitSpy).toHaveBeenCalledWith(ClientProviderEvents.Ready)
-
-      const { sdkVersion, sourceId } = expectedConfig as unknown as { sdkVersion: string, sourceId: number }
+      const { sdkVersion, sourceId } = actualConfig as unknown as { sdkVersion: string, sourceId: number }
       expect(sourceId).toBeDefined()
       expect(sourceId).toBe(SOURCE_ID_OPEN_FEATURE_REACT_NATIVE)
       expect(sdkVersion).toBeDefined()
-      expect(sdkVersion).toBe(__BKT_SDK_VERSION__)
+      expect(sdkVersion).toBe(SDK_VERSION)
 
-      const storageFactory = expectedConfig.storageFactory
+      const storageFactory = actualConfig.storageFactory
       const store = storageFactory('test-key')
       expect(store).toBeDefined()
       expect(store).toBeInstanceOf(BKTAsyncKeyValueStore)
@@ -111,16 +111,16 @@ suite('BucketeerReactNativeProvider', () => {
       expect(typeof store.set).toBe('function')
       expect(typeof store.get).toBe('function')
       expect(typeof store.clear).toBe('function')
-      expect(expectedConfig.apiKey).toBe('test-api-key')
-      expect(expectedConfig.apiEndpoint).toBe('http://test-endpoint')
-      expect(expectedConfig.featureTag).toBe('test-tag')
-      expect(expectedConfig.eventsFlushInterval).toBe(10000)
-      expect(expectedConfig.eventsMaxQueueSize).toBe(100)
-      expect(expectedConfig.pollingInterval).toBe(600000)
-      expect(expectedConfig.appVersion).toBe('1.0.0')
-      expect(expectedConfig.userAgent).toBe('Bucketeer React Native Provider')
-      expect(expectedConfig.fetch).toBeDefined()
-      expect(typeof expectedConfig.fetch).toBe('function')
+      expect(actualConfig.apiKey).toBe('test-api-key')
+      expect(actualConfig.apiEndpoint).toBe('http://test-endpoint')
+      expect(actualConfig.featureTag).toBe('test-tag')
+      expect(actualConfig.eventsFlushInterval).toBe(10000)
+      expect(actualConfig.eventsMaxQueueSize).toBe(100)
+      expect(actualConfig.pollingInterval).toBe(600000)
+      expect(actualConfig.appVersion).toBe('1.0.0')
+      expect(actualConfig.userAgent).toBe('Bucketeer React Native Provider')
+      expect(actualConfig.fetch).toBeDefined()
+      expect(typeof actualConfig.fetch).toBe('function')
     })
   })
 })

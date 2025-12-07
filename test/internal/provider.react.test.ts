@@ -5,7 +5,7 @@ import {
   ClientProviderEvents,
   EvaluationContext,
 } from '@openfeature/web-sdk'
-import { BucketeerReactProvider } from '../../src/main'
+import { BucketeerReactProvider, SDK_VERSION } from '../../src/main'
 import { SOURCE_ID_OPEN_FEATURE_REACT } from '../../src/internal/BucketeerProvider'
 
 
@@ -47,7 +47,7 @@ suite('BucketeerReactProvider', () => {
 
     expectedConfig = defineBKTConfig({
       ...mockConfig,
-      wrapperSdkVersion: __BKT_SDK_VERSION__,
+      wrapperSdkVersion: SDK_VERSION,
       wrapperSdkSourceId: SOURCE_ID_OPEN_FEATURE_REACT
     })
 
@@ -82,6 +82,7 @@ suite('BucketeerReactProvider', () => {
     it('should have correct metadata', () => {
       expect(provider.metadata.name).toBe('Bucketeer React Provider')
       expect(provider.runsOn).toBe('client')
+      expect(provider.metadata.version).equal(SDK_VERSION)
     })
   })
 
@@ -103,7 +104,7 @@ suite('BucketeerReactProvider', () => {
       expect(sourceId).toBeDefined()
       expect(sourceId).toBe(SOURCE_ID_OPEN_FEATURE_REACT)
       expect(sdkVersion).toBeDefined()
-      expect(sdkVersion).toBe(__BKT_SDK_VERSION__)
+      expect(sdkVersion).toBe(SDK_VERSION)
     })
   })
 })
