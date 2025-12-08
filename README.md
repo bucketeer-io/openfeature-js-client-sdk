@@ -39,19 +39,19 @@ npm install @bucketeer/openfeature-js-client-sdk @openfeature/react-sdk
 > ```
 
 > [!IMPORTANT]
-> The React Native provider relies on `@react-native-async-storage/async-storage` for local caching and `react-native-uuid` for generating IDs for Bucketeer SDK events.
+> The Bucketeer React Native provider relies on `@react-native-async-storage/async-storage` for local caching and `react-native-uuid` for generating IDs for Bucketeer SDK events.
 >
 > **Expo Users:**
 > Simply installing the Bucketeer OpenFeature JS provider. 
-> For iOS need navigate to iOS folder and running `pod install` should be sufficient.
 > No additional steps are required for Android.
+> For iOS please navigate to iOS folder and running `pod install` should be sufficient.
 > ```bash
 > cd ios && pod install  # For iOS
 > ```
 > **Non-Expo Users:**
 > You must explicitly install `@react-native-async-storage/async-storage` and `react-native-uuid` as direct dependencies in your project. 
-> For iOS need navigate to iOS folder and running `pod install`.
 > No additional steps are required for Android.
+> For iOS please navigate to iOS folder and running `pod install`.
 > This is necessary because React Native's auto-linking feature does not support transitive dependencies (see [CLI Issue #1347](https://github.com/react-native-community/cli/issues/1347)).
 >
 > ```bash
@@ -66,9 +66,37 @@ npm install @bucketeer/openfeature-js-client-sdk @openfeature/react-sdk
 
 ### Initialize the provider
 
-Bucketeer provider needs to be created and then set in the global OpenFeatureAPI.
+Select the appropriate provider for your application framework and register it with the global OpenFeature API.
 
-### JavaScript / TypeScript (Web)
+| Framework | Provider Class |
+| :--- | :--- |
+| **JavaScript / TypeScript (Web)** | `BucketeerProvider` |
+| **React** | `BucketeerReactProvider` |
+| **React Native** | `BucketeerReactNativeProvider` |
+
+### Configuration
+Use `defineBKTConfig` to create your config and `defineBKTUser` to create a user and initializing the client using `initializeBKTClient`
+
+```typescript
+const config = defineBKTConfig({
+  apiEndpoint: 'BUCKETEER_API_ENDPOINT',
+  apiKey: 'BUCKETEER_API_KEY',
+  featureTag: 'FEATURE_TAG',
+  appVersion: '1.2.3',
+  fetch: window.fetch,
+})
+```
+
+See our [documentation](https://docs.bucketeer.io/sdk/client-side/javascript#configuring-client) for more SDK configuration.
+
+The evaluation context allows the client to specify contextual data that Bucketeer uses to evaluate the feature flags.
+
+The `targetingKey` is the user ID (Unique ID) and cannot be empty.
+
+
+### Attaching the Provider to OpenFeature
+
+**JavaScript / TypeScript (Web)**
 
 ```typescript
 import { OpenFeature } from '@openfeature/web-sdk';
@@ -92,13 +120,7 @@ const provider = new BucketeerProvider(config)
 await OpenFeature.setProviderAndWait(provider)
 ```
 
-See our [documentation](https://docs.bucketeer.io/sdk/client-side/javascript#configuring-client) for more SDK configuration.
-
-The evaluation context allows the client to specify contextual data that Bucketeer uses to evaluate the feature flags.
-
-The `targetingKey` is the user ID (Unique ID) and cannot be empty.
-
-#### React
+**React**
 
 Please use the [OpenFeature React SDK](https://openfeature.dev/docs/reference/sdks/client/web/react/) to use feature flags in your React application.
 
@@ -132,7 +154,7 @@ function App() {
 }
 ```
 
-#### React Native
+**React Native**
 
 Please use the [OpenFeature React SDK](https://openfeature.dev/docs/reference/sdks/client/web/react/) to use feature flags in your React Native application.
 
@@ -212,7 +234,7 @@ await OpenFeature.setProviderAndWait(provider)
 
 ### Evaluate a feature flag
 
-#### Web
+#### JavaScript / TypeScript (Web)
 
 After the provider is set and the provider's status is `ClientProviderEvents.Ready`, you can evaluate a feature flag using OpenFeatureAPI.
 
@@ -255,6 +277,7 @@ const flagValue = useObjectFlagValue('my-object-flag', {});
 ```
 
 More details can be found in the [OpenFeature React SDK documentation](https://openfeature.dev/docs/reference/sdks/client/web/react#usage).
+
 
 ## Contributing
 
