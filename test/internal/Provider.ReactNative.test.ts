@@ -90,7 +90,7 @@ suite('BucketeerReactNativeProvider', () => {
 
       expect(emitSpy).toHaveBeenCalledWith(ClientProviderEvents.Ready)
 
-            expect(actualUser).toEqual({
+      expect(actualUser).toEqual({
         id: 'test-user', attributes: {
           email: 'test@example.com',
           role: 'tester'

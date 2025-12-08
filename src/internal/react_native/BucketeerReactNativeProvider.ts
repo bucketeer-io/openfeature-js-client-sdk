@@ -21,7 +21,6 @@ class BucketeerReactNativeProvider extends BucketeerProvider {
   }
 
   constructor(config: BKTConfig) {
-    // const storageFactory = createReactNativeStorageFactory()
     const inputConfig: RawBKTConfig = {
       ...config,
       idGenerator: new ReactNativeIdGenerator(),

@@ -37,9 +37,9 @@ npm install @bucketeer/openfeature-js-client-sdk @openfeature/react-sdk
 > The Bucketeer React Native provider relies on `@react-native-async-storage/async-storage` for local caching and `react-native-uuid` for generating IDs for Bucketeer SDK events.
 >
 > **Expo Users:**
-> Simply installing the Bucketeer OpenFeature JS provider. 
+> Simply installing the Bucketeer OpenFeature JS provider is sufficient.
 > No additional steps are required for Android.
-> For iOS please navigate to iOS folder and running `pod install` should be sufficient.
+> For iOS, navigate to the iOS folder and run `pod install`.
 > ```bash
 > cd ios && pod install  # For iOS
 > ```
