@@ -17,13 +17,8 @@ For documentation related to flags management in Bucketeer, refer to the [Bucket
 ```bash
 npm install @bucketeer/openfeature-js-client-sdk
 ```
-
-**React**
-```bash
-npm install @bucketeer/openfeature-js-client-sdk @openfeature/react-sdk
-```
-          
-**React Native**
+ 
+**React & React Native**
 
 ```bash
 npm install @bucketeer/openfeature-js-client-sdk @openfeature/react-sdk
