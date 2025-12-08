@@ -1,4 +1,4 @@
-# Bucketeer - OpenFeature JS provider for a web clients
+# Bucketeer - OpenFeature JS provider
 
 This is the official JS OpenFeature provider for accessing your feature flags with [Bucketeer](https://bucketeer.io/).
 
@@ -13,11 +13,54 @@ For documentation related to flags management in Bucketeer, refer to the [Bucket
 
 ## Installation
 
+**JavaScript / TypeScript (Web)**
 ```bash
 npm install @bucketeer/openfeature-js-client-sdk
 ```
 
-This will automatically install the required peer dependencies: `@openfeature/web-sdk` and `@bucketeer/js-client-sdk`.
+**React**
+```bash
+npm install @bucketeer/openfeature-js-client-sdk @openfeature/react-sdk
+```
+          
+**React Native**
+
+```bash
+npm install @bucketeer/openfeature-js-client-sdk @openfeature/react-sdk
+```
+
+> [!NOTE]
+> Npm versions 7 and above will automatically install the required peer dependencies: 
+> `@openfeature/web-sdk` and `@bucketeer/js-client-sdk`.
+> If you got an error about missing peer dependencies, please install them manually:
+>
+> ```bash
+> npm install @openfeature/core @openfeature/web-sdk @bucketeer/js-client-sdk
+> ```
+
+> [!IMPORTANT]
+> The React Native provider relies on `@react-native-async-storage/async-storage` for local caching and `react-native-uuid` for generating IDs for Bucketeer SDK events.
+>
+> **Expo Users:**
+> Simply installing the Bucketeer OpenFeature JS provider. 
+> For iOS need navigate to iOS folder and running `pod install` should be sufficient.
+> No additional steps are required for Android.
+> ```bash
+> cd ios && pod install  # For iOS
+> ```
+> **Non-Expo Users:**
+> You must explicitly install `@react-native-async-storage/async-storage` and `react-native-uuid` as direct dependencies in your project. 
+> For iOS need navigate to iOS folder and running `pod install`.
+> No additional steps are required for Android.
+> This is necessary because React Native's auto-linking feature does not support transitive dependencies (see [CLI Issue #1347](https://github.com/react-native-community/cli/issues/1347)).
+>
+> ```bash
+> npm install @react-native-async-storage/async-storage react-native-uuid
+> cd ios && pod install  # For iOS
+> ```
+> If `@react-native-async-storage/async-storage` is not installed, the SDK will gracefully fall back to in-memory storage.
+>
+> For more details, see: https://react-native-async-storage.github.io/async-storage/docs/install/
 
 ## Usage
 
@@ -25,7 +68,7 @@ This will automatically install the required peer dependencies: `@openfeature/we
 
 Bucketeer provider needs to be created and then set in the global OpenFeatureAPI.
 
-#### Web
+### JavaScript / TypeScript (Web)
 
 ```typescript
 import { OpenFeature } from '@openfeature/web-sdk';
@@ -48,6 +91,12 @@ await OpenFeature.setContext(initEvaluationContext)
 const provider = new BucketeerProvider(config)
 await OpenFeature.setProviderAndWait(provider)
 ```
+
+See our [documentation](https://docs.bucketeer.io/sdk/client-side/javascript#configuring-client) for more SDK configuration.
+
+The evaluation context allows the client to specify contextual data that Bucketeer uses to evaluate the feature flags.
+
+The `targetingKey` is the user ID (Unique ID) and cannot be empty.
 
 #### React
 
@@ -87,13 +136,6 @@ function App() {
 
 Please use the [OpenFeature React SDK](https://openfeature.dev/docs/reference/sdks/client/web/react/) to use feature flags in your React Native application.
 
-> [!IMPORTANT]
-> For React Native, you must install `@react-native-async-storage/async-storage` to enable local caching, and `react-native-uuid` to generate IDs for Bucketeer SDK events.
-> ```bash
-> npm install @react-native-async-storage/async-storage react-native-uuid
-> ```
-> If `@react-native-async-storage/async-storage` is not installed, the SDK will fall back to in-memory storage.
-
 ```typescript
 import { OpenFeatureProvider, OpenFeature } from '@openfeature/react-sdk';
 import { defineBKTConfig } from '@bucketeer/js-client-sdk'
@@ -123,12 +165,6 @@ function App() {
   )
 }
 ```
-
-See our [documentation](https://docs.bucketeer.io/sdk/client-side/android) for more SDK configuration.
-
-The evaluation context allows the client to specify contextual data that Bucketeer uses to evaluate the feature flags.
-
-The `targetingKey` is the user ID (Unique ID) and cannot be empty.
 
 ### Update the Evaluation Context
 
