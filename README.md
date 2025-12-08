@@ -198,7 +198,7 @@ const flagValue = client.getObjectValue('my-feature-flag', {});
 
 More details can be found in the [OpenFeature Web SDK documentation](https://openfeature.dev/docs/reference/sdks/client/web/#usage).
 
-#### React
+#### React & React Native
 
 The OpenFeature React SDK provides hooks for evaluating feature flags.
 
