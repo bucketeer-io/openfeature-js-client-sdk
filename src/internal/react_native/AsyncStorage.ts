@@ -1,5 +1,5 @@
 /**
- * The Bucketeer React-Native SDK uses
+ * The Bucketeer React Native provider uses
  * @react-native-async-storage/async-storage for bootstrapping. This is a native
  * dependency.
  *
