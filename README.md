@@ -70,7 +70,7 @@ Select the appropriate provider for your application framework and register it w
 | **React Native** | `BucketeerReactNativeProvider` |
 
 ### Configuration
-Use `defineBKTConfig` to create your config and `defineBKTUser` to create a user and initializing the client using `initializeBKTClient`
+Use `defineBKTConfig` to create your config
 
 ```typescript
 const config = defineBKTConfig({
@@ -83,11 +83,6 @@ const config = defineBKTConfig({
 ```
 
 See our [documentation](https://docs.bucketeer.io/sdk/client-side/javascript#configuring-client) for more SDK configuration.
-
-The evaluation context allows the client to specify contextual data that Bucketeer uses to evaluate the feature flags.
-
-The `targetingKey` is the user ID (Unique ID) and cannot be empty.
-
 
 ### Attaching the Provider to OpenFeature
 
@@ -183,7 +178,13 @@ function App() {
 }
 ```
 
+> [!NOTE] No need await when `setProvider` in React and React Native, because the provider initialization is handled internally by the OpenFeature React SDK.
+
 ### Update the Evaluation Context
+
+The evaluation context allows the client to specify contextual data that Bucketeer uses to evaluate the feature flags.
+
+The `targetingKey` is the user ID (Unique ID) and cannot be empty.
 
 You can update the evaluation context with the new attributes if the user attributes change.
 
