@@ -45,7 +45,7 @@ class BucketeerReactNativeProvider extends BucketeerProvider {
       // Do not set storageFactory when AsyncStorage is not available
       // This allows the JS-SDK to fall back to its default in-memory storage implementation
       console.warn(
-        'AsyncStorage is not available. Bucketeer React Native SDK will use in-memory storage without persistence.'
+        'AsyncStorage is not available. Bucketeer JS SDK will use in-memory storage without persistence.'
       )
     }
     // Re-define config with or without storageFactory
