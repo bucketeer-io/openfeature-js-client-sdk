@@ -2,4 +2,4 @@ packages:
   - ./
   - example
   - examples/react
-  - examples/react-native
+  - examples/react_native

@@ -6,7 +6,7 @@ import {
   OpenFeatureProvider,
   useBooleanFlagValue,
 } from "@openfeature/react-sdk";
-import { BucketeerReactProvider } from "../../../dist/main";
+import { BucketeerReactProvider } from "@bucketeer/openfeature-js-client-sdk";
 
 const config = defineBKTConfig({
   apiEndpoint: import.meta.env.VITE_BKT_API_ENDPOINT || "",

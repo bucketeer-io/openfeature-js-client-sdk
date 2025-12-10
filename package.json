@@ -38,6 +38,7 @@
     "test:e2e": "vitest --config ./vitest-e2e.config.ts --dir e2e",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
+    "typecheck": "tsc --noEmit",
     "example:serve": "pnpm exec unbuild && pnpm --filter example serve"
   },
   "keywords": [],
