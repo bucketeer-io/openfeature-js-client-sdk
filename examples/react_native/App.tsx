@@ -1,8 +1,7 @@
 /* eslint-disable semi */
 import { OpenFeature, OpenFeatureProvider } from '@openfeature/react-sdk';
-import { defineBKTConfig } from 'bkt-js-client-sdk';
 import { StyleSheet, Text, View } from 'react-native';
-import { BucketeerReactNativeProvider } from '@bucketeer/openfeature-js-client-sdk';
+import { BucketeerReactNativeProvider, defineBKTConfigForReactNative } from '@bucketeer/openfeature-js-client-sdk';
 import React, { Suspense } from 'react';
 
 const API_ENDPOINT =
@@ -10,7 +9,7 @@ const API_ENDPOINT =
 const API_KEY = process.env.EXPO_PUBLIC_BKT_API_KEY || 'api-key';
 const FEATURE_TAG = process.env.EXPO_PUBLIC_FEATURE_TAG || 'feature-tag';
 
-const config = defineBKTConfig({
+const config = defineBKTConfigForReactNative({
   apiEndpoint: API_ENDPOINT,
   apiKey: API_KEY,
   featureTag: FEATURE_TAG,
