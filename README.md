@@ -59,7 +59,7 @@ npm install @bucketeer/openfeature-js-client-sdk @openfeature/react-sdk
 
 ## Usage
 
-### Initialize the provider
+### Select the provider
 
 Select the appropriate provider for your application framework and register it with the global OpenFeature API.
 
@@ -70,6 +70,8 @@ Select the appropriate provider for your application framework and register it w
 | **React Native** | `BucketeerReactNativeProvider` |
 
 ### Configuration
+
+**JavaScript / TypeScript (Web) & React**
 Use `defineBKTConfig` to create your config
 
 ```typescript
@@ -82,9 +84,26 @@ const config = defineBKTConfig({
 })
 ```
 
+**React Native**
+Use `defineBKTConfigForReactNative` to ensure proper setup of React Native specific ID generation.
+Otherwise, you will get an error "idGenerator is required in React Native environment".
+
+```typescript
+import { defineBKTConfigForReactNative } from '@bucketeer/openfeature-js-client-sdk'
+const config = defineBKTConfigForReactNative({
+  apiEndpoint: 'BUCKETEER_API_ENDPOINT',
+  apiKey: 'BUCKETEER_API_KEY',
+  featureTag: 'FEATURE_TAG',
+  appVersion: '1.2.3',
+  fetch: fetch, // Use global fetch
+})
+```
+
 See our [documentation](https://docs.bucketeer.io/sdk/client-side/javascript#configuring-client) for more SDK configuration.
 
-### Attaching the Provider to OpenFeature
+### Initialize
+
+Initialize and set the Bucketeer provider to OpenFeature based on your application framework.
 
 **JavaScript / TypeScript (Web)**
 
@@ -150,10 +169,10 @@ Please use the [OpenFeature React SDK](https://openfeature.dev/docs/reference/sd
 
 ```typescript
 import { OpenFeatureProvider, OpenFeature } from '@openfeature/react-sdk';
-import { defineBKTConfig } from '@bucketeer/js-client-sdk'
+import { defineBKTConfigForReactNative } from '@bucketeer/openfeature-js-client-sdk'
 import { BucketeerReactNativeProvider } from '@bucketeer/openfeature-js-client-sdk';
 
-const config = defineBKTConfig({
+const config = defineBKTConfigForReactNative({
   apiEndpoint: 'BUCKETEER_API_ENDPOINT',
   apiKey: 'BUCKETEER_API_KEY',
   featureTag: 'FEATURE_TAG',
@@ -166,6 +185,7 @@ const initEvaluationContext = {
   app_version: '1.2.3',
 }
 await OpenFeature.setContext(initEvaluationContext)
+// Please make sure the config is created with defineBKTConfigForReactNative
 const provider = new BucketeerReactNativeProvider(config)
 OpenFeature.setProvider(provider)
 

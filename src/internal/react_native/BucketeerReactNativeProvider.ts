@@ -6,7 +6,6 @@ import {
 import { SDK_VERSION } from '../../version'
 import BucketeerProvider from '../BucketeerProvider'
 import { createReactNativeStorageFactory } from './AsyncStorageFactory'
-import { ReactNativeIdGenerator } from './IdGenerator'
 import { EvaluationContext, ProviderMetadata } from '@openfeature/web-sdk'
 
 const SOURCE_ID_OPEN_FEATURE_REACT_NATIVE = 106
@@ -20,10 +19,10 @@ class BucketeerReactNativeProvider extends BucketeerProvider {
     } as ProviderMetadata
   }
 
+  // this config should be created by defineBKTConfigForReactNative()
   constructor(config: BKTConfig) {
     const inputConfig: RawBKTConfig = {
       ...config,
-      idGenerator: new ReactNativeIdGenerator(),
       wrapperSdkSourceId: SOURCE_ID_OPEN_FEATURE_REACT_NATIVE,
       wrapperSdkVersion: SDK_VERSION,
       userAgent: `Bucketeer React Native Provider`,
@@ -34,6 +33,8 @@ class BucketeerReactNativeProvider extends BucketeerProvider {
   }
 
   async initialize(context?: EvaluationContext | undefined): Promise<void> {
+    // Options to set up AsyncStorage-backed storageFactory when available
+    // Create storageFactory here to avoid async constructor
     const storageFactory = await createReactNativeStorageFactory()
     let inputConfig = this.config
     if (storageFactory) {
@@ -41,6 +42,8 @@ class BucketeerReactNativeProvider extends BucketeerProvider {
         ...inputConfig,
         storageFactory,
       }
+      // Re-define config with storageFactory
+      this.config = defineBKTConfig(inputConfig)
     } else {
       // Do not set storageFactory when AsyncStorage is not available
       // This allows the JS-SDK to fall back to its default in-memory storage implementation
@@ -48,8 +51,8 @@ class BucketeerReactNativeProvider extends BucketeerProvider {
         'AsyncStorage is not available. Bucketeer JS SDK will use in-memory storage without persistence.'
       )
     }
-    // Re-define config with or without storageFactory
-    this.config = defineBKTConfig(inputConfig)
+
+    // BKTClient will be initialized in the super.initialize() call
     return super.initialize?.(context)
   }
 }
