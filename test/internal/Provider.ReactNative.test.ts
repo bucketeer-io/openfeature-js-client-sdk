@@ -5,9 +5,10 @@ import {
   ClientProviderEvents,
   EvaluationContext,
 } from '@openfeature/web-sdk'
-import { BucketeerReactNativeProvider, SDK_VERSION } from '../../src/main'
+import { BucketeerReactNativeProvider, defineBKTConfigForReactNative, SDK_VERSION } from '../../src/main'
 import { SOURCE_ID_OPEN_FEATURE_REACT_NATIVE } from '../../src/internal/BucketeerProvider'
 import { BKTAsyncKeyValueStore } from '../../src/internal/react_native/AsyncStorage'
+import { ReactNativeIdGenerator } from '../../src/internal/react_native/IdGenerator'
 
 // Only mock specific functions instead of the entire module
 vi.mock('bkt-js-client-sdk', async () => {
@@ -31,7 +32,7 @@ suite('BucketeerReactNativeProvider', () => {
     vi.clearAllMocks()
 
     // Create mock objects with all required properties
-    mockConfig = defineBKTConfig({
+    mockConfig = defineBKTConfigForReactNative({
       apiKey: 'test-api-key',
       apiEndpoint: 'http://test-endpoint',
       featureTag: 'test-tag',
@@ -120,6 +121,8 @@ suite('BucketeerReactNativeProvider', () => {
       expect(actualConfig.appVersion).toBe('1.0.0')
       expect(actualConfig.userAgent).toBe('Bucketeer React Native Provider')
       expect(actualConfig.fetch).toBeDefined()
+      expect(actualConfig.idGenerator).toBeDefined()
+      expect(actualConfig.idGenerator).instanceOf(ReactNativeIdGenerator)
       expect(typeof actualConfig.fetch).toBe('function')
     })
   })
