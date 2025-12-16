@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach, suite } from 'vitest'
 
-import { BKTClient, BKTConfig, getBKTClient, initializeBKTClient, defineBKTConfig } from 'bkt-js-client-sdk'
+import { BKTClient, BKTConfig, getBKTClient, initializeBKTClient } from 'bkt-js-client-sdk'
 import {
   ClientProviderEvents,
   EvaluationContext,
