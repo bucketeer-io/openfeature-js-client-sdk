@@ -8,13 +8,13 @@ importers:
 
   .:
     dependencies:
+      '@bucketeer/js-client-sdk':
+        specifier: '>=2.4.0 <3.0.0 || 2.5.0-1765947716-1c9a09b'
+        version: 2.5.0-1765947716-1c9a09b
       '@openfeature/web-sdk':
         specifier: '>=1.4.0 <2.0.0'
         version: 1.5.0(@openfeature/core@1.7.2)
     devDependencies:
-      '@bucketeer/js-client-sdk':
-        specifier: 2.5.0-1765947716-1c9a09b
-        version: 2.5.0-1765947716-1c9a09b
       '@types/jsdom':
         specifier: 21.1.7
         version: 21.1.7

@@ -48,7 +48,6 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@bucketeer/js-client-sdk": "2.5.0-1765947716-1c9a09b",
     "@types/jsdom": "21.1.7",
     "@types/node": "22.13.9",
     "@typescript-eslint/eslint-plugin": "8.26.0",
