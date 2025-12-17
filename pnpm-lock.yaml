@@ -73,8 +73,8 @@ importers:
   example:
     dependencies:
       '@bucketeer/js-client-sdk':
-        specifier: ^2.2.5
-        version: 2.2.5
+        specifier: 2.5.0-1765947716-1c9a09b
+        version: 2.5.0-1765947716-1c9a09b
       '@bucketeer/openfeature-js-client-sdk':
         specifier: workspace:*
         version: link:..
@@ -102,9 +102,6 @@ packages:
   '@babel/runtime@7.27.6':
     resolution: {integrity: sha512-vbavdySgbTTrmFE+EsiqUTzlOr5bzlnJtUv9PynGCAKvfQqjIXbvFdumPM/GxMDfyuGMJaJAU6TO4zc1Jf1i8Q==}
     engines: {node: '>=6.9.0'}
-
-  '@bucketeer/js-client-sdk@2.2.5':
-    resolution: {integrity: sha512-8l4oazc+VV4AY6JHkVbM3A6zAq+vhU0uTZlAIVUDlHCCb6wLuxC/dlLSIj1G012Acs69uyvitStY8USbqhwHMA==}
 
   '@bucketeer/js-client-sdk@2.5.0-1765947716-1c9a09b':
     resolution: {integrity: sha512-hGuaNSwTX7s+W+a5coVxQg2wNUvvbXg1CyJjHroyoaoZuIBs7rRFjLfq+rCRJQVFAUHDIvqeSBV6UKk3yvc4fw==}
@@ -3490,8 +3487,6 @@ snapshots:
   '@babel/helper-validator-identifier@7.27.1': {}
 
   '@babel/runtime@7.27.6': {}
-
-  '@bucketeer/js-client-sdk@2.2.5': {}
 
   '@bucketeer/js-client-sdk@2.5.0-1765947716-1c9a09b':
     dependencies:
