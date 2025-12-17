@@ -8,13 +8,13 @@ importers:
 
   .:
     dependencies:
-      '@bucketeer/js-client-sdk':
-        specifier: '>=2.4.0 <3.0.0'
-        version: 2.4.0
       '@openfeature/web-sdk':
         specifier: '>=1.4.0 <2.0.0'
         version: 1.5.0(@openfeature/core@1.7.2)
     devDependencies:
+      '@bucketeer/js-client-sdk':
+        specifier: 2.5.0-1765947716-1c9a09b
+        version: 2.5.0-1765947716-1c9a09b
       '@types/jsdom':
         specifier: 21.1.7
         version: 21.1.7
@@ -103,8 +103,8 @@ packages:
   '@bucketeer/js-client-sdk@2.2.5':
     resolution: {integrity: sha512-8l4oazc+VV4AY6JHkVbM3A6zAq+vhU0uTZlAIVUDlHCCb6wLuxC/dlLSIj1G012Acs69uyvitStY8USbqhwHMA==}
 
-  '@bucketeer/js-client-sdk@2.4.0':
-    resolution: {integrity: sha512-RUkFQqP4rCxlgXuuYEYJo65E99yrmHCOjN0bKAUxG9fROEva5X0FORPR0N3S87XX22MZ0hj6LTqPex7JPH7AWw==}
+  '@bucketeer/js-client-sdk@2.5.0-1765947716-1c9a09b':
+    resolution: {integrity: sha512-hGuaNSwTX7s+W+a5coVxQg2wNUvvbXg1CyJjHroyoaoZuIBs7rRFjLfq+rCRJQVFAUHDIvqeSBV6UKk3yvc4fw==}
 
   '@bundled-es-modules/cookie@2.0.1':
     resolution: {integrity: sha512-8o+5fRPLNbjbdGRRmJj3h6Hh1AQJf2dk3qQ/5ZFb+PXkRNiSoMGGUKlsgLfrxneb72axVJyIYji64E2+nNfYyw==}
@@ -3490,7 +3490,7 @@ snapshots:
 
   '@bucketeer/js-client-sdk@2.2.5': {}
 
-  '@bucketeer/js-client-sdk@2.4.0':
+  '@bucketeer/js-client-sdk@2.5.0-1765947716-1c9a09b':
     dependencies:
       async-mutex: 0.5.0
 
