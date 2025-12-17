@@ -12,6 +12,7 @@ module.exports = [
 			'eslint.config.cjs',
 			'node_modules',
 			'tsconfig.json',
+			'examples/'
 		]
 	},
 	...tseslint.configs.recommended,
