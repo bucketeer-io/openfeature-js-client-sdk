@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - feat/react-provider
   workflow_dispatch:
   workflow_call:
 

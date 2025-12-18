@@ -10,6 +10,7 @@ import {
   ProviderNotReadyError,
   StandardResolutionReasons
 } from '@openfeature/web-sdk'
+import { SDK_VERSION } from '../../src/version'
 
 const SOURCE_ID_OPEN_FEATURE_JAVASCRIPT = 102
 
@@ -51,7 +52,7 @@ suite('BucketeerProvider', () => {
 
     expectedConfig = defineBKTConfig({
       ...mockConfig,
-      wrapperSdkVersion: __BKT_SDK_VERSION__,
+      wrapperSdkVersion: SDK_VERSION,
       wrapperSdkSourceId: SOURCE_ID_OPEN_FEATURE_JAVASCRIPT
     })
 
@@ -86,6 +87,7 @@ suite('BucketeerProvider', () => {
     it('should have correct metadata', () => {
       expect(provider.metadata.name).toBe('Bucketeer Provider')
       expect(provider.runsOn).toBe('client')
+      expect(provider.metadata.version).equal(SDK_VERSION)
     })
   })
 
@@ -107,7 +109,7 @@ suite('BucketeerProvider', () => {
       expect(sourceId).toBeDefined()
       expect(sourceId).toBe(SOURCE_ID_OPEN_FEATURE_JAVASCRIPT)
       expect(sdkVersion).toBeDefined()
-      expect(sdkVersion).toBe(__BKT_SDK_VERSION__)
+      expect(sdkVersion).toBe(SDK_VERSION)
     })
 
     it('should emit ready event even on timeout exception', async () => {

@@ -1,0 +1,110 @@
+import { describe, it, expect, vi, beforeEach, afterEach, suite } from 'vitest'
+
+import { BKTClient, BKTConfig, getBKTClient, initializeBKTClient, defineBKTConfig } from '@bucketeer/js-client-sdk'
+import {
+  ClientProviderEvents,
+  EvaluationContext,
+} from '@openfeature/web-sdk'
+import { BucketeerReactProvider, SDK_VERSION } from '../../src/main'
+import { SOURCE_ID_OPEN_FEATURE_REACT } from '../../src/internal/BucketeerProvider'
+
+
+// Only mock specific functions instead of the entire module
+vi.mock('@bucketeer/js-client-sdk', async () => {
+  const actual = await vi.importActual('@bucketeer/js-client-sdk')
+  return {
+    ...actual,
+    getBKTClient: vi.fn(),
+    initializeBKTClient: vi.fn(),
+    destroyBKTClient: vi.fn()
+  }
+})
+
+suite('BucketeerReactProvider', () => {
+  let provider: BucketeerReactProvider
+  let mockClient: BKTClient
+  let mockConfig: BKTConfig
+  let expectedConfig: BKTConfig
+  let mockContext: EvaluationContext
+
+  beforeEach(() => {
+    // Reset mocks
+    vi.clearAllMocks()
+
+    // Create mock objects with all required properties
+    mockConfig = defineBKTConfig({
+      apiKey: 'test-api-key',
+      apiEndpoint: 'http://test-endpoint',
+      featureTag: 'test-tag',
+      eventsFlushInterval: 30,
+      eventsMaxQueueSize: 100,
+      pollingInterval: 60,
+      appVersion: '1.0.0',
+      userAgent: 'test-agent',
+      fetch: vi.fn(),
+      storageFactory: vi.fn(),
+    })
+
+    expectedConfig = defineBKTConfig({
+      ...mockConfig,
+      wrapperSdkVersion: SDK_VERSION,
+      wrapperSdkSourceId: SOURCE_ID_OPEN_FEATURE_REACT
+    })
+
+    mockContext = {
+      targetingKey: 'test-user',
+      email: 'test@example.com',
+      role: 'tester'
+    }
+
+    // Create mock client with necessary methods
+    mockClient = {
+      booleanVariationDetails: vi.fn(),
+      stringVariationDetails: vi.fn(),
+      numberVariationDetails: vi.fn(),
+      objectVariationDetails: vi.fn(),
+      currentUser: vi.fn(),
+      updateUserAttributes: vi.fn()
+    } as unknown as BKTClient
+
+    // Setup mock return value for getBKTClient
+    vi.mocked(getBKTClient).mockReturnValue(mockClient)
+
+    // Create provider instance
+    provider = new BucketeerReactProvider(mockConfig)
+  })
+
+  afterEach(() => {
+    vi.clearAllMocks()
+  })
+
+  describe('metadata', () => {
+    it('should have correct metadata', () => {
+      expect(provider.metadata.name).toBe('Bucketeer React Provider')
+      expect(provider.runsOn).toBe('client')
+      expect(provider.metadata.version).equal(SDK_VERSION)
+    })
+  })
+
+  describe('initialization', () => {
+    it('should successfully initialize the provider', async () => {
+      const emitSpy = vi.spyOn(provider.events, 'emit')
+
+      await provider.initialize?.(mockContext)
+
+      expect(initializeBKTClient).toHaveBeenCalledWith(expectedConfig, {
+        id: 'test-user', attributes: {
+          email: 'test@example.com',
+          role: 'tester'
+        }
+      })
+      expect(emitSpy).toHaveBeenCalledWith(ClientProviderEvents.Ready)
+
+      const { sdkVersion, sourceId } = expectedConfig as unknown as { sdkVersion: string, sourceId: number }
+      expect(sourceId).toBeDefined()
+      expect(sourceId).toBe(SOURCE_ID_OPEN_FEATURE_REACT)
+      expect(sdkVersion).toBeDefined()
+      expect(sdkVersion).toBe(SDK_VERSION)
+    })
+  })
+})
