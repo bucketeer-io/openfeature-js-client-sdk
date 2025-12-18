@@ -1,4 +1,4 @@
-import { BKTConfig, defineBKTConfig, RawBKTConfig } from 'bkt-js-client-sdk'
+import { BKTConfig, defineBKTConfig, RawBKTConfig } from '@bucketeer/js-client-sdk'
 import { ReactNativeIdGenerator } from './IdGenerator'
 
 export const defineBKTConfigForReactNative = (config: RawBKTConfig): BKTConfig => {
