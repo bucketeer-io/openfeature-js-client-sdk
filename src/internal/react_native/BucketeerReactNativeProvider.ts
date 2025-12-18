@@ -2,7 +2,7 @@ import {
   BKTConfig,
   defineBKTConfig,
   RawBKTConfig,
-} from 'bkt-js-client-sdk'
+} from '@bucketeer/js-client-sdk'
 import { SDK_VERSION } from '../../version'
 import BucketeerProvider from '../BucketeerProvider'
 import { createReactNativeStorageFactory } from './AsyncStorageFactory'

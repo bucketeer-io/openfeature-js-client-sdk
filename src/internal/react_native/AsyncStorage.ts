@@ -13,7 +13,7 @@
  * https://github.com/react-native-community/cli/issues/1347
  *
  */
-import type { BKTStorage } from 'bkt-js-client-sdk'
+import type { BKTStorage } from '@bucketeer/js-client-sdk'
 
 interface AsyncStorageInterface {
   getItem(key: string): Promise<string | null>;

@@ -6,4 +6,4 @@ export { defineBKTConfigForReactNative } from './internal/react_native/defineBKT
 export { BucketeerProvider, BucketeerReactProvider, BucketeerReactNativeProvider }
 export { SDK_VERSION } from './version'
 
-export * from 'bkt-js-client-sdk'
+export * from '@bucketeer/js-client-sdk'

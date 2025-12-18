@@ -5,7 +5,7 @@ import {
   destroyBKTClient,
   getBKTClient,
   initializeBKTClient,
-} from 'bkt-js-client-sdk'
+} from '@bucketeer/js-client-sdk'
 import {
   ClientProviderEvents,
   ErrorCode,

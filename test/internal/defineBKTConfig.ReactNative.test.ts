@@ -1,10 +1,10 @@
 import { describe, it, expect, vi } from 'vitest'
 import { defineBKTConfigForReactNative } from '../../src/internal/react_native/defineBKTConfigForReactNative'
-import { defineBKTConfig } from 'bkt-js-client-sdk'
+import { defineBKTConfig } from '@bucketeer/js-client-sdk'
 import { ReactNativeIdGenerator } from '../../src/internal/react_native/IdGenerator'
 
 // Mock dependencies
-vi.mock('bkt-js-client-sdk', () => ({
+vi.mock('@bucketeer/js-client-sdk', () => ({
   defineBKTConfig: vi.fn((config) => config),
 }))
 

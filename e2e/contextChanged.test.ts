@@ -3,7 +3,7 @@ import {
   defineBKTConfig,
   BKTConfig,
   getBKTClient,
-} from 'bkt-js-client-sdk'
+} from '@bucketeer/js-client-sdk'
 import { EvaluationDetails, OpenFeature, ProviderEvents, ProviderStatus } from '@openfeature/web-sdk'
 import { BucketeerProvider } from '../dist/main'
 import {
