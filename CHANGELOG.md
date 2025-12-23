@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.0.4](https://github.com/bucketeer-io/openfeature-js-client-sdk/compare/v0.0.3...v0.0.4) (2025-12-23)
+
+### Features
+
+* add fixed 5-second evaluation event deduplication ([#298](https://github.com/bucketeer-io/javascript-client-sdk/issues/298)) ([f336314](https://github.com/bucketeer-io/javascript-client-sdk/commit/f3363146275b4f4d67dc1e9b7de6b20a8dbb5270))
+
+
+### Bug Fixes
+
+* duplicate event submissions when sendEvents is called multiple times concurrently ([#296](https://github.com/bucketeer-io/javascript-client-sdk/issues/296)) ([3d582f8](https://github.com/bucketeer-io/javascript-client-sdk/commit/3d582f8ba308352c918b2668495e59c002017607))
+
+
+### Build System
+
+* update js sdk to 2.5.0 ([#16](https://github.com/bucketeer-io/openfeature-js-client-sdk/issues/16)) ([8c19ff6](https://github.com/bucketeer-io/openfeature-js-client-sdk/commit/8c19ff6e0a39d6a279d2162839faa7ad8ff6d809))
+
 ## [0.0.3](https://github.com/bucketeer-io/openfeature-js-client-sdk/compare/v0.0.2...v0.0.3) (2025-11-19)
 
 
