@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.4](https://github.com/bucketeer-io/openfeature-js-client-sdk/compare/v0.0.3...v0.0.4) (2025-12-23)
+
+
+### Build System
+
+* update js sdk to 2.5.0 ([#16](https://github.com/bucketeer-io/openfeature-js-client-sdk/issues/16)) ([8c19ff6](https://github.com/bucketeer-io/openfeature-js-client-sdk/commit/8c19ff6e0a39d6a279d2162839faa7ad8ff6d809))
+
 ## [0.0.3](https://github.com/bucketeer-io/openfeature-js-client-sdk/compare/v0.0.2...v0.0.3) (2025-11-19)
 
 
