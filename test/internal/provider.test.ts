@@ -336,7 +336,7 @@ suite('BucketeerProvider', () => {
 
       invalidDefaultValues.forEach(({ label, value, expectedType }) => {
         it(`should return type mismatch error when defaultValue is ${label}`, () => {
-          const result = provider.resolveObjectEvaluation('test-feature', value as any, mockContext, console)
+          const result = provider.resolveObjectEvaluation('test-feature', value, mockContext, console)
 
           expect(result).toEqual({
             value: value,
