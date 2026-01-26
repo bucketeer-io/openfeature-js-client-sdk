@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach, suite } from 'vitest'
+import { describe, it, expect, vi, beforeEach, afterEach, suite, afterAll } from 'vitest'
 import BucketeerProvider, { wrongTypeResult } from '../../src/internal/BucketeerProvider'
 import { BKTClient, BKTConfig, getBKTClient, initializeBKTClient, destroyBKTClient, defineBKTConfig } from '@bucketeer/js-client-sdk'
 import {
@@ -80,6 +80,10 @@ suite('BucketeerProvider', () => {
 
   afterEach(() => {
     vi.clearAllMocks()
+  })
+
+  afterAll(async () => {
+    await provider.onClose?.()
   })
 
   describe('metadata', () => {
