@@ -257,32 +257,7 @@ suite('BucketeerProvider', () => {
       })
     })
 
-    it('should handle type mismatch in object evaluation', () => {
-      vi.mocked(mockClient.objectVariationDetails).mockReturnValue({
-        featureId: 'test-feature',
-        featureVersion: 1,
-        userId: 'test-user',
-        variationId: 'var-id',
-        variationValue: 'not-an-object',
-        variationName: 'wrong-type-variant',
-        reason: 'DEFAULT'
-      })
-
-      const defaultValue = { default: true }
-      const result = provider.resolveObjectEvaluation('test-feature', defaultValue, mockContext, console)
-
-      expect(result).toEqual({
-        value: defaultValue,
-        reason: StandardResolutionReasons.ERROR,
-        errorCode: ErrorCode.TYPE_MISMATCH,
-        errorMessage: 'Expected object but got string'
-      })
-    })
-
-    describe('should handle type mismatch in object evaluation', () => {
-      // The Bucketeer SDK's objectVariationDetails implementation ensures that
-      // the returned variationValue is never null when a valid object/array default is provided.
-      // Thus, we don't need an explicit null check here.
+    describe('type mismatch with primitive values in object evaluation', () => {
       const typeMismatchTestCases = [
         {
           description: 'string value',
@@ -298,6 +273,11 @@ suite('BucketeerProvider', () => {
           description: 'boolean value',
           variationValue: true,
           expectedErrorMessage: 'Expected object but got boolean',
+        },
+        {
+          description: 'null value',
+          variationValue: null,
+          expectedErrorMessage: 'Expected object but got null',
         },
       ]
 
