@@ -235,6 +235,28 @@ suite('BucketeerProvider', () => {
       })
     })
 
+    it('should resolve object evaluation with array', () => {
+      const variationValue = ['item1', 'item2']
+      vi.mocked(mockClient.objectVariationDetails).mockReturnValue({
+        featureId: 'test-feature',
+        featureVersion: 1,
+        userId: 'test-user',
+        variationId: 'var-id',
+        variationValue: variationValue,
+        variationName: 'array-variant',
+        reason: 'CLIENT'
+      })
+
+      const result = provider.resolveObjectEvaluation('test-feature', ['item0'], mockContext, console)
+
+      expect(mockClient.objectVariationDetails).toHaveBeenCalled()
+      expect(result).toEqual({
+        value: variationValue,
+        variant: 'array-variant',
+        reason: 'CLIENT'
+      })
+    })
+
     it('should handle type mismatch in object evaluation', () => {
       vi.mocked(mockClient.objectVariationDetails).mockReturnValue({
         featureId: 'test-feature',
@@ -257,25 +279,94 @@ suite('BucketeerProvider', () => {
       })
     })
 
-    it('should handle null value type mismatch', () => {
+    describe('should handle type mismatch in object evaluation', () => {
+      // The Bucketeer SDK's objectVariationDetails implementation ensures that
+      // the returned variationValue is never null when a valid object/array default is provided.
+      // Thus, we don't need an explicit null check here.
+      const typeMismatchTestCases = [
+        {
+          description: 'string value',
+          variationValue: 'not-an-object',
+          expectedErrorMessage: 'Expected object but got string',
+        },
+        {
+          description: 'number value',
+          variationValue: 1.1,
+          expectedErrorMessage: 'Expected object but got number',
+        },
+        {
+          description: 'boolean value',
+          variationValue: true,
+          expectedErrorMessage: 'Expected object but got boolean',
+        },
+      ]
+
+      typeMismatchTestCases.forEach(({ description, variationValue, expectedErrorMessage }) => {
+        it(`should handle type mismatch with ${description}`, () => {
+          vi.mocked(mockClient.objectVariationDetails).mockReturnValue({
+            featureId: 'test-feature',
+            featureVersion: 1,
+            userId: 'test-user',
+            variationId: 'var-id',
+            variationValue,
+            variationName: 'wrong-type-variant',
+            reason: 'DEFAULT'
+          })
+
+          const defaultValue = { default: true }
+          const result = provider.resolveObjectEvaluation('test-feature', defaultValue, mockContext, console)
+
+          expect(result).toEqual({
+            value: defaultValue,
+            reason: StandardResolutionReasons.ERROR,
+            errorCode: ErrorCode.TYPE_MISMATCH,
+            errorMessage: expectedErrorMessage,
+          })
+        })
+      })
+    })
+
+    describe('should handle invalid defaultValue in object evaluation', () => {
+      const invalidDefaultValues = [
+        { label: 'string', value: 'primitive', expectedType: 'string' },
+        { label: 'number', value: 123, expectedType: 'number' },
+        { label: 'boolean', value: true, expectedType: 'boolean' },
+        { label: 'null', value: null, expectedType: 'null' },
+      ]
+
+      invalidDefaultValues.forEach(({ label, value, expectedType }) => {
+        it(`should return type mismatch error when defaultValue is ${label}`, () => {
+          const result = provider.resolveObjectEvaluation('test-feature', value as any, mockContext, console)
+
+          expect(result).toEqual({
+            value: value,
+            reason: StandardResolutionReasons.ERROR,
+            errorCode: ErrorCode.TYPE_MISMATCH,
+            errorMessage: `Default value must be object but got ${expectedType}`,
+          })
+        })
+      })
+    })
+
+    it('should handle type mismatch with primitive value when defaultValue is array', () => {
       vi.mocked(mockClient.objectVariationDetails).mockReturnValue({
         featureId: 'test-feature',
         featureVersion: 1,
         userId: 'test-user',
         variationId: 'var-id',
-        variationValue: null,
-        variationName: 'null-variant',
+        variationValue: 'not-an-array',
+        variationName: 'wrong-type-variant',
         reason: 'DEFAULT'
       })
 
-      const defaultValue = { default: true }
+      const defaultValue = ['item1', 'item2']
       const result = provider.resolveObjectEvaluation('test-feature', defaultValue, mockContext, console)
 
       expect(result).toEqual({
         value: defaultValue,
         reason: StandardResolutionReasons.ERROR,
         errorCode: ErrorCode.TYPE_MISMATCH,
-        errorMessage: 'Expected object but got null'
+        errorMessage: 'Expected array but got string',
       })
     })
 
@@ -297,7 +388,7 @@ suite('BucketeerProvider', () => {
         value: defaultValue,
         reason: StandardResolutionReasons.ERROR,
         errorCode: ErrorCode.TYPE_MISMATCH,
-        errorMessage: 'Expected object but got array'
+        errorMessage: 'Expected object but got array',
       })
     })
 
@@ -312,14 +403,14 @@ suite('BucketeerProvider', () => {
         reason: 'DEFAULT'
       })
 
-      const defaultValue = ['default', 'array']
+      const defaultValue = ['item1', 'item2']
       const result = provider.resolveObjectEvaluation('test-feature', defaultValue, mockContext, console)
 
       expect(result).toEqual({
         value: defaultValue,
         reason: StandardResolutionReasons.ERROR,
         errorCode: ErrorCode.TYPE_MISMATCH,
-        errorMessage: 'Expected array but got object'
+        errorMessage: 'Expected array but got object',
       })
     })
   })
