@@ -129,7 +129,7 @@ class BucketeerProvider implements Provider {
     if (defaultValue === null || typeof defaultValue !== 'object') {
       return wrongTypeResult(
         defaultValue,
-        `Default value must be ${expectedTopLevelType} but got ${
+        `Default value must be an object or array but got ${
           defaultValue === null ? 'null' : typeof defaultValue
         }`,
       )

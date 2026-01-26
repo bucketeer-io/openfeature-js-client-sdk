@@ -326,7 +326,7 @@ suite('BucketeerProvider', () => {
             value: value,
             reason: StandardResolutionReasons.ERROR,
             errorCode: ErrorCode.TYPE_MISMATCH,
-            errorMessage: `Default value must be object but got ${expectedType}`,
+            errorMessage: `Default value must be an object or array but got ${expectedType}`,
           })
         })
       })
