@@ -91,6 +91,30 @@ class BucketeerProvider implements Provider {
     return toResolutionDetails(evaluationDetails)
   }
 
+  /**
+   * Resolves an object (or array) flag value with strict type validation.
+   *
+   * ⚠️ TYPE SAFETY REQUIREMENTS:
+   * - Primitive types (string, number, boolean) are explicitly rejected to ensure type safety.
+   *
+   * - For primitive types, use the corresponding methods on the OpenFeature Client: `getBooleanValue`, `getStringValue`, `getNumberValue`, or their `Details` variants.
+   *
+   * ⚠️ NESTED TYPE CAVEAT:
+   * - While the top-level type (Array vs Object) is validated, the internal structure
+   *   (e.g., array element types or object property keys/types) cannot be validated at the provider level due to type erasure.
+   *
+   * - Always use additional runtime validation (type guards, Zod, etc.) before accessing nested properties.
+   *
+   * @example
+   * // Provider validates: result is array, default is array ✓
+   * const result = client.getObjectDetails<string[]>(flagKey, ['default'])
+   *
+   * // But provider CANNOT validate element types ⚠️
+   * // Use type guard before accessing:
+   * if (Array.isArray(result.value) && result.value.every(x => typeof x === 'string')) {
+   *   result.value.forEach(str => str.toUpperCase()) // Now safe
+   * }
+   */
   resolveObjectEvaluation<T extends JsonValue>(
     flagKey: string,
     defaultValue: T,
@@ -102,13 +126,39 @@ class BucketeerProvider implements Provider {
       flagKey,
       defaultValue,
     )
-    if (typeof evaluationDetails.variationValue === 'object') {
-      return toResolutionDetailsJsonValue(evaluationDetails)
+
+    // Step 1: Check for null (special case where typeof null === 'object')
+    if (evaluationDetails.variationValue === null) {
+      return wrongTypeResult(defaultValue, 'Expected object but got null')
     }
-    return wrongTypeResult(
-      defaultValue,
-      `Expected object but got ${typeof evaluationDetails.variationValue}`,
-    )
+
+    // Step 2: Verify the value is an object or array (reject primitives)
+    if (typeof evaluationDetails.variationValue !== 'object') {
+      return wrongTypeResult(
+        defaultValue,
+        `Expected object but got ${typeof evaluationDetails.variationValue}`,
+      )
+    }
+
+    // Note: At this point we've validated the top-level type (array vs object).
+    // However, DUE TO TYPE ERASURE, we cannot validate:
+    // - Array element types (e.g., string[] vs number[])
+    // - Object property shapes (e.g., {name: string} vs {age: number})
+    const resultIsJsonArray = Array.isArray(evaluationDetails.variationValue)
+    const defaultIsJsonArray = Array.isArray(defaultValue)
+
+    // Step 4: Enforce type consistency between default and returned value
+    if (resultIsJsonArray !== defaultIsJsonArray) {
+      return wrongTypeResult(
+        defaultValue,
+        `Expected ${defaultIsJsonArray ? 'array' : 'object'} but got ${
+          resultIsJsonArray ? 'array' : 'object'
+        }`,
+      )
+    }
+
+    // Step 5: Type validation passed, return the result
+    return toResolutionDetailsJsonValue(evaluationDetails)
   }
 
   async onContextChange?(

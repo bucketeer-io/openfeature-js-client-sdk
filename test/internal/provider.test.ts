@@ -256,6 +256,72 @@ suite('BucketeerProvider', () => {
         errorMessage: 'Expected object but got string'
       })
     })
+
+    it('should handle null value type mismatch', () => {
+      vi.mocked(mockClient.objectVariationDetails).mockReturnValue({
+        featureId: 'test-feature',
+        featureVersion: 1,
+        userId: 'test-user',
+        variationId: 'var-id',
+        variationValue: null,
+        variationName: 'null-variant',
+        reason: 'DEFAULT'
+      })
+
+      const defaultValue = { default: true }
+      const result = provider.resolveObjectEvaluation('test-feature', defaultValue, mockContext, console)
+
+      expect(result).toEqual({
+        value: defaultValue,
+        reason: StandardResolutionReasons.ERROR,
+        errorCode: ErrorCode.TYPE_MISMATCH,
+        errorMessage: 'Expected object but got null'
+      })
+    })
+
+    it('should handle array vs object type mismatch when expecting object but got array', () => {
+      vi.mocked(mockClient.objectVariationDetails).mockReturnValue({
+        featureId: 'test-feature',
+        featureVersion: 1,
+        userId: 'test-user',
+        variationId: 'var-id',
+        variationValue: ['item1', 'item2'],
+        variationName: 'array-variant',
+        reason: 'DEFAULT'
+      })
+
+      const defaultValue = { key: 'value' }
+      const result = provider.resolveObjectEvaluation('test-feature', defaultValue, mockContext, console)
+
+      expect(result).toEqual({
+        value: defaultValue,
+        reason: StandardResolutionReasons.ERROR,
+        errorCode: ErrorCode.TYPE_MISMATCH,
+        errorMessage: 'Expected object but got array'
+      })
+    })
+
+    it('should handle array vs object type mismatch when expecting array but got object', () => {
+      vi.mocked(mockClient.objectVariationDetails).mockReturnValue({
+        featureId: 'test-feature',
+        featureVersion: 1,
+        userId: 'test-user',
+        variationId: 'var-id',
+        variationValue: { key: 'value' },
+        variationName: 'object-variant',
+        reason: 'DEFAULT'
+      })
+
+      const defaultValue = ['default', 'array']
+      const result = provider.resolveObjectEvaluation('test-feature', defaultValue, mockContext, console)
+
+      expect(result).toEqual({
+        value: defaultValue,
+        reason: StandardResolutionReasons.ERROR,
+        errorCode: ErrorCode.TYPE_MISMATCH,
+        errorMessage: 'Expected array but got object'
+      })
+    })
   })
 
   describe('context handling', () => {
