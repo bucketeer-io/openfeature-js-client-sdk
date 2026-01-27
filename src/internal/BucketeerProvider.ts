@@ -170,7 +170,7 @@ class BucketeerProvider implements Provider {
     // Step 4: Reject all other types (null, string, number, boolean)
     // This prevents runtime crashes when users specify a generic <T> that doesn't
     // match the actual value returned by the backend.
-    // Note: This branch should be unreachable in the production because the Bucketeer JS SDK's objectVariationDetails
+    // Note: This branch should be unreachable in production because the Bucketeer JS SDK's objectVariationDetails
     // guarantees it returns an object or array (it returns the default value if the flag
     // type doesn't match). However, we keep this as a safety fallback if the SDK behavior changes.
     const actualType = variationValue === null ? 'null' : typeof variationValue

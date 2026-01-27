@@ -166,10 +166,10 @@ suite('BucketeerProvider - evaluation', () => {
     test('should return error when defaultValue is a primitive (string|number|boolean|null)', async () => {
       const client = OpenFeature.getClient()
       const cases = [
-        { value: 'invalid-string-default', expectedType: 'string', expectedMessage: 'Default value must be an object or array but got string' },
-        { value: 123, expectedType: 'number', expectedMessage: 'Default value must be an object or array but got number' },
-        { value: true, expectedType: 'boolean', expectedMessage: 'Default value must be an object or array but got boolean' },
-        { value: null, expectedType: 'null', expectedMessage: 'Default value must be an object or array but got null' },
+        { value: 'invalid-string-default', expectedMessage: 'Default value must be an object or array but got string' },
+        { value: 123, expectedMessage: 'Default value must be an object or array but got number' },
+        { value: true, expectedMessage: 'Default value must be an object or array but got boolean' },
+        { value: null, expectedMessage: 'Default value must be an object or array but got null' },
       ]
 
       for (const c of cases) {
