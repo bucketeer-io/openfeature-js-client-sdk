@@ -310,7 +310,7 @@ suite('BucketeerProvider', () => {
       })
     })
 
-    describe('should handle invalid defaultValue in object evaluation', () => {
+    describe('handle invalid defaultValue in object evaluation', () => {
       const invalidDefaultValues = [
         { label: 'string', value: 'primitive', expectedType: 'string' },
         { label: 'number', value: 123, expectedType: 'number' },
