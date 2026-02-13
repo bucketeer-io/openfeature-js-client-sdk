@@ -94,12 +94,12 @@ class BucketeerProvider implements Provider {
   /**
    * Resolves an object or array value from a feature flag.
    *
-   * ⚠️ STRICT TYPE VALIDATION:
+   * STRICT TYPE VALIDATION:
    * - This method ONLY supports object types (JSON objects and arrays).
    * - Primitive types (string, number, boolean, null) are explicitly rejected to ensure type safety.
    * - For primitive types, use the corresponding methods on the OpenFeature Client: `getBooleanValue`, `getStringValue`, `getNumberValue`, or their `Details` variants.
    *
-   * ⚠️ NESTED TYPE CAVEAT:
+   * NESTED TYPE CAVEAT:
    * - While the top-level type (Array vs Object) is validated, the internal structure
    *   (e.g., array element types or object property keys/types) cannot be validated at the provider level due to type erasure.
    * - Always use additional runtime validation (type guards, Zod, etc.) before accessing nested properties.
@@ -108,7 +108,7 @@ class BucketeerProvider implements Provider {
    * // Provider validates: result is array, default is array ✓
    * const result = client.getObjectDetails<string[]>(flagKey, ['default'])
    *
-   * // But provider CANNOT validate element types ⚠️
+   * // But provider CANNOT validate element types
    * // Use type guard before accessing:
    * if (Array.isArray(result.value) && result.value.every(x => typeof x === 'string')) {
    *   result.value.forEach(str => str.toUpperCase()) // Now safe
