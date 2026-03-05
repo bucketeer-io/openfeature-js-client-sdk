@@ -92,7 +92,7 @@ function toResolutionDetailsJsonValue<T extends JsonValue>(
     result.errorMessage = error.errorMessage
   }
   return result
-} 
+}
 
 export {
   toResolutionDetails,
