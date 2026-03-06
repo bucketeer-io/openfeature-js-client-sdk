@@ -73,8 +73,8 @@ importers:
   example:
     dependencies:
       '@bucketeer/js-client-sdk':
-        specifier: 2.5.0
-        version: 2.5.0
+        specifier: 2.6.0
+        version: 2.6.0
       '@bucketeer/openfeature-js-client-sdk':
         specifier: workspace:*
         version: link:..
@@ -102,9 +102,6 @@ packages:
   '@babel/runtime@7.27.6':
     resolution: {integrity: sha512-vbavdySgbTTrmFE+EsiqUTzlOr5bzlnJtUv9PynGCAKvfQqjIXbvFdumPM/GxMDfyuGMJaJAU6TO4zc1Jf1i8Q==}
     engines: {node: '>=6.9.0'}
-
-  '@bucketeer/js-client-sdk@2.5.0':
-    resolution: {integrity: sha512-hL+FfLJ3pw49b0DcpS++k2pZe/NY1y+XvSI3WY3LAgWLqx5407vKO6TzmoahXIcTwJvZIx9pMhzLX8+RyIBS4w==}
 
   '@bucketeer/js-client-sdk@2.6.0':
     resolution: {integrity: sha512-TlhGprUO50zBVZtjYYtiBDc6RG865WIdJIsANEujEdP4OdJSeh274+DNg8i6sT6qkfeVt9o1jsEKbfkPWyK+3A==}
@@ -3490,10 +3487,6 @@ snapshots:
   '@babel/helper-validator-identifier@7.27.1': {}
 
   '@babel/runtime@7.27.6': {}
-
-  '@bucketeer/js-client-sdk@2.5.0':
-    dependencies:
-      async-mutex: 0.5.0
 
   '@bucketeer/js-client-sdk@2.6.0':
     dependencies:
