@@ -35,7 +35,9 @@ describe('convertReason', () => {
 
   it('passes non-error reasons through as-is', () => {
     expect(convertReason('CLIENT')).toBe('CLIENT')
-    expect(convertReason('SOMETHING_ELSE')).toBe('SOMETHING_ELSE')
+    // Intentionally passing an unknown reason string to test the default fallthrough branch.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    expect(convertReason('SOMETHING_ELSE' as any)).toBe('SOMETHING_ELSE')
   })
 })
 
@@ -260,7 +262,7 @@ describe('toResolutionDetailsJsonValue', () => {
       variationId: 'variation-4',
       variationValue: { key: 'value' },
       variationName: 'test-variant',
-      reason: 'CLIENT',
+      reason: 'DEFAULT',
     }
 
     const result = toResolutionDetailsJsonValue<JsonValue>(evaluationDetails)
@@ -268,7 +270,7 @@ describe('toResolutionDetailsJsonValue', () => {
     expect(result).toEqual({
       value: { key: 'value' },
       variant: 'test-variant',
-      reason: 'CLIENT', // Falls through
+      reason: StandardResolutionReasons.DEFAULT,
     })
   })
 
