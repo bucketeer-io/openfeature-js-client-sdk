@@ -136,27 +136,57 @@ describe('toResolutionDetails', () => {
     })
   })
 
-  it('should map error properties inside ResolutionDetails', () => {
-    // Note: The reason typings on the TS BKTEvaluationDetails interface 
-    // restrict `reason` technically, but we use string cast for the test.
+  it.each([
+    { reason: 'TARGET',        expected: StandardResolutionReasons.TARGETING_MATCH },
+    { reason: 'RULE',          expected: StandardResolutionReasons.TARGETING_MATCH },
+    { reason: 'PREREQUISITE',  expected: StandardResolutionReasons.TARGETING_MATCH },
+    { reason: 'DEFAULT',       expected: StandardResolutionReasons.DEFAULT },
+    { reason: 'OFF_VARIATION', expected: StandardResolutionReasons.DISABLED },
+    { reason: 'CLIENT',        expected: 'CLIENT' },
+    { reason: 'UNKNOWN_REASON',expected: 'UNKNOWN_REASON' },
+  ])('should map $reason → reason=$expected with no errorCode', ({ reason, expected }) => {
     const evaluationDetails = {
-      featureId: 'feature-error',
+      featureId: 'feature-1',
+      featureVersion: 1,
+      userId: 'user-123',
+      variationId: 'variation-1',
+      variationValue: 'some-value',
+      variationName: 'some-variant',
+      reason: reason as unknown as 'TARGET',
+    }
+    const result = toResolutionDetails(evaluationDetails)
+    expect(result).toEqual({
+      value: 'some-value',
+      variant: 'some-variant',
+      reason: expected,
+    })
+  })
+
+  it.each([
+    { reason: 'ERROR_FLAG_NOT_FOUND',               errorCode: ErrorCode.FLAG_NOT_FOUND },
+    { reason: 'ERROR_WRONG_TYPE',                   errorCode: ErrorCode.TYPE_MISMATCH },
+    { reason: 'ERROR_USER_ID_NOT_SPECIFIED',        errorCode: ErrorCode.TARGETING_KEY_MISSING },
+    { reason: 'ERROR_FEATURE_FLAG_ID_NOT_SPECIFIED',errorCode: ErrorCode.GENERAL },
+    { reason: 'ERROR_NO_EVALUATIONS',               errorCode: ErrorCode.GENERAL },
+    { reason: 'ERROR_CACHE_NOT_FOUND',              errorCode: ErrorCode.GENERAL },
+    { reason: 'ERROR_EXCEPTION',                    errorCode: ErrorCode.GENERAL },
+  ])('should map $reason → reason=ERROR, errorCode=$errorCode', ({ reason, errorCode }) => {
+    const evaluationDetails = {
+      featureId: 'feature-err',
       featureVersion: 0,
       userId: 'user-err',
-      variationId: 'variation-fallback',
-      variationValue: 'fallback-value',
-      variationName: 'default-variant',
-      reason: 'ERROR_FLAG_NOT_FOUND' as unknown as 'TARGET',
+      variationId: 'var-err',
+      variationValue: 'fallback',
+      variationName: 'fallback-variant',
+      reason: reason as unknown as 'TARGET',
     }
-
     const result = toResolutionDetails(evaluationDetails)
-
     expect(result).toEqual({
-      value: 'fallback-value',
-      variant: 'default-variant',
+      value: 'fallback',
+      variant: 'fallback-variant',
       reason: StandardResolutionReasons.ERROR,
-      errorCode: ErrorCode.FLAG_NOT_FOUND,
-      errorMessage: 'ERROR_FLAG_NOT_FOUND',
+      errorCode,
+      errorMessage: reason,
     })
   })
 })
@@ -239,6 +269,60 @@ describe('toResolutionDetailsJsonValue', () => {
       value: { key: 'value' },
       variant: 'test-variant',
       reason: 'CLIENT', // Falls through
+    })
+  })
+
+  it.each([
+    { reason: 'TARGET',        expected: StandardResolutionReasons.TARGETING_MATCH },
+    { reason: 'RULE',          expected: StandardResolutionReasons.TARGETING_MATCH },
+    { reason: 'PREREQUISITE',  expected: StandardResolutionReasons.TARGETING_MATCH },
+    { reason: 'DEFAULT',       expected: StandardResolutionReasons.DEFAULT },
+    { reason: 'OFF_VARIATION', expected: StandardResolutionReasons.DISABLED },
+    { reason: 'CLIENT',        expected: 'CLIENT' },
+    { reason: 'UNKNOWN_REASON',expected: 'UNKNOWN_REASON' },
+  ])('should map $reason → reason=$expected with no errorCode', ({ reason, expected }) => {
+    const evaluationDetails = {
+      featureId: 'feature-1',
+      featureVersion: 1,
+      userId: 'user-123',
+      variationId: 'variation-1',
+      variationValue: { key: 'value' },
+      variationName: 'some-variant',
+      reason: reason as unknown as 'TARGET',
+    }
+    const result = toResolutionDetailsJsonValue<JsonValue>(evaluationDetails)
+    expect(result).toEqual({
+      value: { key: 'value' },
+      variant: 'some-variant',
+      reason: expected,
+    })
+  })
+
+  it.each([
+    { reason: 'ERROR_FLAG_NOT_FOUND',               errorCode: ErrorCode.FLAG_NOT_FOUND },
+    { reason: 'ERROR_WRONG_TYPE',                   errorCode: ErrorCode.TYPE_MISMATCH },
+    { reason: 'ERROR_USER_ID_NOT_SPECIFIED',        errorCode: ErrorCode.TARGETING_KEY_MISSING },
+    { reason: 'ERROR_FEATURE_FLAG_ID_NOT_SPECIFIED',errorCode: ErrorCode.GENERAL },
+    { reason: 'ERROR_NO_EVALUATIONS',               errorCode: ErrorCode.GENERAL },
+    { reason: 'ERROR_CACHE_NOT_FOUND',              errorCode: ErrorCode.GENERAL },
+    { reason: 'ERROR_EXCEPTION',                    errorCode: ErrorCode.GENERAL },
+  ])('should map $reason → reason=ERROR, errorCode=$errorCode', ({ reason, errorCode }) => {
+    const evaluationDetails = {
+      featureId: 'feature-err',
+      featureVersion: 0,
+      userId: 'user-err',
+      variationId: 'var-err',
+      variationValue: { fallback: true },
+      variationName: 'fallback-variant',
+      reason: reason as unknown as 'TARGET',
+    }
+    const result = toResolutionDetailsJsonValue<JsonValue>(evaluationDetails)
+    expect(result).toEqual({
+      value: { fallback: true },
+      variant: 'fallback-variant',
+      reason: StandardResolutionReasons.ERROR,
+      errorCode,
+      errorMessage: reason,
     })
   })
 })
