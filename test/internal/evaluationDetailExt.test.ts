@@ -35,9 +35,7 @@ describe('convertReason', () => {
 
   it('passes non-error reasons through as-is', () => {
     expect(convertReason('CLIENT')).toBe('CLIENT')
-    // Intentionally passing an unknown reason string to test the default fallthrough branch.
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    expect(convertReason('SOMETHING_ELSE' as any)).toBe('SOMETHING_ELSE')
+    expect(convertReason('SOMETHING_ELSE' as Parameters<typeof convertReason>[0])).toBe('SOMETHING_ELSE')
   })
 })
 

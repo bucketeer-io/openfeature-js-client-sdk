@@ -27,7 +27,6 @@ function convertReason(reason: BKTReason): string {
     case 'ERROR_EXCEPTION':
       return StandardResolutionReasons.ERROR
     default:
-      // Pass known non-error reasons (e.g. TARGET, DEFAULT, RULE) through as-is.
       // Note: any unknown future reasons will also pass through here
       // and will not be mapped to the standard ERROR reason.
       return reason
