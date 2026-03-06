@@ -6,7 +6,7 @@ import {
 } from '@openfeature/web-sdk'
 import { BKTEvaluationDetails, BKTValue } from '@bucketeer/js-client-sdk'
 
-type BKTReason = BKTEvaluationDetails<BKTValue>['reason'] | string
+type BKTReason = BKTEvaluationDetails<BKTValue>['reason']
 
 function convertReason(reason: BKTReason): string {
   switch (reason) {

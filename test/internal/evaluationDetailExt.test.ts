@@ -152,8 +152,8 @@ describe('toResolutionDetails', () => {
       variationId: 'variation-1',
       variationValue: 'some-value',
       variationName: 'some-variant',
-      reason: reason as unknown as 'TARGET',
-    }
+      reason: reason
+    } as BKTEvaluationDetails<string>
     const result = toResolutionDetails(evaluationDetails)
     expect(result).toEqual({
       value: 'some-value',
@@ -178,8 +178,8 @@ describe('toResolutionDetails', () => {
       variationId: 'var-err',
       variationValue: 'fallback',
       variationName: 'fallback-variant',
-      reason: reason as unknown as 'TARGET',
-    }
+      reason: reason,
+    } as BKTEvaluationDetails<string>
     const result = toResolutionDetails(evaluationDetails)
     expect(result).toEqual({
       value: 'fallback',
@@ -288,8 +288,8 @@ describe('toResolutionDetailsJsonValue', () => {
       variationId: 'variation-1',
       variationValue: { key: 'value' },
       variationName: 'some-variant',
-      reason: reason as unknown as 'TARGET',
-    }
+      reason: reason,
+    } as BKTEvaluationDetails<BKTValue>
     const result = toResolutionDetailsJsonValue<JsonValue>(evaluationDetails)
     expect(result).toEqual({
       value: { key: 'value' },
@@ -314,8 +314,8 @@ describe('toResolutionDetailsJsonValue', () => {
       variationId: 'var-err',
       variationValue: { fallback: true },
       variationName: 'fallback-variant',
-      reason: reason as unknown as 'TARGET',
-    }
+      reason: reason,
+    } as BKTEvaluationDetails<BKTValue>
     const result = toResolutionDetailsJsonValue<JsonValue>(evaluationDetails)
     expect(result).toEqual({
       value: { fallback: true },
