@@ -234,7 +234,7 @@ suite('BucketeerProvider - evaluation', () => {
         expect(resultDetails).to.be.an('object')
         expect(resultDetails.reason).equal(StandardResolutionReasons.ERROR)
         expect(resultDetails.errorCode).equal(ErrorCode.TYPE_MISMATCH)
-        expect(resultDetails.errorMessage).toMatch(/Expected object but got (boolean|number|string)/)
+        expect(resultDetails.errorMessage).toMatch('ERROR_WRONG_TYPE')
         expect(resultDetails.value).to.deep.equal({ default: 'fallback' })
       }
     })
