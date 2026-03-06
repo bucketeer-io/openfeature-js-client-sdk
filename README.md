@@ -1,4 +1,4 @@
-# Bucketeer - OpenFeature JS provider for a web clients
+# Bucketeer - OpenFeature JS provider
 
 This is the official JS OpenFeature provider for accessing your feature flags with [Bucketeer](https://bucketeer.io/).
 
@@ -13,17 +13,99 @@ For documentation related to flags management in Bucketeer, refer to the [Bucket
 
 ## Installation
 
+**JavaScript / TypeScript (Web)**
 ```bash
 npm install @bucketeer/openfeature-js-client-sdk
 ```
+ 
+**React & React Native**
 
-This will automatically install the required peer dependencies: `@openfeature/web-sdk` and `@bucketeer/js-client-sdk`.
+```bash
+npm install @bucketeer/openfeature-js-client-sdk @openfeature/react-sdk
+```
+
+> [!NOTE]
+> Npm versions 7 and above will automatically install the required peer dependencies: 
+> `@openfeature/web-sdk` and `@bucketeer/js-client-sdk`.
+> If you got an error about missing peer dependencies, please install them manually:
+>
+> ```bash
+> npm install @openfeature/core @openfeature/web-sdk @bucketeer/js-client-sdk
+> ```
+
+> [!IMPORTANT]
+> The Bucketeer React Native provider relies on `@react-native-async-storage/async-storage` for local caching and `react-native-uuid` for generating IDs for Bucketeer SDK events.
+>
+> **Expo Users:**
+> Simply installing the Bucketeer OpenFeature JS provider is sufficient.
+> No additional steps are required for Android.
+> For iOS, navigate to the iOS folder and run `pod install`.
+> ```bash
+> cd ios && pod install  # For iOS
+> ```
+> **Non-Expo Users:**
+> You must explicitly install `@react-native-async-storage/async-storage` and `react-native-uuid` as direct dependencies in your project. 
+> No additional steps are required for Android.
+> For iOS please navigate to iOS folder and running `pod install`.
+> This is necessary because React Native's auto-linking feature does not support transitive dependencies (see [CLI Issue #1347](https://github.com/react-native-community/cli/issues/1347)).
+>
+> ```bash
+> npm install @react-native-async-storage/async-storage react-native-uuid
+> cd ios && pod install  # For iOS
+> ```
+> If `@react-native-async-storage/async-storage` is not installed, the SDK will gracefully fall back to in-memory storage.
+>
+> For more details, see: https://react-native-async-storage.github.io/async-storage/docs/install/
 
 ## Usage
 
-### Initialize the provider
+### Select the provider
 
-Bucketeer provider needs to be created and then set in the global OpenFeatureAPI.
+Select the appropriate provider for your application framework and register it with the global OpenFeature API.
+
+| Framework | Provider Class |
+| :--- | :--- |
+| **JavaScript / TypeScript (Web)** | `BucketeerProvider` |
+| **React** | `BucketeerReactProvider` |
+| **React Native** | `BucketeerReactNativeProvider` |
+
+### Configuration
+
+**JavaScript / TypeScript (Web) & React**
+Use `defineBKTConfig` to create your config
+
+```typescript
+const config = defineBKTConfig({
+  apiEndpoint: 'BUCKETEER_API_ENDPOINT',
+  apiKey: 'BUCKETEER_API_KEY',
+  featureTag: 'FEATURE_TAG',
+  appVersion: '1.2.3',
+  fetch: window.fetch,
+})
+```
+
+**React Native**
+Use `defineBKTConfigForReactNative` to ensure proper setup of React Native specific ID generation.
+Otherwise, you will get an error "idGenerator is required in React Native environment".
+
+```typescript
+import { defineBKTConfigForReactNative } from '@bucketeer/openfeature-js-client-sdk'
+const config = defineBKTConfigForReactNative({
+  apiEndpoint: 'BUCKETEER_API_ENDPOINT',
+  apiKey: 'BUCKETEER_API_KEY',
+  featureTag: 'FEATURE_TAG',
+  appVersion: '1.2.3',
+  fetch: fetch, // Use global fetch
+})
+```
+
+See our [documentation](https://docs.bucketeer.io/sdk/client-side/javascript#configuring-client) for more SDK configuration.
+
+### Initialize
+
+Initialize and set the Bucketeer provider to OpenFeature based on your application framework.
+
+**JavaScript / TypeScript (Web)**
 
 ```typescript
 import { OpenFeature } from '@openfeature/web-sdk';
@@ -43,16 +125,86 @@ const initEvaluationContext = {
   app_version: '1.2.3',
 }
 await OpenFeature.setContext(initEvaluationContext)
-await OpenFeature.setProviderAndWait(new BucketeerProvider(config))
+const provider = new BucketeerProvider(config)
+await OpenFeature.setProviderAndWait(provider)
 ```
 
-See our [documentation](https://docs.bucketeer.io/sdk/client-side/android) for more SDK configuration.
+**React**
+
+Please use the [OpenFeature React SDK](https://openfeature.dev/docs/reference/sdks/client/web/react/) to use feature flags in your React application.
+
+```typescript
+import { OpenFeatureProvider, OpenFeature } from '@openfeature/react-sdk';
+import { defineBKTConfig } from '@bucketeer/js-client-sdk'
+import { BucketeerReactProvider } from '@bucketeer/openfeature-js-client-sdk';
+
+const config = defineBKTConfig({
+  apiEndpoint: 'BUCKETEER_API_ENDPOINT',
+  apiKey: 'BUCKETEER_API_KEY',
+  featureTag: 'FEATURE_TAG',
+  appVersion: '1.2.3',
+  fetch: window.fetch,
+})
+
+const initEvaluationContext = {
+  targetingKey: 'USER_ID',
+  app_version: '1.2.3',
+}
+await OpenFeature.setContext(initEvaluationContext)
+const provider = new BucketeerReactProvider(config)
+OpenFeature.setProvider(provider)
+
+function App() {
+  return (
+    <OpenFeatureProvider>
+      <YourApp />
+    </OpenFeatureProvider>
+  )
+}
+```
+
+**React Native**
+
+Please use the [OpenFeature React SDK](https://openfeature.dev/docs/reference/sdks/client/web/react/) to use feature flags in your React Native application.
+
+```typescript
+import { OpenFeatureProvider, OpenFeature } from '@openfeature/react-sdk';
+import { defineBKTConfigForReactNative } from '@bucketeer/openfeature-js-client-sdk'
+import { BucketeerReactNativeProvider } from '@bucketeer/openfeature-js-client-sdk';
+
+const config = defineBKTConfigForReactNative({
+  apiEndpoint: 'BUCKETEER_API_ENDPOINT',
+  apiKey: 'BUCKETEER_API_KEY',
+  featureTag: 'FEATURE_TAG',
+  appVersion: '1.2.3',
+  fetch: fetch, // Use global fetch
+})
+
+const initEvaluationContext = {
+  targetingKey: 'USER_ID',
+  app_version: '1.2.3',
+}
+await OpenFeature.setContext(initEvaluationContext)
+// Please make sure the config is created with defineBKTConfigForReactNative
+const provider = new BucketeerReactNativeProvider(config)
+OpenFeature.setProvider(provider)
+
+function App() {
+  return (
+    <OpenFeatureProvider>
+      <YourApp />
+    </OpenFeatureProvider>
+  )
+}
+```
+
+> [!NOTE] No need await when `setProvider` in React and React Native, because the provider initialization is handled internally by the OpenFeature React SDK.
+
+### Update the Evaluation Context
 
 The evaluation context allows the client to specify contextual data that Bucketeer uses to evaluate the feature flags.
 
 The `targetingKey` is the user ID (Unique ID) and cannot be empty.
-
-### Update the Evaluation Context
 
 You can update the evaluation context with the new attributes if the user attributes change.
 
@@ -92,10 +244,13 @@ const config = defineBKTConfig({
 })
 
 await OpenFeature.setContext(newEvaluationContext)
-await OpenFeature.setProviderAndWait(new BucketeerProvider(config))
+const provider = new BucketeerProvider(config)
+await OpenFeature.setProviderAndWait(provider)
 ```
 
 ### Evaluate a feature flag
+
+#### JavaScript / TypeScript (Web)
 
 After the provider is set and the provider's status is `ClientProviderEvents.Ready`, you can evaluate a feature flag using OpenFeatureAPI.
 
@@ -113,8 +268,32 @@ const flagValue = client.getNumberValue('my-feature-flag', 0);
 
 // object flag
 const flagValue = client.getObjectValue('my-feature-flag', {});
-
 ```
+
+More details can be found in the [OpenFeature Web SDK documentation](https://openfeature.dev/docs/reference/sdks/client/web/#usage).
+
+#### React & React Native
+
+The OpenFeature React SDK provides hooks for evaluating feature flags.
+
+```typescript
+import { useBooleanFlagValue, useStringFlagValue, useNumberFlagValue, useObjectFlagValue } from '@openfeature/react-sdk';
+
+// boolean flag
+const flagValue = useBooleanFlagValue('my-feature-flag', false);
+
+// string flag
+const flagValue = useStringFlagValue('my-feature-flag', 'default-value');
+
+// number flag
+const flagValue = useNumberFlagValue('my-number-flag', 0);
+
+// object flag
+const flagValue = useObjectFlagValue('my-object-flag', {});
+```
+
+More details can be found in the [OpenFeature React SDK documentation](https://openfeature.dev/docs/reference/sdks/client/web/react#usage).
+
 
 ## Contributing
 

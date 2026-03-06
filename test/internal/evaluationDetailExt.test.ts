@@ -35,7 +35,11 @@ describe('convertReason', () => {
 
   it('passes non-error reasons through as-is', () => {
     expect(convertReason('CLIENT')).toBe('CLIENT')
-    expect(convertReason('SOMETHING_ELSE')).toBe('SOMETHING_ELSE')
+    // Intentionally passing an unknown reason string to test the default fallthrough branch.
+    // `BKTReason` is a closed union, so we cast to `any` to simulate a future/unknown value
+    // that the SDK may introduce without this package being updated yet.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    expect(convertReason('SOMETHING_ELSE' as any)).toBe('SOMETHING_ELSE')
   })
 })
 
