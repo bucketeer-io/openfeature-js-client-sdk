@@ -168,7 +168,7 @@ suite('BucketeerProvider', () => {
       expect(result).toEqual({
         value: true,
         variant: 'true-variant',
-        reason: 'TARGET'
+        reason: StandardResolutionReasons.TARGETING_MATCH
       })
     })
 
@@ -189,7 +189,7 @@ suite('BucketeerProvider', () => {
       expect(result).toEqual({
         value: 'active',
         variant: 'active-variant',
-        reason: 'RULE'
+        reason: StandardResolutionReasons.TARGETING_MATCH
       })
     })
 
@@ -210,7 +210,7 @@ suite('BucketeerProvider', () => {
       expect(result).toEqual({
         value: 42,
         variant: 'number-variant',
-        reason: 'DEFAULT'
+        reason: StandardResolutionReasons.DEFAULT
       })
     })
 
