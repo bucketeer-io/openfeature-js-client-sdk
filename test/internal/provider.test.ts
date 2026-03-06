@@ -226,7 +226,7 @@ suite('BucketeerProvider', () => {
         variationId: 'var-id',
         variationValue: { key: 'value' },
         variationName: 'object-variant',
-        reason: 'CLIENT'
+        reason: 'RULE'
       })
 
       const result = provider.resolveObjectEvaluation('test-feature', {}, mockContext, console)
@@ -235,7 +235,7 @@ suite('BucketeerProvider', () => {
       expect(result).toEqual({
         value: { key: 'value' },
         variant: 'object-variant',
-        reason: 'CLIENT'
+        reason: StandardResolutionReasons.TARGETING_MATCH
       })
     })
 
@@ -248,7 +248,7 @@ suite('BucketeerProvider', () => {
         variationId: 'var-id',
         variationValue: variationValue,
         variationName: 'array-variant',
-        reason: 'CLIENT'
+        reason: 'DEFAULT'
       })
 
       const result = provider.resolveObjectEvaluation('test-feature', ['item0'], mockContext, console)
@@ -257,7 +257,7 @@ suite('BucketeerProvider', () => {
       expect(result).toEqual({
         value: variationValue,
         variant: 'array-variant',
-        reason: 'CLIENT'
+        reason: StandardResolutionReasons.DEFAULT
       })
     })
 
