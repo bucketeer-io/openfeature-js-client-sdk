@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.0.5](https://github.com/bucketeer-io/openfeature-js-client-sdk/compare/v0.0.4...v0.0.5) (2026-03-06)
+
+
+### Miscellaneous
+
+* enhancing type safety in resolveObjectEvaluation ([#18](https://github.com/bucketeer-io/openfeature-js-client-sdk/issues/18)) ([eb69c86](https://github.com/bucketeer-io/openfeature-js-client-sdk/commit/eb69c8611a8436318524bb8222c23c84633a1d74))
+* update reason handling ([#19](https://github.com/bucketeer-io/openfeature-js-client-sdk/issues/19)) ([848110d](https://github.com/bucketeer-io/openfeature-js-client-sdk/commit/848110d55d809a10642aa45bed05a61390776371))
+
 ## [0.0.4](https://github.com/bucketeer-io/openfeature-js-client-sdk/compare/v0.0.3...v0.0.4) (2025-12-23)
 
 ### Features
