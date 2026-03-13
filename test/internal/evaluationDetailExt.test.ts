@@ -35,7 +35,7 @@ describe('convertReason', () => {
 
   it('passes non-error reasons through as-is', () => {
     expect(convertReason('CLIENT')).toBe('CLIENT')
-    expect(convertReason('SOMETHING_ELSE')).toBe('SOMETHING_ELSE')
+    expect(convertReason('SOMETHING_ELSE' as Parameters<typeof convertReason>[0])).toBe('SOMETHING_ELSE')
   })
 })
 
@@ -260,7 +260,7 @@ describe('toResolutionDetailsJsonValue', () => {
       variationId: 'variation-4',
       variationValue: { key: 'value' },
       variationName: 'test-variant',
-      reason: 'CLIENT',
+      reason: 'DEFAULT',
     }
 
     const result = toResolutionDetailsJsonValue<JsonValue>(evaluationDetails)
@@ -268,7 +268,7 @@ describe('toResolutionDetailsJsonValue', () => {
     expect(result).toEqual({
       value: { key: 'value' },
       variant: 'test-variant',
-      reason: 'CLIENT', // Falls through
+      reason: StandardResolutionReasons.DEFAULT,
     })
   })
 

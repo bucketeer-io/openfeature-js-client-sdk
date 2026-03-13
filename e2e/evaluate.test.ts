@@ -2,9 +2,11 @@ import { suite, test, expect, beforeEach, afterEach, afterAll } from 'vitest'
 import { defineBKTConfig, BKTConfig } from '@bucketeer/js-client-sdk'
 import {
   EvaluationDetails,
+  ErrorCode,
   JsonValue,
   OpenFeature,
   ProviderStatus,
+  StandardResolutionReasons,
 } from '@openfeature/web-sdk'
 import { BucketeerProvider, SDK_VERSION } from '../dist/main'
 import {
@@ -68,7 +70,7 @@ suite('BucketeerProvider - evaluation', () => {
       expect(resultDetails).toStrictEqual({
         flagKey: FEATURE_ID_BOOLEAN,
         flagMetadata: {},
-        reason: 'DEFAULT',
+        reason: StandardResolutionReasons.DEFAULT,
         value: true,
         variant: 'variation true',
       } satisfies EvaluationDetails<boolean>)
@@ -88,7 +90,7 @@ suite('BucketeerProvider - evaluation', () => {
       expect(resultDetails).toStrictEqual({
         flagKey: FEATURE_ID_STRING,
         flagMetadata: {},
-        reason: 'DEFAULT',
+        reason: StandardResolutionReasons.DEFAULT,
         value: 'value-1',
         variant: 'variation 1',
       } satisfies EvaluationDetails<string>)
@@ -105,7 +107,7 @@ suite('BucketeerProvider - evaluation', () => {
       expect(resultDetails).toStrictEqual({
         flagKey: FEATURE_ID_INT,
         flagMetadata: {},
-        reason: 'DEFAULT',
+        reason: StandardResolutionReasons.DEFAULT,
         value: 10,
         variant: 'variation 10',
       } satisfies EvaluationDetails<number>)
@@ -122,7 +124,7 @@ suite('BucketeerProvider - evaluation', () => {
       expect(resultDetails).toStrictEqual({
         flagKey: FEATURE_ID_DOUBLE,
         flagMetadata: {},
-        reason: 'DEFAULT',
+        reason: StandardResolutionReasons.DEFAULT,
         value: 2.1,
         variant: 'variation 2.1',
       } satisfies EvaluationDetails<number>)
@@ -145,7 +147,7 @@ suite('BucketeerProvider - evaluation', () => {
       expect(resultDetails).toStrictEqual({
         flagKey: FEATURE_ID_JSON,
         flagMetadata: {},
-        reason: 'DEFAULT',
+        reason: StandardResolutionReasons.DEFAULT,
         value: { key: 'value-1' },
         variant: 'variation 1',
       } satisfies EvaluationDetails<JsonValue>)
@@ -183,8 +185,8 @@ suite('BucketeerProvider - evaluation', () => {
 
         expect(resultDetails).to.be.an('object')
         expect(resultDetails.value).equal(c.value)
-        expect(resultDetails.reason).equal('ERROR')
-        expect(resultDetails.errorCode).equal('TYPE_MISMATCH')
+        expect(resultDetails.reason).equal(StandardResolutionReasons.ERROR)
+        expect(resultDetails.errorCode).equal(ErrorCode.TYPE_MISMATCH)
         expect(resultDetails.errorMessage).include(c.expectedMessage)
       }
     })
@@ -206,8 +208,8 @@ suite('BucketeerProvider - evaluation', () => {
         arrayDefault,
       )
       expect(resultDetails).to.be.an('object')
-      expect(resultDetails.reason).equal('ERROR')
-      expect(resultDetails.errorCode).equal('TYPE_MISMATCH')
+      expect(resultDetails.reason).equal(StandardResolutionReasons.ERROR)
+      expect(resultDetails.errorCode).equal(ErrorCode.TYPE_MISMATCH)
       expect(resultDetails.errorMessage).include(
         'Expected array but got object',
       )
@@ -230,9 +232,9 @@ suite('BucketeerProvider - evaluation', () => {
         })
 
         expect(resultDetails).to.be.an('object')
-        expect(resultDetails.reason).equal('CLIENT')
-        expect(resultDetails.errorCode).toBeUndefined()
-        expect(resultDetails.errorMessage).toBeUndefined()
+        expect(resultDetails.reason).equal(StandardResolutionReasons.ERROR)
+        expect(resultDetails.errorCode).equal(ErrorCode.TYPE_MISMATCH)
+        expect(resultDetails.errorMessage).toMatch('ERROR_WRONG_TYPE')
         expect(resultDetails.value).to.deep.equal({ default: 'fallback' })
       }
     })
