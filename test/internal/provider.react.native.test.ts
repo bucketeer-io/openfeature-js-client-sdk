@@ -115,6 +115,9 @@ suite('BucketeerReactNativeProvider', () => {
       expect(actualConfig.apiKey).toBe('test-api-key')
       expect(actualConfig.apiEndpoint).toBe('http://test-endpoint')
       expect(actualConfig.featureTag).toBe('test-tag')
+      // Note: These values (10000, 600000) are the SDK defaults.
+      // We are testing that defineBKTConfig correctly clamps the sub-minimum input values
+      // (30 and 60 respectively) defined in the beforeEach block.
       expect(actualConfig.eventsFlushInterval).toBe(10000)
       expect(actualConfig.eventsMaxQueueSize).toBe(100)
       expect(actualConfig.pollingInterval).toBe(600000)
