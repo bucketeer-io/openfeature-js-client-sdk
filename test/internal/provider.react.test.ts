@@ -82,7 +82,7 @@ suite('BucketeerReactProvider', () => {
     it('should have correct metadata', () => {
       expect(provider.metadata.name).toBe('Bucketeer React Provider')
       expect(provider.runsOn).toBe('client')
-      expect(provider.metadata.version).equal(SDK_VERSION)
+      expect(provider.metadata.version).toEqual(SDK_VERSION)
     })
   })
 

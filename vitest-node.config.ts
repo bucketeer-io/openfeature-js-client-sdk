@@ -8,5 +8,7 @@ export default defineConfig({
   test: {
     setupFiles: [],
     environment: 'node',
+    include: ['test/**/*.test.ts'],
+    exclude: ['**/node_modules/**', '**/dist/**', 'test/internal/integration/**'],
   },
 })

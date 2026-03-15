@@ -26,7 +26,7 @@ import { evaluationContextToBKTUser } from './EvaluationContext'
 import { toResolutionDetails, toResolutionDetailsJsonValue } from './BKTEvaluationDetailExt'
 import { SDK_VERSION } from '../version'
 
-const SOURCE_ID_OPEN_FEATURE_JAVASCRIPT = 102
+export const SOURCE_ID_OPEN_FEATURE_JAVASCRIPT = 102
 export const SOURCE_ID_OPEN_FEATURE_REACT = 105
 export const SOURCE_ID_OPEN_FEATURE_REACT_NATIVE = 106
 
@@ -52,25 +52,44 @@ class BucketeerProvider implements Provider {
   protected config: BKTConfig
 
   constructor(config: BKTConfig) {
-    let inputWrapperSdkVersion = config.wrapperSdkVersion
-    let inputWrapperSdkSourceId = config.wrapperSdkSourceId
-    if (inputWrapperSdkSourceId === undefined) {
-      inputWrapperSdkSourceId = SOURCE_ID_OPEN_FEATURE_JAVASCRIPT
+    // Note: Validation errors are intentionally thrown from the constructor.
+    // These guard against developer misconfiguration (e.g. unsupported wrapperSdkSourceId,
+    // missing wrapperSdkVersion), not runtime failures. Failing fast here surfaces misuse
+    // at development time rather than silently deferring it to initialize().
+
+    // Extract configuration values, defaulting to the OpenFeature JavaScript source ID
+    const {
+      wrapperSdkSourceId = SOURCE_ID_OPEN_FEATURE_JAVASCRIPT,
+      wrapperSdkVersion,
+    } = config
+
+    // Determine the correct SDK version based on the source ID
+    const finalSdkVersion =
+      wrapperSdkSourceId === SOURCE_ID_OPEN_FEATURE_JAVASCRIPT
+        ? SDK_VERSION
+        : wrapperSdkVersion
+
+    // Validate that the source ID is supported
+    if (!supportedSourceIds.includes(wrapperSdkSourceId)) {
+      throw new ProviderFatalError(`Unsupported wrapperSdkSourceId: ${wrapperSdkSourceId}`)
     }
-    if (!supportedSourceIds.includes(inputWrapperSdkSourceId)) {
-      throw new Error(`Unsupported wrapperSdkSourceId: ${inputWrapperSdkSourceId}`)
+
+    // Validate that the SDK version is defined for non-JavaScript source IDs
+    if (finalSdkVersion === undefined) {
+      throw new ProviderFatalError(
+        `wrapperSdkVersion is required when wrapperSdkSourceId is a non-JavaScript value (received: ${wrapperSdkSourceId})`,
+      )
     }
-    if (inputWrapperSdkSourceId === SOURCE_ID_OPEN_FEATURE_JAVASCRIPT) {
-      inputWrapperSdkVersion = SDK_VERSION
-    } else if (inputWrapperSdkVersion === undefined) {
-      throw new Error('wrapperSdkVersion is required when wrapperSdkSourceId is set')
-    }
-    const overrideConfig = defineBKTConfig({
+
+    // Note: defineBKTConfig is called here and potentially in subclasses.
+    // This is intentional: defineBKTConfig is idempotent on already-normalized input,
+    // and this ensures the configuration is always correctly validated and normalized
+    // with the latest overrides in this layer.
+    this.config = defineBKTConfig({
       ...config,
-      wrapperSdkVersion: inputWrapperSdkVersion,
-      wrapperSdkSourceId: inputWrapperSdkSourceId,
+      wrapperSdkVersion: finalSdkVersion,
+      wrapperSdkSourceId: wrapperSdkSourceId,
     })
-    this.config = overrideConfig
   }
 
   resolveBooleanEvaluation(

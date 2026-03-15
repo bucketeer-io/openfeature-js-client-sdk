@@ -1,6 +1,18 @@
 import { describe, it, expect, vi, beforeEach, afterEach, suite, afterAll } from 'vitest'
-import BucketeerProvider, { wrongTypeResult } from '../../src/internal/BucketeerProvider'
-import { BKTClient, BKTConfig, getBKTClient, initializeBKTClient, destroyBKTClient, defineBKTConfig } from '@bucketeer/js-client-sdk'
+import BucketeerProvider, {
+  SOURCE_ID_OPEN_FEATURE_JAVASCRIPT,
+  SOURCE_ID_OPEN_FEATURE_REACT,
+  SOURCE_ID_OPEN_FEATURE_REACT_NATIVE,
+  wrongTypeResult,
+} from '../../src/internal/BucketeerProvider'
+import {
+  BKTClient,
+  BKTConfig,
+  getBKTClient,
+  initializeBKTClient,
+  destroyBKTClient,
+  defineBKTConfig,
+} from '@bucketeer/js-client-sdk'
 import {
   ClientProviderEvents,
   EvaluationContext,
@@ -8,11 +20,9 @@ import {
   InvalidContextError,
   ProviderFatalError,
   ProviderNotReadyError,
-  StandardResolutionReasons
+  StandardResolutionReasons,
 } from '@openfeature/web-sdk'
 import { SDK_VERSION } from '../../src/version'
-
-const SOURCE_ID_OPEN_FEATURE_JAVASCRIPT = 102
 
 // Only mock specific functions instead of the entire module
 vi.mock('@bucketeer/js-client-sdk', async () => {
@@ -87,11 +97,80 @@ suite('BucketeerProvider', () => {
     await provider.onClose?.()
   })
 
+  describe('constructor', () => {
+    it('should initialize with default values when config is minimal', () => {
+      const p = new BucketeerProvider(mockConfig)
+      // Accessing protected config for test verification
+      const config = (p as unknown as { config: BKTConfig }).config
+      expect(config.wrapperSdkSourceId).toBe(SOURCE_ID_OPEN_FEATURE_JAVASCRIPT)
+      expect(config.wrapperSdkVersion).toBe(SDK_VERSION)
+    })
+
+    it('should throw ProviderFatalError for unsupported wrapperSdkSourceId', () => {
+      const invalidConfig = {
+        ...mockConfig,
+        wrapperSdkSourceId: 999, // Unsupported
+      }
+      expect(() => new BucketeerProvider(invalidConfig as unknown as BKTConfig)).toThrow(ProviderFatalError)
+      expect(() => new BucketeerProvider(invalidConfig as unknown as BKTConfig)).toThrow('Unsupported wrapperSdkSourceId: 999')
+    })
+
+    it('should throw ProviderFatalError when wrapperSdkVersion is missing for non-JS source', () => {
+      const invalidConfig = {
+        ...mockConfig,
+        wrapperSdkSourceId: SOURCE_ID_OPEN_FEATURE_REACT,
+        wrapperSdkVersion: undefined,
+      }
+      expect(() => new BucketeerProvider(invalidConfig)).toThrow(ProviderFatalError)
+      expect(() => new BucketeerProvider(invalidConfig)).toThrow(
+        `wrapperSdkVersion is required when wrapperSdkSourceId is a non-JavaScript value (received: ${SOURCE_ID_OPEN_FEATURE_REACT})`,
+      )
+    })
+
+    it('should use provided wrapperSdkVersion for supported non-JS source', () => {
+      const customVersion = '2.0.0-beta'
+      const reactConfig = {
+        ...mockConfig,
+        wrapperSdkSourceId: SOURCE_ID_OPEN_FEATURE_REACT,
+        wrapperSdkVersion: customVersion,
+      }
+      const p = new BucketeerProvider(reactConfig)
+      const config = (p as unknown as { config: BKTConfig }).config
+      expect(config.wrapperSdkSourceId).toBe(SOURCE_ID_OPEN_FEATURE_REACT)
+      expect(config.wrapperSdkVersion).toBe(customVersion)
+    })
+
+    it('should use provided wrapperSdkVersion for React Native source', () => {
+      const customVersion = '3.0.0'
+      const rnConfig = {
+        ...mockConfig,
+        wrapperSdkSourceId: SOURCE_ID_OPEN_FEATURE_REACT_NATIVE,
+        wrapperSdkVersion: customVersion,
+      }
+      const p = new BucketeerProvider(rnConfig)
+      const config = (p as unknown as { config: BKTConfig }).config
+      expect(config.wrapperSdkSourceId).toBe(SOURCE_ID_OPEN_FEATURE_REACT_NATIVE)
+      expect(config.wrapperSdkVersion).toBe(customVersion)
+    })
+
+    it('should override wrapperSdkVersion with SDK_VERSION for JS source', () => {
+      const jsConfig = {
+        ...mockConfig,
+        wrapperSdkSourceId: SOURCE_ID_OPEN_FEATURE_JAVASCRIPT,
+        wrapperSdkVersion: 'wrong-version',
+      }
+      const p = new BucketeerProvider(jsConfig)
+      const config = (p as unknown as { config: BKTConfig }).config
+      expect(config.wrapperSdkSourceId).toBe(SOURCE_ID_OPEN_FEATURE_JAVASCRIPT)
+      expect(config.wrapperSdkVersion).toBe(SDK_VERSION)
+    })
+  })
+
   describe('metadata', () => {
     it('should have correct metadata', () => {
       expect(provider.metadata.name).toBe('Bucketeer Provider')
       expect(provider.runsOn).toBe('client')
-      expect(provider.metadata.version).equal(SDK_VERSION)
+      expect(provider.metadata.version).toEqual(SDK_VERSION)
     })
   })
 

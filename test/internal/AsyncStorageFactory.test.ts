@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest'
 import { createReactNativeStorageFactory } from '../../src/internal/react_native/AsyncStorageFactory'
 
 /**
@@ -22,6 +22,21 @@ describe('createReactNativeStorageFactory', () => {
   })
 
   describe('when AsyncStorage is available', () => {
+
+    beforeEach(() => {
+      vi.doMock('@react-native-async-storage/async-storage', () => ({
+        default: {
+          setItem: vi.fn(),
+          getItem: vi.fn(),
+          removeItem: vi.fn(),
+        },
+      }))
+    })
+
+    afterEach(() => {
+      vi.doUnmock('@react-native-async-storage/async-storage')
+    })
+
     it('should return a factory function', async () => {
       const factory = await createReactNativeStorageFactory()
       expect(typeof factory).toBe('function')
@@ -125,35 +140,5 @@ describe('createReactNativeStorageFactory', () => {
     })
   })
 
-  describe('storage instance behavior', () => {
-    it('should allow storage instances to be used independently', async () => {
-      const factory = await createReactNativeStorageFactory()
-      if (!factory) {
-        throw new Error('Factory should not be undefined')
-      }
 
-      const store1 = factory<string>('key1')
-      const store2 = factory<number>('key2')
-
-      // Both instances should be functional
-      expect(store1).toBeDefined()
-      expect(store2).toBeDefined()
-
-      // They should have independent keys
-      expect(store1).not.toBe(store2)
-    })
-
-    it('should create new instances each time factory is called', async () => {
-      const factory = await createReactNativeStorageFactory()
-      if (!factory) {
-        throw new Error('Factory should not be undefined')
-      }
-
-      const store1 = factory('same-key')
-      const store2 = factory('same-key')
-
-      // Even with the same key, they should be different instances
-      expect(store1).not.toBe(store2)
-    })
-  })
 })

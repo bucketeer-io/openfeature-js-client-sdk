@@ -89,11 +89,9 @@ describe('BKTAsyncKeyValueStore', () => {
     it('should throw BKTAsyncStorageError when setItem fails', async () => {
       const error = new Error('Storage full')
       mockAsyncStorage.setItem.mockRejectedValue(error)
-
-      await expect(store.set('test-value')).rejects.toThrow(BKTAsyncStorageError)
-      
       try {
         await store.set('test-value')
+        expect.fail('Should have thrown BKTAsyncStorageError')
       } catch (e) {
         expect(e).toBeInstanceOf(BKTAsyncStorageError)
         const eAsBKT = e as BKTAsyncStorageError
@@ -106,11 +104,9 @@ describe('BKTAsyncKeyValueStore', () => {
     it('should throw BKTAsyncStorageError when removeItem fails for null value', async () => {
       const error = new Error('Remove failed')
       mockAsyncStorage.removeItem.mockRejectedValue(error)
-
-      await expect(store.set(null)).rejects.toThrow(BKTAsyncStorageError)
-      
       try {
         await store.set(null)
+        expect.fail('Should have thrown BKTAsyncStorageError')
       } catch (e) {
         expect(e).toBeInstanceOf(BKTAsyncStorageError)
         const eAsBKT = e as BKTAsyncStorageError
@@ -122,11 +118,9 @@ describe('BKTAsyncKeyValueStore', () => {
 
     it('should handle non-Error exceptions', async () => {
       mockAsyncStorage.setItem.mockRejectedValue('String error')
-
-      await expect(store.set('test-value')).rejects.toThrow(BKTAsyncStorageError)
-      
       try {
         await store.set('test-value')
+        expect.fail('Should have thrown BKTAsyncStorageError')
       } catch (e) {
         expect(e).toBeInstanceOf(BKTAsyncStorageError)
         const eAsBKT = e as BKTAsyncStorageError
@@ -182,11 +176,9 @@ describe('BKTAsyncKeyValueStore', () => {
     it('should throw BKTAsyncStorageError when getItem fails', async () => {
       const error = new Error('Storage unavailable')
       mockAsyncStorage.getItem.mockRejectedValue(error)
-
-      await expect(store.get()).rejects.toThrow(BKTAsyncStorageError)
-      
       try {
         await store.get()
+        expect.fail('Should have thrown BKTAsyncStorageError')
       } catch (e) {
         expect(e).toBeInstanceOf(BKTAsyncStorageError)
         const eAsBKT = e as BKTAsyncStorageError
@@ -198,11 +190,9 @@ describe('BKTAsyncKeyValueStore', () => {
 
     it('should throw BKTAsyncStorageError when JSON parsing fails', async () => {
       mockAsyncStorage.getItem.mockResolvedValue('invalid json')
-
-      await expect(store.get()).rejects.toThrow(BKTAsyncStorageError)
-      
       try {
         await store.get()
+        expect.fail('Should have thrown BKTAsyncStorageError')
       } catch (e) {
         expect(e).toBeInstanceOf(BKTAsyncStorageError)
         const error = e as BKTAsyncStorageError
@@ -213,11 +203,9 @@ describe('BKTAsyncKeyValueStore', () => {
 
     it('should include JSON parsing error in message', async () => {
       mockAsyncStorage.getItem.mockResolvedValue('{invalid json')
-
-      await expect(store.get()).rejects.toThrow(BKTAsyncStorageError)
-      
       try {
         await store.get()
+        expect.fail('Should have thrown BKTAsyncStorageError')
       } catch (e) {
         const error = e as BKTAsyncStorageError
         expect(error.message).toContain('Failed to get value for key "test-key"')
@@ -239,12 +227,10 @@ describe('BKTAsyncKeyValueStore', () => {
 
     it('should throw BKTAsyncStorageError when removeItem fails', async () => {
       const error = new Error('Clear failed')
-      mockAsyncStorage.removeItem.mockRejectedValue(error)
-
-      await expect(store.clear()).rejects.toThrow(BKTAsyncStorageError)
-      
+      mockAsyncStorage.removeItem.mockRejectedValue(error)    
       try {
         await store.clear()
+        expect.fail('Should have thrown BKTAsyncStorageError')
       } catch (e) {
         expect(e).toBeInstanceOf(BKTAsyncStorageError)
         const error = e as BKTAsyncStorageError
@@ -255,12 +241,10 @@ describe('BKTAsyncKeyValueStore', () => {
     })
 
     it('should handle non-Error exceptions in clear', async () => {
-      mockAsyncStorage.removeItem.mockRejectedValue('String error')
-
-      await expect(store.clear()).rejects.toThrow(BKTAsyncStorageError)
-      
+      mockAsyncStorage.removeItem.mockRejectedValue('String error') 
       try {
         await store.clear()
+        expect.fail('Should have thrown BKTAsyncStorageError')
       } catch (e) {
         expect(e).toBeInstanceOf(BKTAsyncStorageError)
         const error = e as BKTAsyncStorageError
