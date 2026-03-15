@@ -65,6 +65,10 @@ class BucketeerProvider implements Provider {
     } else if (inputWrapperSdkVersion === undefined) {
       throw new Error('wrapperSdkVersion is required when wrapperSdkSourceId is set')
     }
+    // Note: defineBKTConfig is called here and potentially in subclasses.
+    // This is intentional: defineBKTConfig is idempotent on already-normalized input,
+    // and this ensures the configuration is always correctly validated and normalized
+    // with the latest overrides in this layer.
     const overrideConfig = defineBKTConfig({
       ...config,
       wrapperSdkVersion: inputWrapperSdkVersion,

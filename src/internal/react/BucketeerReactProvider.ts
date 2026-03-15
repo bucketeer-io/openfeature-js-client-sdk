@@ -9,8 +9,13 @@ class BucketeerReactProvider extends BucketeerProvider {
   constructor(config: BKTConfig) {
     const inputWrapperSdkVersion = SDK_VERSION
     const inputWrapperSdkSourceId = SOURCE_ID_OPEN_FEATURE_REACT
+    // Note: defineBKTConfig is called here and again in the super() constructor.
+    // This is intentional: defineBKTConfig is idempotent on already-normalized input,
+    // and this allows the subclass to safely own its specific identity (userAgent, sourceId, etc.)
+    // without relying on base class implementation details.
     const overrideConfig = defineBKTConfig({
       ...config,
+      userAgent: `Bucketeer React Provider`,
       wrapperSdkVersion: inputWrapperSdkVersion,
       wrapperSdkSourceId: inputWrapperSdkSourceId,
     })

@@ -166,7 +166,7 @@ Please use the [OpenFeature React SDK](https://openfeature.dev/docs/reference/sd
 
 ```typescript
 import { OpenFeatureProvider, OpenFeature } from '@openfeature/react-sdk';
-import { defineBKTConfig } from '@bucketeer/openfeature-js-client-sdk'
+import { defineBKTConfig } from '@bucketeer/js-client-sdk'
 import { BucketeerReactNativeProvider } from '@bucketeer/openfeature-js-client-sdk';
 
 const config = defineBKTConfig({
