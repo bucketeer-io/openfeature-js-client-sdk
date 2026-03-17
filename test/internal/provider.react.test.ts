@@ -8,7 +8,6 @@ import {
 import { BucketeerReactProvider, SDK_VERSION } from '../../src/main'
 import { SOURCE_ID_OPEN_FEATURE_REACT } from '../../src/internal/BucketeerProvider'
 
-
 // Only mock specific functions instead of the entire module
 vi.mock('@bucketeer/js-client-sdk', async () => {
   const actual = await vi.importActual('@bucketeer/js-client-sdk')

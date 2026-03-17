@@ -13,7 +13,7 @@ These tests work in standard, non-React Native testing environments (like Web or
 - `react-native-uuid`: This is a pure JavaScript module. Even though it's designed for React Native, it functions perfectly well without a real React Native runtime.
 - `@react-native-async-storage/async-storage`: This module can run in web/DOM environments (which we provide using Vitest's `happy-dom` environment).
 
-Vitest dynamially imports these from the `devDependencies` ensuring we are verifying against the actual packages our users will install.
+Vitest dynamically imports these from the `devDependencies` ensuring we are verifying against the actual packages our users will install.
 
 ## Why they are excluded from Node tests
 
