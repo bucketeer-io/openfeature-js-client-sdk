@@ -35,7 +35,7 @@ npm install @bucketeer/openfeature-js-client-sdk
 > [!NOTE]
 > npm versions 7 and above will automatically install the required peer dependencies: 
 > `@openfeature/web-sdk` and `@bucketeer/js-client-sdk`.
-> If you got an error about missing peer dependencies, please install them manually:
+> If you get an error about missing peer dependencies, please install them manually:
 >
 > ```bash
 > npm install @openfeature/core @openfeature/web-sdk @bucketeer/js-client-sdk
