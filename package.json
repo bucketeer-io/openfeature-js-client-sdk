@@ -13,9 +13,15 @@
   "main": "./dist/main.cjs",
   "module": "./dist/main.mjs",
   "browser": "./dist/main.browser.mjs",
+  "react-native": "./dist/main.react-native.mjs",
   "types": "./dist/main.d.ts",
   "exports": {
     ".": {
+      "react-native": {
+        "import": "./dist/main.react-native.mjs",
+        "require": "./dist/main.react-native.cjs",
+        "types": "./dist/main.react-native.d.ts"
+      },
       "node": {
         "import": "./dist/main.mjs",
         "require": "./dist/main.cjs",
@@ -24,7 +30,7 @@
       "default": {
         "import": "./dist/main.browser.mjs",
         "require": "./dist/main.browser.cjs",
-        "types": "./dist/main.d.ts"
+        "types": "./dist/main.browser.d.ts"
       }
     }
   },
@@ -34,7 +40,7 @@
     "preview": "vite preview",
     "test": "pnpm test:browser --run ; pnpm test:node --run",
     "test:browser": "vitest --config ./vitest-browser.config.ts --dir test",
-    "test:node": "vitest --config ./vitest-node.config.ts --dir test",
+    "test:node": "vitest --config ./vitest-node.config.ts --run",
     "test:e2e": "vitest --config ./vitest-e2e.config.ts --dir e2e",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
@@ -44,7 +50,17 @@
   "packageManager": "pnpm@10.5.2",
   "peerDependencies": {
     "@openfeature/web-sdk": ">=1.4.0 <2.0.0",
-    "@bucketeer/js-client-sdk": ">=2.6.0 <3.0.0"
+    "@bucketeer/js-client-sdk": ">=2.6.0 <3.0.0",
+    "@react-native-async-storage/async-storage": "^1.23.1",
+    "react-native-uuid": "^2.0.3"
+  },
+  "peerDependenciesMeta": {
+    "@react-native-async-storage/async-storage": {
+      "optional": true
+    },
+    "react-native-uuid": {
+      "optional": true
+    }
   },
   "dependencies": {},
   "devDependencies": {
@@ -65,6 +81,11 @@
     "unbuild": "3.5.0",
     "vitest": "2.1.8",
     "webdriverio": "9.5.1",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "@bucketeer/js-client-sdk": "^2.6.0",
+    "@openfeature/web-sdk": "^1.5.0",
+    "@openfeature/core": "^1.7.0",
+    "@react-native-async-storage/async-storage": "^1.24.0",
+    "react-native-uuid": "^2.0.3"
   }
 }

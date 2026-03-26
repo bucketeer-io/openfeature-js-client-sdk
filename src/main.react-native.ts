@@ -1,7 +1,6 @@
-import BucketeerProvider from './internal/BucketeerProvider'
-import { BucketeerReactProvider } from './internal/react/BucketeerReactProvider'
+import { BucketeerReactNativeProvider } from './internal/react_native/BucketeerReactNativeProvider'
 
-export { BucketeerProvider, BucketeerReactProvider }
+export { BucketeerReactNativeProvider }
 export { SDK_VERSION } from './version'
 
 // Re-exporting the entire public API of @bucketeer/js-client-sdk is intentional.
