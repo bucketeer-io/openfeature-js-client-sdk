@@ -160,13 +160,13 @@ await OpenFeature.setProviderAndWait(provider)
 
 ## React
 
-For React instructions, please see our [React documentation](https://github.com/bucketeer-io/openfeature-js-client-sdk/blob/main/docs/react.md).
+For React instructions, please see our [React documentation](../docs/react.md).
 
 ---
 
 ## React Native
 
-For React Native instructions, please see our [React Native documentation](https://github.com/bucketeer-io/openfeature-js-client-sdk/blob/main/docs/react-native.md).
+For React Native instructions, please see our [React Native documentation](../docs/react-native.md).
 
 ---
 

@@ -137,4 +137,4 @@ await OpenFeature.setContext(newEvaluationContext)
 ```
 
 > [!WARNING]
-> Changing the `targetingKey` is not supported in the current implementation of the BucketeerProvider. To change the user ID, the Provider must be removed and reinitialized, as demonstrated in the [Web README section](../README.md#update-the-evaluation-context).
+> Changing the `targetingKey` is not supported in the current implementation of the BucketeerReactNativeProvider. To change the user ID, the Provider must be removed and reinitialized, as demonstrated in the [Web README section](../README.md#update-the-evaluation-context).
