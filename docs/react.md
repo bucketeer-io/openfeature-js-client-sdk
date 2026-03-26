@@ -1,5 +1,9 @@
 ## React
 
+This document provides instructions on how to use the Bucketeer OpenFeature provider in React applications.
+
+This provider acts as an integration layer between the [OpenFeature React SDK](https://openfeature.dev/docs/reference/sdks/client/web/react) and the underlying Bucketeer platform. By using this provider, you can evaluate feature flags throughout your React components using OpenFeature's standard hooks (`useBooleanFlagValue`, etc.), while relying on Bucketeer for the actual feature evaluation, targeting, and analytics.
+
 ### Installation (React)
 
 ```bash

@@ -1,5 +1,11 @@
 ## React Native
 
+This document provides instructions on how to use the Bucketeer OpenFeature provider in React Native applications.
+
+The React Native provider integrates the [OpenFeature React SDK](https://openfeature.dev/docs/reference/sdks/client/web/react) with the Bucketeer platform, allowing you to seamlessly evaluate feature flags across your mobile application using OpenFeature's React hooks.
+
+Under the hood, this provider automatically handles React Native specific details such as utilizing `@react-native-async-storage/async-storage` for robust local caching and `react-native-uuid` for internal event generation, providing an optimal and out-of-the-box feature flagging experience tailored for iOS and Android environments.
+
 ### Installation (React Native)
 
 ```bash
