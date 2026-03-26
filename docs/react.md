@@ -4,6 +4,9 @@ This document provides instructions on how to use the Bucketeer OpenFeature prov
 
 The React provider integrates the [OpenFeature React SDK](https://openfeature.dev/docs/reference/sdks/client/web/react) with the Bucketeer platform, allowing you to seamlessly evaluate feature flags across your web application using OpenFeature's React hooks.
 
+> [!WARNING]
+> This is a beta version. Breaking changes may be introduced before general release.
+
 ## Installation (React)
 
 ```bash

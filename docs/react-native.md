@@ -6,6 +6,9 @@ The React Native provider integrates the [OpenFeature React SDK](https://openfea
 
 Under the hood, this provider automatically handles React Native specific details such as utilizing `@react-native-async-storage/async-storage` for robust local caching and `react-native-uuid` for internal event generation, providing an optimal and out-of-the-box feature flagging experience tailored for iOS and Android environments.
 
+> [!WARNING]
+> This is a beta version. Breaking changes may be introduced before general release.
+
 ## Installation (React Native)
 
 ```bash
