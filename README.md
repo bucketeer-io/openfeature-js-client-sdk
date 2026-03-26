@@ -16,8 +16,8 @@ For documentation related to flags management in Bucketeer, refer to the [Bucket
 - [Web (JavaScript / TypeScript)](#web-javascript--typescript)
   - [Installation (Web)](#installation-web)
   - [Usage (Web)](#usage-web)
-- [React](https://github.com/bucketeer-io/openfeature-js-client-sdk/blob/main/docs/react.md)
-- [React Native](https://github.com/bucketeer-io/openfeature-js-client-sdk/blob/main/docs/react-native.md)
+- [React](#react)
+- [React Native](#react-native)
 - [Contributing](#contributing)
 - [Development](#development)
 - [License](#license)
@@ -160,13 +160,13 @@ await OpenFeature.setProviderAndWait(provider)
 
 ## React
 
-For React instructions, please see our [React documentation](./docs/react.md).
+For React instructions, please see our [React documentation](https://github.com/bucketeer-io/openfeature-js-client-sdk/blob/main/docs/react.md).
 
 ---
 
 ## React Native
 
-For React Native instructions, please see our [React Native documentation](./docs/react-native.md).
+For React Native instructions, please see our [React Native documentation](https://github.com/bucketeer-io/openfeature-js-client-sdk/blob/main/docs/react-native.md).
 
 ---
 
