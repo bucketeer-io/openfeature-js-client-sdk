@@ -1,4 +1,4 @@
-## React Native
+# React Native
 
 This document provides instructions on how to use the Bucketeer OpenFeature provider in React Native applications.
 
@@ -6,7 +6,7 @@ The React Native provider integrates the [OpenFeature React SDK](https://openfea
 
 Under the hood, this provider automatically handles React Native specific details such as utilizing `@react-native-async-storage/async-storage` for robust local caching and `react-native-uuid` for internal event generation, providing an optimal and out-of-the-box feature flagging experience tailored for iOS and Android environments.
 
-### Installation (React Native)
+## Installation (React Native)
 
 ```bash
 npm install @bucketeer/openfeature-js-client-sdk @openfeature/react-sdk
@@ -49,11 +49,11 @@ npm install @bucketeer/openfeature-js-client-sdk @openfeature/react-sdk
 >
 > For more details, see: https://react-native-async-storage.github.io/async-storage/docs/install/
 
-### Usage (React Native)
+## Usage (React Native)
 
 Please use the [OpenFeature React SDK](https://openfeature.dev/docs/reference/sdks/client/web/react/) to use feature flags in your React Native application.
 
-#### Configuration & Initialization
+### Configuration & Initialization
 
 Use `defineBKTConfig` to create your configuration and set up the `OpenFeatureProvider`. Make sure to use the global `fetch` API.
 
@@ -95,7 +95,7 @@ See our [documentation](https://docs.bucketeer.io/sdk/client-side/javascript#con
 > In the React Native environment, any `idGenerator` or `storageFactory` provided in the configuration will be **ignored**. The `BucketeerReactNativeProvider` automatically provides specialized React Native implementations for these during initialization.
 
 
-#### Evaluate a feature flag
+### Evaluate a feature flag
 
 The OpenFeature React SDK provides hooks for evaluating feature flags.
 
@@ -117,7 +117,7 @@ const flagValueObj = useObjectFlagValue('my-object-flag', {});
 
 More details can be found in the [OpenFeature React SDK documentation](https://openfeature.dev/docs/reference/sdks/client/web/react#usage).
 
-#### Update the Evaluation Context
+### Update the Evaluation Context
 
 The evaluation context allows the client to specify contextual data that Bucketeer uses to evaluate feature flags.
 The `targetingKey` is the user ID (Unique ID) and cannot be empty.

@@ -1,10 +1,10 @@
-## React
+# React
 
 This document provides instructions on how to use the Bucketeer OpenFeature provider in React applications.
 
-This provider acts as an integration layer between the [OpenFeature React SDK](https://openfeature.dev/docs/reference/sdks/client/web/react) and the underlying Bucketeer platform. By using this provider, you can evaluate feature flags throughout your React components using OpenFeature's standard hooks (`useBooleanFlagValue`, etc.), while relying on Bucketeer for the actual feature evaluation, targeting, and analytics.
+The React provider integrates the [OpenFeature React SDK](https://openfeature.dev/docs/reference/sdks/client/web/react) with the Bucketeer platform, allowing you to seamlessly evaluate feature flags across your web application using OpenFeature's React hooks.
 
-### Installation (React)
+## Installation (React)
 
 ```bash
 npm install @bucketeer/openfeature-js-client-sdk @openfeature/react-sdk
@@ -19,11 +19,11 @@ npm install @bucketeer/openfeature-js-client-sdk @openfeature/react-sdk
 > npm install @openfeature/core @openfeature/web-sdk @bucketeer/js-client-sdk
 > ```
 
-### Usage (React)
+## Usage (React)
 
 Please use the [OpenFeature React SDK](https://openfeature.dev/docs/reference/sdks/client/web/react/) to use feature flags in your React application.
 
-#### Configuration & Initialization
+### Configuration & Initialization
 
 Use `defineBKTConfig` to create your configuration and set up the `OpenFeatureProvider`.
 
@@ -61,7 +61,7 @@ function App() {
 
 See our [documentation](https://docs.bucketeer.io/sdk/client-side/javascript#configuring-client) for more SDK configuration.
 
-#### Evaluate a feature flag
+### Evaluate a feature flag
 
 The OpenFeature React SDK provides hooks for evaluating feature flags.
 
@@ -83,7 +83,7 @@ const flagValueObj = useObjectFlagValue('my-object-flag', {});
 
 More details can be found in the [OpenFeature React SDK documentation](https://openfeature.dev/docs/reference/sdks/client/web/react#usage).
 
-#### Update the Evaluation Context
+### Update the Evaluation Context
 
 The evaluation context allows the client to specify contextual data that Bucketeer uses to evaluate feature flags.
 The `targetingKey` is the user ID (Unique ID) and cannot be empty.
