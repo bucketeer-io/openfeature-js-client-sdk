@@ -1,7 +1,7 @@
 /* eslint-disable semi */
 import { OpenFeature, OpenFeatureProvider } from '@openfeature/react-sdk';
 import { StyleSheet, Text, View } from 'react-native';
-import { BucketeerReactNativeProvider, defineBKTConfigForReactNative } from '@bucketeer/openfeature-js-client-sdk';
+import { BucketeerReactNativeProvider, defineBKTConfig } from '@bucketeer/openfeature-js-client-sdk';
 import React, { Suspense } from 'react';
 
 const API_ENDPOINT =
@@ -9,7 +9,7 @@ const API_ENDPOINT =
 const API_KEY = process.env.EXPO_PUBLIC_BKT_API_KEY || 'api-key';
 const FEATURE_TAG = process.env.EXPO_PUBLIC_FEATURE_TAG || 'feature-tag';
 
-const config = defineBKTConfigForReactNative({
+const config = defineBKTConfig({
   apiEndpoint: API_ENDPOINT,
   apiKey: API_KEY,
   featureTag: FEATURE_TAG,
@@ -43,13 +43,13 @@ function HomeScreen() {
   if (!isNewFeatureEnabled) {
     return (
       <View style={styles.container}>
-        <Text>Welcome to the Home Screen v1 (Old)</Text>
+        <Text>Welcome to the Home Screen v1 (isNewFeatureEnabled: false)</Text>
       </View>
     );
   }
   return (
     <View style={styles.container}>
-      <Text>Welcome to the Home Screen v2 (New)</Text>
+      <Text>Welcome to the Home Screen v2 (isNewFeatureEnabled: true)</Text>
     </View>
   );
 }

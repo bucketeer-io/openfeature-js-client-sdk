@@ -1,12 +1,11 @@
 import { Suspense } from "react";
 import "./App.css";
-import { defineBKTConfig } from "bkt-js-client-sdk";
 import {
   OpenFeature,
   OpenFeatureProvider,
   useBooleanFlagValue,
 } from "@openfeature/react-sdk";
-import { BucketeerReactProvider } from "@bucketeer/openfeature-js-client-sdk";
+import { BucketeerReactProvider, defineBKTConfig } from "@bucketeer/openfeature-js-client-sdk";
 
 const config = defineBKTConfig({
   apiEndpoint: import.meta.env.VITE_BKT_API_ENDPOINT || "",
