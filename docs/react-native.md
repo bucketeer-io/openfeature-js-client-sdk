@@ -58,13 +58,13 @@ Please use the [OpenFeature React SDK](https://openfeature.dev/docs/reference/sd
 
 ### Configuration & Initialization
 
-Use `defineBKTConfig` to create your configuration and set up the `OpenFeatureProvider`. Make sure to use the global `fetch` API.
+Use `defineBKTConfigForReactNative` to create your configuration and set up the `OpenFeatureProvider`. Make sure to use the global `fetch` API.
 
 ```typescript
 import { OpenFeatureProvider, OpenFeature } from '@openfeature/react-sdk';
-import { defineBKTConfig, BucketeerReactNativeProvider } from '@bucketeer/openfeature-js-client-sdk';
+import { defineBKTConfigForReactNative, BucketeerReactNativeProvider } from '@bucketeer/openfeature-js-client-sdk';
 
-const config = defineBKTConfig({
+const config = defineBKTConfigForReactNative({
   apiEndpoint: 'BUCKETEER_API_ENDPOINT',
   apiKey: 'BUCKETEER_API_KEY',
   featureTag: 'FEATURE_TAG',
@@ -94,8 +94,16 @@ function App() {
 
 See our [documentation](https://docs.bucketeer.io/sdk/client-side/javascript#configuring-client) for more SDK configuration.
 
-> [!IMPORTANT]
-> In the React Native environment, any `idGenerator` or `storageFactory` provided in the configuration will be **ignored**. The `BucketeerReactNativeProvider` automatically provides specialized React Native implementations for these during initialization.
+> [!NOTE]
+> Use `defineBKTConfigForReactNative` for the standard setup — you do not need to provide
+> an `idGenerator`. The `BucketeerReactNativeProvider` automatically loads and injects
+> the correct React Native implementation (`react-native-uuid`) during initialization.
+
+> [!NOTE]
+> If you need to use `defineBKTConfig` directly (for example when using the native SDK
+> alongside the OpenFeature provider), you must provide your own `idGenerator` implementation.
+> In this case the provider will still replace it with its internal `react-native-uuid` generator
+> during initialization — `idGenerator` is always managed internally by `BucketeerReactNativeProvider`.
 
 
 ### Evaluate a feature flag

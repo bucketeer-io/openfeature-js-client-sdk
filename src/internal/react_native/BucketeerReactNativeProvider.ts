@@ -48,9 +48,11 @@ class BucketeerReactNativeProvider extends BucketeerProvider {
       throw new ProviderFatalError('react-native-uuid is not available. Please add it as a dependency.')
     }
 
-    // This provider is designed to provide React Native specific implementations.
-    // User-provided storageFactory or idGenerator in the config are ignored to ensure
-    // the correct environment-specific behavior is maintained.
+    // idGenerator is always managed internally by this provider.
+    // The react-native-uuid implementation is injected here, replacing the placeholder
+    // set by defineBKTConfigForReactNative. Any idGenerator value in the incoming config
+    // is intentionally ignored — it is an internal-only concern of the provider.
+    // storageFactory is also always replaced with the React Native AsyncStorage implementation.
     this.config = defineBKTConfig({
       ...this.config,
       storageFactory: storageFactory,
