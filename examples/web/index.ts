@@ -2,7 +2,7 @@ import {
   defineBKTConfig,
 } from '@bucketeer/js-client-sdk'
 import { OpenFeature } from '@openfeature/web-sdk'
-import { BucketeerProvider } from '../dist/main'
+import { BucketeerProvider } from '@bucketeer/openfeature-js-client-sdk';
 
 const FEATURE_TAG = 'feature-tag' // replace here
 const STRING_FEATURE_ID = 'feature-js-e2e-string' // replace here
