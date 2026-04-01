@@ -6,7 +6,6 @@ import BucketeerProvider, {
 import { ProviderMetadata } from '@openfeature/web-sdk'
 
 class BucketeerReactProvider extends BucketeerProvider {
-  
   constructor(config: BKTConfig) {
     // Note: defineBKTConfig is called here and again in the super() constructor.
     // This is intentional: defineBKTConfig is idempotent on already-normalized input,
