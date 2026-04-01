@@ -59,7 +59,7 @@ Please use the [OpenFeature React SDK](https://openfeature.dev/docs/reference/sd
 ### Configuration & Initialization
 
 > [!WARNING]
-> Make sure not to use defineConfig in the React Native environment, as it is not supported.
+> Make sure not to use `defineBKTConfig` in the React Native environment, as it is not supported.
 
 Use `defineBKTConfigForReactNative` to create your configuration and set up the `OpenFeatureProvider`. Make sure to use the global `fetch` API.
 

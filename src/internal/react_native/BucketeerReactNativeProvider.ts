@@ -18,7 +18,12 @@ class BucketeerReactNativeProvider extends BucketeerProvider {
   }
 
   constructor(config: BKTConfig) {
-    super(config)
+    const overrideConfig = defineBKTConfig({
+      ...config,
+      wrapperSdkSourceId: SOURCE_ID_OPEN_FEATURE_REACT_NATIVE,
+      wrapperSdkVersion: SDK_VERSION,
+    })
+    super(overrideConfig)
   }
 
   async initialize(context?: EvaluationContext | undefined): Promise<void> {
@@ -40,8 +45,6 @@ class BucketeerReactNativeProvider extends BucketeerProvider {
       ...this.config,
       storageFactory: storageFactory,
       idGenerator: idGenerator,
-      wrapperSdkSourceId: SOURCE_ID_OPEN_FEATURE_REACT_NATIVE,
-      wrapperSdkVersion: SDK_VERSION,
     })
 
     // BKTClient will be initialized in the super.initialize() call
