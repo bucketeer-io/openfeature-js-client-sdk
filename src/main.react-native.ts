@@ -1,6 +1,8 @@
 import { BucketeerReactNativeProvider } from './internal/react_native/BucketeerReactNativeProvider'
+import { defineBKTConfigForReactNative } from './internal/react_native/defineBKTConfigForReactNative'
 
 export { BucketeerReactNativeProvider }
+export { defineBKTConfigForReactNative }
 export { SDK_VERSION } from './version'
 
 // Re-exporting the entire public API of @bucketeer/js-client-sdk is intentional.

@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, beforeEach, afterEach, suite } from 'vitest'
 
-import { BKTClient, BKTConfig, defineBKTConfig, getBKTClient, initializeBKTClient } from '@bucketeer/js-client-sdk'
+import { BKTClient, BKTConfig, getBKTClient, initializeBKTClient } from '@bucketeer/js-client-sdk'
 import {
   ClientProviderEvents,
   EvaluationContext,
   ProviderFatalError,
 } from '@openfeature/web-sdk'
-import { BucketeerReactNativeProvider, SDK_VERSION } from '../../src/main.react-native'
+import { BucketeerReactNativeProvider, SDK_VERSION, defineBKTConfigForReactNative } from '../../src/main.react-native'
 import { SOURCE_ID_OPEN_FEATURE_REACT_NATIVE } from '../../src/internal/BucketeerProvider'
 import { BKTAsyncKeyValueStore } from '../../src/internal/react_native/AsyncStorage'
 import { createReactNativeStorageFactory } from '../../src/internal/react_native/AsyncStorageFactory'
@@ -46,7 +46,7 @@ suite('BucketeerReactNativeProvider', () => {
     vi.clearAllMocks()
 
     // Create mock objects with all required properties
-    mockConfig = defineBKTConfig({
+    mockConfig = defineBKTConfigForReactNative({
       apiKey: 'test-api-key',
       apiEndpoint: 'http://test-endpoint',
       featureTag: 'test-tag',
