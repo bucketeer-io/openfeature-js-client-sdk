@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.0.5](https://github.com/bucketeer-io/openfeature-js-client-sdk/compare/v0.0.4...v0.0.5) (2026-04-06)
+
+
+### Features
+
+* support react & react native ([#14](https://github.com/bucketeer-io/openfeature-js-client-sdk/issues/14)) ([0cd7169](https://github.com/bucketeer-io/openfeature-js-client-sdk/commit/0cd71699682512ec4414352ea2522e3b3198f7da))
+
+
+### Bug Fixes
+
+* can not use defineBKTConfig to setup ReactNative provider ([#25](https://github.com/bucketeer-io/openfeature-js-client-sdk/issues/25)) ([c259b1c](https://github.com/bucketeer-io/openfeature-js-client-sdk/commit/c259b1c3106976d13b1862dbf9f568dfc2478cea))
+
+
+### Miscellaneous
+
+* enhancing type safety in resolveObjectEvaluation ([#18](https://github.com/bucketeer-io/openfeature-js-client-sdk/issues/18)) ([eb69c86](https://github.com/bucketeer-io/openfeature-js-client-sdk/commit/eb69c8611a8436318524bb8222c23c84633a1d74))
+* **examples:** add React & React native provider example  ([#15](https://github.com/bucketeer-io/openfeature-js-client-sdk/issues/15)) ([21cc286](https://github.com/bucketeer-io/openfeature-js-client-sdk/commit/21cc286186e83ef3d9e2d7ce730ecf4ca80d53a9))
+* update reason handling ([#19](https://github.com/bucketeer-io/openfeature-js-client-sdk/issues/19)) ([848110d](https://github.com/bucketeer-io/openfeature-js-client-sdk/commit/848110d55d809a10642aa45bed05a61390776371))
+
 ## [0.0.4](https://github.com/bucketeer-io/openfeature-js-client-sdk/compare/v0.0.3...v0.0.4) (2025-12-23)
 
 ### Features
