@@ -1,6 +1,6 @@
-# React Native Example
+# Web Example
 
-For React Native instructions, please see our [React Native documentation](./../../docs/react-native.md)
+This is a simple web application using Vite and TypeScript to demonstrate the Bucketeer OpenFeature provider.
 
 ## Setup
 
@@ -13,7 +13,7 @@ For React Native instructions, please see our [React Native documentation](./../
    ```bash
    pnpm install
    ```
-4. Start the app:
+4. Start the development server:
    ```bash
-   pnpm start
+   pnpm serve
    ```

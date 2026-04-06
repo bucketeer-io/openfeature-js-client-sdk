@@ -13,14 +13,22 @@ For documentation related to flags management in Bucketeer, refer to the [Bucket
 
 ## Table of Contents
 
-- [Web (JavaScript / TypeScript)](#web-javascript--typescript)
-  - [Installation (Web)](#installation-web)
-  - [Usage (Web)](#usage-web)
-- [React](#react)
-- [React Native](#react-native)
-- [Contributing](#contributing)
-- [Development](#development)
-- [License](#license)
+- [Bucketeer - OpenFeature JS provider](#bucketeer---openfeature-js-provider)
+  - [Table of Contents](#table-of-contents)
+  - [Web (JavaScript / TypeScript)](#web-javascript--typescript)
+    - [Installation (Web)](#installation-web)
+    - [Usage (Web)](#usage-web)
+      - [Configuration](#configuration)
+      - [Initialization](#initialization)
+      - [Evaluate a feature flag](#evaluate-a-feature-flag)
+      - [Update the Evaluation Context](#update-the-evaluation-context)
+  - [React](#react)
+  - [React Native](#react-native)
+  - [Examples](#examples)
+  - [Contributing](#contributing)
+  - [Development](#development)
+    - [Environment](#environment)
+  - [License](#license)
 
 ---
 
@@ -167,6 +175,18 @@ For React instructions, please see our [React documentation](./docs/react.md).
 ## React Native
 
 For React Native instructions, please see our [React Native documentation](./docs/react-native.md).
+
+---
+
+## Examples
+
+We provide several examples to help you get started with the Bucketeer OpenFeature provider:
+
+- [Web (Vite + TypeScript)](./examples/web/): A simple web application using Vite and TypeScript.
+- [React (Vite + TypeScript)](./examples/react/): A React application using Vite and TypeScript.
+- [React Native (Expo)](./examples/react_native/): A React Native application using Expo.
+
+Each example contains a README with instructions on how to run it.
 
 ---
 
