@@ -18,6 +18,7 @@ class BucketeerReactProvider extends BucketeerProvider {
     })
     super(overrideConfig)
   }
+
   get metadata() {
     return {
       name: 'Bucketeer React Provider' as const,

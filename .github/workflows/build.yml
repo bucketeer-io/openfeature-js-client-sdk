@@ -32,10 +32,10 @@ jobs:
         run: pnpm lint
 
       - name: Run Tests for Browser environment
-        run: pnpm test:browser
+        run: pnpm test:browser --run
 
       - name: Run Tests for Node.js environment
-        run: pnpm test:node
+        run: pnpm test:node --run
 
       - name: Run build
         run: pnpm build

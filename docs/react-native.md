@@ -58,13 +58,16 @@ Please use the [OpenFeature React SDK](https://openfeature.dev/docs/reference/sd
 
 ### Configuration & Initialization
 
-Use `defineBKTConfig` to create your configuration and set up the `OpenFeatureProvider`. Make sure to use the global `fetch` API.
+> [!WARNING]
+> Make sure not to use `defineBKTConfig` in the React Native environment, as it is not supported.
+
+Use `defineBKTConfigForReactNative` to create your configuration and set up the `OpenFeatureProvider`. Make sure to use the global `fetch` API.
 
 ```typescript
 import { OpenFeatureProvider, OpenFeature } from '@openfeature/react-sdk';
-import { defineBKTConfig, BucketeerReactNativeProvider } from '@bucketeer/openfeature-js-client-sdk';
+import { defineBKTConfigForReactNative, BucketeerReactNativeProvider } from '@bucketeer/openfeature-js-client-sdk';
 
-const config = defineBKTConfig({
+const config = defineBKTConfigForReactNative({
   apiEndpoint: 'BUCKETEER_API_ENDPOINT',
   apiKey: 'BUCKETEER_API_KEY',
   featureTag: 'FEATURE_TAG',
@@ -96,7 +99,6 @@ See our [documentation](https://docs.bucketeer.io/sdk/client-side/javascript#con
 
 > [!IMPORTANT]
 > In the React Native environment, any `idGenerator` or `storageFactory` provided in the configuration will be **ignored**. The `BucketeerReactNativeProvider` automatically provides specialized React Native implementations for these during initialization.
-
 
 ### Evaluate a feature flag
 
