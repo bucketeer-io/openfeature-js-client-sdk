@@ -13,7 +13,13 @@ For React Native instructions, please see our [React Native documentation](./../
    ```bash
    pnpm install
    ```
-4. Start the app:
+4. Setup the native dependencies:
+   ```bash
+   npx expo prebuild
+   ```
+
+5. Start the app:
    ```bash
    pnpm start
    ```
+
