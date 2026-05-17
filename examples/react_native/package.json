@@ -11,7 +11,7 @@
   "dependencies": {
     "@bucketeer/openfeature-js-client-sdk": "workspace:*",
     "@openfeature/react-sdk": "^1.1.0",
-    "@bucketeer/js-client-sdk": ">=2.6.0 <3.0.0",
+    "@bucketeer/js-client-sdk": "^2.6.1",
     "expo": "~54.0.27",
     "expo-status-bar": "~3.0.9",
     "react": "19.1.0",
