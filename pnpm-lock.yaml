@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@bucketeer/js-client-sdk':
-        specifier: ^2.6.0
-        version: 2.6.0
+        specifier: ^2.6.1
+        version: 2.6.1
       '@openfeature/core':
         specifier: ^1.8.0
         version: 1.9.2
@@ -81,8 +81,8 @@ importers:
   examples/react:
     dependencies:
       '@bucketeer/js-client-sdk':
-        specifier: '>=2.6.0 <3.0.0'
-        version: 2.6.0
+        specifier: ^2.6.1
+        version: 2.6.1
       '@bucketeer/openfeature-js-client-sdk':
         specifier: workspace:*
         version: link:../..
@@ -136,8 +136,8 @@ importers:
   examples/react_native:
     dependencies:
       '@bucketeer/js-client-sdk':
-        specifier: '>=2.6.0 <3.0.0'
-        version: 2.6.0
+        specifier: ^2.6.1
+        version: 2.6.1
       '@bucketeer/openfeature-js-client-sdk':
         specifier: workspace:*
         version: link:../..
@@ -173,8 +173,8 @@ importers:
   examples/web:
     dependencies:
       '@bucketeer/js-client-sdk':
-        specifier: '>=2.6.0 <3.0.0'
-        version: 2.6.0
+        specifier: ^2.6.1
+        version: 2.6.1
       '@bucketeer/openfeature-js-client-sdk':
         specifier: workspace:*
         version: link:../..
@@ -700,8 +700,8 @@ packages:
     resolution: {integrity: sha512-qQ5m48eI/MFLQ5PxQj4PFaprjyCTLI37ElWMmNs0K8Lk3dVeOdNpB3ks8jc7yM5CDmVC73eMVk/trk3fgmrUpA==}
     engines: {node: '>=6.9.0'}
 
-  '@bucketeer/js-client-sdk@2.6.0':
-    resolution: {integrity: sha512-TlhGprUO50zBVZtjYYtiBDc6RG865WIdJIsANEujEdP4OdJSeh274+DNg8i6sT6qkfeVt9o1jsEKbfkPWyK+3A==}
+  '@bucketeer/js-client-sdk@2.6.1':
+    resolution: {integrity: sha512-AKzs24DuBOmlMMNR7M5n9f/mgKyybzKuFHzu441R3QKDaeDfZTFTXtK7Vz71HGKkueoMayDiet5Fl35DndSc2g==}
 
   '@bundled-es-modules/cookie@2.0.1':
     resolution: {integrity: sha512-8o+5fRPLNbjbdGRRmJj3h6Hh1AQJf2dk3qQ/5ZFb+PXkRNiSoMGGUKlsgLfrxneb72axVJyIYji64E2+nNfYyw==}
@@ -6522,7 +6522,7 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.28.5
 
-  '@bucketeer/js-client-sdk@2.6.0':
+  '@bucketeer/js-client-sdk@2.6.1':
     dependencies:
       async-mutex: 0.5.0
 
