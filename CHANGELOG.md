@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.6](https://github.com/bucketeer-io/openfeature-js-client-sdk/compare/v0.0.5...v0.0.6) (2026-05-26)
+
+
+### Miscellaneous
+
+* update @bucketeer/js-client-sdk to 2.6.1 ([#28](https://github.com/bucketeer-io/openfeature-js-client-sdk/issues/28)) ([5032e2a](https://github.com/bucketeer-io/openfeature-js-client-sdk/commit/5032e2a0d3014e03e1810414ffc076ff4fe16c7a))
+
 ## [0.0.5](https://github.com/bucketeer-io/openfeature-js-client-sdk/compare/v0.0.4...v0.0.5) (2026-04-06)
 
 
