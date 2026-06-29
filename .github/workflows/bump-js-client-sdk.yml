@@ -1,0 +1,99 @@
+name: Bump JS Client SDK
+
+# Triggered automatically after a new @bucketeer/js-client-sdk version is
+# published to npm (dispatched from javascript-client-sdk's publish workflow),
+# or manually from the GitHub Actions UI.
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: '@bucketeer/js-client-sdk version to bump to (e.g. 2.7.0)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 # v6.0.8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # 6.4.0
+        with:
+          node-version-file: '.node-version'
+          cache: 'pnpm'
+
+      - name: Resolve version
+        id: ctx
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          if [[ -z "$VERSION" ]]; then
+            echo "No version provided." >&2
+            exit 1
+          fi
+          VERSION="${VERSION#v}"   # strip leading 'v' if present
+          BRANCH="deps/bump-js-client-sdk-v${VERSION}"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "branch=${BRANCH}" >> "$GITHUB_OUTPUT"
+
+      - name: Check branch does not already exist
+        id: check
+        env:
+          BRANCH: ${{ steps.ctx.outputs.branch }}
+        run: |
+          if git ls-remote --heads origin "$BRANCH" | grep -q .; then
+            echo "Branch $BRANCH already exists — skipping (already bumped?)."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Bump package.json
+        if: steps.check.outputs.skip != 'true'
+        env:
+          VERSION: ${{ steps.ctx.outputs.version }}
+        run: |
+          jq --arg dev "^${VERSION}" \
+             '.devDependencies["@bucketeer/js-client-sdk"] = $dev' \
+             package.json > package.json.tmp && mv package.json.tmp package.json
+
+      - name: Update lockfile
+        if: steps.check.outputs.skip != 'true'
+        run: pnpm update @bucketeer/js-client-sdk
+
+      - name: Commit and push
+        if: steps.check.outputs.skip != 'true'
+        id: commit
+        env:
+          VERSION: ${{ steps.ctx.outputs.version }}
+          BRANCH: ${{ steps.ctx.outputs.branch }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add package.json pnpm-lock.yaml
+          git commit -m "build(deps): bump @bucketeer/js-client-sdk to v${VERSION}"
+          git push origin "$BRANCH"
+
+      - name: Create PR and enable auto-merge
+        if: steps.check.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.ctx.outputs.version }}
+          BRANCH: ${{ steps.ctx.outputs.branch }}
+        run: |
+          PR_URL=$(gh pr create \
+            --title "build(deps): bump @bucketeer/js-client-sdk to v${VERSION}" \
+            --body "Automated dependency bump triggered by the release of [@bucketeer/js-client-sdk v${VERSION}](https://github.com/bucketeer-io/javascript-client-sdk/releases/tag/v${VERSION}).
+
+          _This PR was created automatically. It will merge once all required checks pass._" \
+            --base main \
+            --head "$BRANCH")
+          gh pr merge "$PR_URL" --auto --squash
