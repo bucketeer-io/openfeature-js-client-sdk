@@ -1,0 +1,25 @@
+{
+  "sectionTitle": "JS Client SDK Changes",
+  "sectionIntro": "This release also brings the following changes from the underlying JavaScript client SDK.",
+  "dependencies": [
+    {
+      "name": "JS Client SDK",
+      "shortName": "javascript-client-sdk",
+      "repo": "bucketeer-io/javascript-client-sdk",
+      "versionFile": "package.json",
+      "versionRegex": "\"devDependencies\"[\\s\\S]*?\"@bucketeer/js-client-sdk\":\\s*\"\\^?([0-9][^\"]*)"
+    }
+  ],
+  "skipPatterns": [
+    "^\\*\\*deps:\\*\\*\\s+update\\s+all\\s+non-major\\s+dependencies"
+  ],
+  "sectionOrder": [
+    "Features",
+    "Bug Fixes",
+    "Performance Improvements",
+    "Reverts",
+    "Refactoring",
+    "Miscellaneous",
+    "Build System"
+  ]
+}
